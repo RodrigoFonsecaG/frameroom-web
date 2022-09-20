@@ -48,6 +48,12 @@ button{
     font-family: 'Archivo', sans-serif;
     font-weight: 600;
 
+    transition: background-color 0.2s;
+
+}
+
+button:hover{
+   background-color: var(--dark-blue);
 }
 
 a{

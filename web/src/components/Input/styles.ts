@@ -9,6 +9,19 @@ export const Container = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  position: relative;
+
+  &:focus-within:before {
+    content: '';
+    width: 2px;
+    height: 4.8rem;
+    background-color: var(--light-blue);
+
+    position: absolute;
+    left: 0;
+
+    border-radius: 8px;
+  }
 
   & + div {
     margin-top: 8px;
@@ -27,5 +40,4 @@ export const Container = styled.div`
     margin-right: 1.6rem;
     color: var(--gray);
   }
-
 `;
