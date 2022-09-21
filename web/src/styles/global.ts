@@ -25,6 +25,7 @@ export default createGlobalStyle`
 body,
 #root {
   height: 100vh;
+
 }
 
  body{
@@ -65,6 +66,17 @@ button:hover{
 a{
    color: var(--gray);
    font-size: 1.4rem;
+   cursor: pointer;
+}
+
+p{
+   color: var(--gray);
+   font
+}
+
+.container{
+    width: 90vw;
+    max-width: 1120px;
 }
 
 
