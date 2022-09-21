@@ -23,7 +23,7 @@ const InputPassword: React.FC<InputProps> = ({ name, ...rest }) => {
     <Container active={isActive}>
       <FiLock size={20} />
       <input {...rest} />
-      <div onClick={handleShowPassword}>
+      <div className='icon-container' onClick={handleShowPassword}>
         {!isActive ? <FiEye size={20} /> : <FiEyeOff size={20} />}
       </div>
     </Container>

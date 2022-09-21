@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import signInBackgroundImg from '../../assets/sign-background.png';
-import {FiCheck } from 'react-icons/fi';
 
 export const Container = styled.div`
   height: 100vh;
@@ -9,71 +7,20 @@ export const Container = styled.div`
   align-items: stretch;
 `;
 
-export const Content = styled.div`
+export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 50%;
-  margin: 6.4rem 0;
 
-
-  @media (max-width: 800px) {
-    max-width: 100%;
-  }
-
-  div.create-account {
+  .login-commands {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1.6rem;
+    justify-content: space-between;
+    margin: 2.4rem 0 4rem 0;
 
-    svg {
-      color: var(--light-blue);
-    }
-
-    a {
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--dark-blue);
-    }
-  }
-
-  img {
-    width: 12rem;
- 
-  }
-
-  form {
-    text-align: center;
-    width: 100%;
-    max-width: 560px;
-    padding: 2.4rem;
-
-
-    h1 {
-      margin-bottom: 2.4rem;
-    }
-
-    .input-group div:first-child {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    .input-group div + div {
-      margin-top: -1px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-
-    .login-commands {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 2.4rem 0 4rem 0;
-    }
-
-    .login-commands div {
+    div {
       display: flex;
       justify-content: space-between;
       margin-top: 0.4rem;
@@ -113,22 +60,21 @@ export const Content = styled.div`
   }
 `;
 
-export const Background = styled.div`
-  flex: 1;
-  background: url(${signInBackgroundImg}) no-repeat center;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const Footer = styled.div`
+  div.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
 
-  img {
-    width: 100%;
-    max-width: 56rem;
-    padding: 0 1.6rem;
-  }
+    svg {
+      color: var(--light-blue);
+    }
 
-  @media (max-width: 800px) {
-    display: none;
-    visibility: none;
+    a {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--dark-blue);
+    }
   }
 `;

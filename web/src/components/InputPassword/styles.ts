@@ -8,7 +8,7 @@ export const Container = styled.div<ContainerProps>`
   background: var(--white);
   color: var(--grey);
   border: 1px solid #e6e6f0;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 1.6rem;
   width: 100%;
   display: flex;
@@ -45,9 +45,13 @@ export const Container = styled.div<ContainerProps>`
     color: var(--gray);
   }
 
+  .icon-container{
+    display: flex;
+    place-content: center;
+  }
+
   div > svg {
     margin-left: 1rem;
-    margin-top: 5px;
   }
 
   ${(props) =>

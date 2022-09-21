@@ -21,6 +21,12 @@ export default createGlobalStyle`
     font-size: 62.5% /* 1rem = 10px */
  }
 
+ html,
+body,
+#root {
+  height: 100vh;
+}
+
  body{
     background-color: var(--light-gray);
     -webkit-font-smoothing: antialiased;
@@ -60,5 +66,7 @@ a{
    color: var(--gray);
    font-size: 1.4rem;
 }
+
+
 
 `;
