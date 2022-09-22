@@ -1,11 +1,11 @@
 import styled, { css } from 'styled-components';
 
 
-export const Header = styled.header`
+export const HeaderContainer = styled.header`
   width: 100%;
   background-color: var(--light-blue);
   overflow: hidden;
-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
 export const HeaderContent = styled.div`
@@ -28,11 +28,20 @@ export const HeaderContent = styled.div`
     .link-down {
       display: flex;
       place-content: center;
+      cursor: pointer;
 
       svg {
         color: var(--white);
         margin-top: 1px;
         margin-left: 8px;
+      }
+    }
+
+    .link-down:hover {
+      font-weight: bold;
+
+      a {
+        opacity: 100%;
       }
     }
   }
@@ -72,31 +81,29 @@ export const HeaderContent = styled.div`
     justify-content: center;
     gap: 1.6rem;
 
-    .user-info{
-       display: flex;
-       flex-direction: column;
-       align-items: flex-end;
-       justify-content: center;
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
 
-       span{
+      span {
         color: var(--white);
-        
-       }
+      }
     }
 
     .user-photo {
       background-color: var(--light-gray);
       width: 4.8rem;
       height: 4.8rem;
-     border-radius: 50%;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
 
-      svg{
+      svg {
         color: var(--light-blue);
       }
-
     }
   }
 `;

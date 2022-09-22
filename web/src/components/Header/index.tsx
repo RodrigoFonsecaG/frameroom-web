@@ -1,44 +1,58 @@
 import React from 'react';
-import { Header, HeaderContent } from './styles';
+import { HeaderContainer, HeaderContent } from './styles';
 import unimontesFrameroomLogo from '../../assets/unimontes-frameroom-logo.svg';
-import { FiChevronDown, FiUser } from 'react-icons/fi';
+import { FiChevronDown, FiUser, FiMenu } from 'react-icons/fi';
+import useMedia from '../../hooks/useMedia';
 
-const index = () => {
+
+
+const Header = () => {
+
+  const mobile = useMedia('(max-width: 60rem)');
+
+
+
   return (
-    <Header>
+    <HeaderContainer>
       <HeaderContent>
         <img src={unimontesFrameroomLogo} alt="" />
-        <nav>
-          <a href="" className="active">
-            Início
-          </a>
-          <div className="link-down">
-            <a href="">Espaços</a>
-            <FiChevronDown />
-          </div>
-          <div className="link-down">
-            <a href="">Reserva</a>
-            <FiChevronDown />
-          </div>
-          <div className="link-down">
-            <a href="">Horários</a>
-            <FiChevronDown />
-          </div>
-        </nav>
+        {mobile ? (
+          <FiMenu size={30} color={"#FAFAFC"} />
+        ) : (
+          <>
+            <nav>
+              <a href="" className="active">
+                Início
+              </a>
+              <div className="link-down">
+                <a href="">Espaços</a>
+                <FiChevronDown />
+              </div>
+              <div className="link-down">
+                <a href="">Reserva</a>
+                <FiChevronDown />
+              </div>
+              <div className="link-down">
+                <a href="">Horários</a>
+                <FiChevronDown />
+              </div>
+            </nav>
 
-        <div className="profile-navbar">
-          <div className="user-info">
-            <span>Aluno</span>
-            <p>aluno@gmail.com</p>
-          </div>
+            <div className="profile-navbar">
+              <div className="user-info">
+                <span>Aluno</span>
+                <p>aluno@gmail.com</p>
+              </div>
 
-          <div className="user-photo">
-            <FiUser size={20}/>
-          </div>
-        </div>
+              <div className="user-photo">
+                <FiUser size={20} />
+              </div>
+            </div>
+          </>
+        )}
       </HeaderContent>
-    </Header>
+    </HeaderContainer>
   );
 };
 
-export default index;
+export default Header;

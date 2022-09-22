@@ -33,10 +33,17 @@ body,
     -webkit-font-smoothing: antialiased;
  }
 
- body, button, input, textarea{
+ body, button, input, textarea, select, label{
     /*mínimo que a fonte pode chegar, padrão, maximo que a fonte pode chegar*/
     font-size: clamp(14px, 1.6rem, 2vw);
     font-family: 'Poppins', sans-serif;
+    
+}
+
+label{
+   color: var(--dark-blue);
+   font-size: 1.4rem;
+   margin-bottom: 0.8rem;
 }
 
 h1,h2,h3, h4,h5{
@@ -71,12 +78,14 @@ a{
 
 p{
    color: var(--gray);
-   font
 }
 
 .container{
-    width: 90vw;
-    max-width: 1120px;
+    width: 90%;
+    max-width: 1300px;
+    margin: 0 auto;
+
+    
 }
 
 
