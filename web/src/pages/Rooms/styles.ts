@@ -6,7 +6,6 @@ export const Content = styled.div`
 
     gap: 2rem;
 
-    margin-top: 4rem;
     margin-bottom: 3.2rem;
   }
 
@@ -37,7 +36,6 @@ export const Content = styled.div`
         align-items: center;
         justify-content: space-between;
         background-color: #fff;
-        margin-top: -6px;
         border-bottom: 1px solid #e6e6f0;
       }
 

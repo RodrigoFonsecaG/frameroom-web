@@ -24,7 +24,7 @@ const Select: React.FC<InputProps> = ({
 }) => {
   return (
     <div>
-      <label htmlFor="">Tipo de espaço</label>
+      <label htmlFor="">{placeholder}</label>
       <Container>
         <Icon size={iconSize ? iconSize : 20} />
         <select {...rest}>

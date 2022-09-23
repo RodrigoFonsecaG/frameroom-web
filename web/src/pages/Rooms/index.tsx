@@ -2,7 +2,6 @@ import React from 'react'
 import Header from '../../components/Header'
 import Select from '../../components/Select'
 import { MdOutlineStairs, MdOutlineMeetingRoom, MdOutlineDriveFileRenameOutline } from 'react-icons/md'
-import {  FiClock } from 'react-icons/fi';
 import {Content} from './styles'
 
 const Rooms = () => {
@@ -49,6 +48,8 @@ const Rooms = () => {
                 }
               ]}
             />
+
+
           </div>
 
           <div className="cards">
@@ -268,7 +269,7 @@ const Rooms = () => {
               </div>
             </div>
 
-                        <div className="card">
+            <div className="card">
               <img
                 src="https://diariodocomercio.com.br/wp-content/uploads/2022/01/computadores-unimontes.jpg"
                 alt=""

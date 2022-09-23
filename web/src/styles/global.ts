@@ -33,6 +33,11 @@ body,
     -webkit-font-smoothing: antialiased;
  }
 
+
+ img{
+   display: block;
+ }
+ 
  body, button, input, textarea, select, label{
     /*mínimo que a fonte pode chegar, padrão, maximo que a fonte pode chegar*/
     font-size: clamp(14px, 1.6rem, 2vw);
@@ -84,6 +89,7 @@ p{
     width: 90%;
     max-width: 1300px;
     margin: 0 auto;
+    margin-top: 4rem;
 
     
 }
