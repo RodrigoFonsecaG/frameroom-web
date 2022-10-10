@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 
 export const Container = styled.div`
   height: 100vh;
@@ -20,6 +21,15 @@ export const MainContent = styled.div`
     justify-content: space-between;
     margin: 2.4rem 0 4rem 0;
 
+    a{
+      transition: color .2s;
+    }
+
+    a:hover {
+      color: ${shade(0.2, '#32264D')};
+      text-decoration: underline;
+    }
+
     div {
       display: flex;
       justify-content: space-between;
@@ -34,6 +44,11 @@ export const MainContent = styled.div`
         font-size: 1.4rem;
         color: var(--gray);
         cursor: pointer;
+        transition: color 0.2;
+
+        &:hover {
+          color: ${shade(0.2, '#32264D')};
+        }
       }
 
       input + label::before {
@@ -78,3 +93,4 @@ export const Footer = styled.div`
     }
   }
 `;
+

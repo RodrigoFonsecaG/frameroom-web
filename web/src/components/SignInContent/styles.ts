@@ -1,5 +1,15 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
+const appearFromLeft = keyframes`
+from{
+opacity: 0;
+transform: translateX(-50px);
+}
+to{
+opacity: 1;
+transform: translateX(0);
+}
+`;
 
 export const Content = styled.div`
   display: flex;
@@ -9,6 +19,9 @@ export const Content = styled.div`
   width: 100%;
   max-width: 50%;
   margin: 6.4rem 0;
+
+  animation: ${appearFromLeft} 1s;
+  
 
   @media (max-width: 800px) {
     max-width: 100%;

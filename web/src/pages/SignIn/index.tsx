@@ -1,20 +1,76 @@
-import React from 'react';
+import React, {useCallback, useContext, useRef} from 'react';
 import { Container, MainContent, Footer } from './styles';
 import { FiLogIn, FiMail } from 'react-icons/fi';
 import Input from '../../components/Input';
 import InputPassword from '../../components/InputPassword';
 import SignInBackground from '../../components/SignInBackground';
 import SignInContent from '../../components/SignInContent';
+import Button from '../../components/Button';
+import { Form } from '@unform/web'
+
+import { FormHandles } from '@unform/core';
+
+import * as Yup from 'yup';
+import getValidationErrors from '../../utils/getValidationErros';
+
+import { useAuth } from '../../context/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+
+
+
+interface SignInFormData{
+  email: string;
+  password: string;
+}
 
 const SignIn: React.FC = () => {
+
+  const formRef = useRef<FormHandles>(null);
+
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+
+
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      formRef.current?.setErrors({});
+      try {
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha obrigatório')
+        });
+
+        await schema.validate(data, {
+          abortEarly: false
+        });
+
+        await signIn({
+          email: data.email,
+          password: data.password
+        });
+
+        navigate('/rooms')
+      } catch (err) {
+        const errors = getValidationErrors(err);
+
+        formRef.current?.setErrors(errors);
+
+        return
+      }
+    },
+    [signIn, navigate]
+  );
+
+
   return (
     <Container>
       <SignInBackground />
 
       <SignInContent>
-
         <MainContent>
-          <form className="sign">
+          <Form ref={formRef} onSubmit={handleSubmit} className="sign">
             <h1>Faça seu login</h1>
 
             <div className="input-group">
@@ -41,17 +97,16 @@ const SignIn: React.FC = () => {
               <a href="forgot">Esqueci minha senha</a>
             </div>
 
-            <button type="submit">Entrar</button>
-          </form>
+            <Button type="submit" text="Entrar" />
+          </Form>
         </MainContent>
 
         <Footer>
           <div className="footer">
             <FiLogIn size={30} />
-            <a href="">Criar conta</a>
+            <Link to="/sign-up">Criar conta</Link>
           </div>
-        </Footer>
-        
+          </Footer>
       </SignInContent>
     </Container>
   );

@@ -1,17 +1,35 @@
-import React, { InputHTMLAttributes } from 'react';
-import {Container} from './styles';
+import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
+import { IconBaseProps } from 'react-icons/lib';
+import { Container } from './styles';
+import {useField} from '@unform/core'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement>{
-    name: string;
-    iconSize?: number;
-    icon: React.ComponentType<{ size: number; }>
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  name: string;
+  iconSize?: number;
+  icon: React.ComponentType<IconBaseProps>;
 }
 
-const Input: React.FC<InputProps> = ({icon: Icon, iconSize, ...rest}) => {
-    return <Container>
-        <Icon size={iconSize ? iconSize : 20}/>
-        <input {...rest}/>
-  </Container>;
+const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, ...rest }) => {
+  const inputRef = useRef(null);
+  const { fieldName, defaultValue, error, registerField } = useField(name);
+
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: 'value'
+    })
+  }, [fieldName, registerField])
+
+  return (
+    <Container>
+      {Icon && <Icon size={iconSize ? iconSize : 20} />}
+      <input ref={inputRef} {...rest} />
+
+      {error}
+    </Container>
+  );
 };
 
 export default Input;

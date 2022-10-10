@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   background: var(--white);
@@ -11,6 +11,10 @@ export const Container = styled.div`
   align-items: center;
   position: relative;
 
+  &:focus-within svg{
+    color: var(--light-blue);
+  } 
+  
   &:focus-within:before {
     content: '';
     width: 2px;
@@ -31,6 +35,7 @@ export const Container = styled.div`
     flex: 1;
     border: 0;
     background: transparent;
+    width: 100%;
     color: var(--dark-gray);
     &::placeholder {
       color: var(--gray);

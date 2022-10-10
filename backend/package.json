@@ -1,0 +1,42 @@
+{
+    "name": "frameroom",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "dev:server": "ts-node-dev --transpile-only --inspect --ignore-watch node_modules src/server.ts",
+        "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/express": "^4.17.14",
+        "@types/jsonwebtoken": "^8.5.9",
+        "@types/multer": "^1.4.7",
+        "@typescript-eslint/eslint-plugin": "^5.38.1",
+        "eslint": "^8.24.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-standard-with-typescript": "^23.0.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-n": "^15.3.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-promise": "^6.0.1",
+        "prettier": "^2.7.1",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^4.8.4"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "express": "^4.18.1",
+        "express-async-errors": "^3.1.1",
+        "jsonwebtoken": "^8.5.1",
+        "multer": "^1.4.5-lts.1",
+        "pg": "^8.8.0",
+        "reflect-metadata": "^0.1.13",
+        "typeorm": "^0.2.45"
+    }
+}

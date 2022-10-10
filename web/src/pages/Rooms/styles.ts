@@ -7,6 +7,10 @@ export const Content = styled.div`
     gap: 2rem;
 
     margin-bottom: 3.2rem;
+
+    div > select {
+      width: 15rem;
+    }
   }
 
   @media (max-width: 560px) {
@@ -24,7 +28,6 @@ export const Content = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 2rem;
-
 
     .card {
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

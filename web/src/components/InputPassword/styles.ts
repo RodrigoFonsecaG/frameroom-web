@@ -15,6 +15,10 @@ export const Container = styled.div<ContainerProps>`
   align-items: center;
   position: relative;
 
+  &:focus-within > svg {
+    color: var(--light-blue);
+  }
+
   &:focus-within:before {
     content: '';
     width: 2px;
@@ -45,7 +49,7 @@ export const Container = styled.div<ContainerProps>`
     color: var(--gray);
   }
 
-  .icon-container{
+  .icon-container {
     display: flex;
     place-content: center;
   }

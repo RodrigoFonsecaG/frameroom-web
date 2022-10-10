@@ -57,23 +57,7 @@ h1,h2,h3, h4,h5{
     color: var(--dark-blue);
 }
 
-button{
-    cursor: pointer;
-    color: var(--white);
-    background-color: var(--light-blue);
-    width: 100%;
-    border-radius: 8px;
-    height: 5.6rem;
-    font-family: 'Archivo', sans-serif;
-    font-weight: 600;
 
-    transition: background-color 0.2s;
-
-}
-
-button:hover{
-   background-color: var(--dark-blue);
-}
 
 a{
    color: var(--gray);
@@ -89,9 +73,7 @@ p{
     width: 90%;
     max-width: 1300px;
     margin: 0 auto;
-    margin-top: 4rem;
-
-    
+    margin-top: 4rem; 
 }
 
 

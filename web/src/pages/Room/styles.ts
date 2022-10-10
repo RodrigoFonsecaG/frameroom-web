@@ -55,6 +55,8 @@ export const Content = styled.div`
       flex-wrap: wrap;
       margin-bottom: 3rem;
 
+  
+
       label {
         color: var(--gray);
       }

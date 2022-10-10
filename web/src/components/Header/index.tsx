@@ -4,20 +4,25 @@ import unimontesFrameroomLogo from '../../assets/unimontes-frameroom-logo.svg';
 import { FiChevronDown, FiUser, FiMenu } from 'react-icons/fi';
 import useMedia from '../../hooks/useMedia';
 
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+
 
 
 const Header = () => {
 
   const mobile = useMedia('(max-width: 60rem)');
 
-
-
+  const { user, signOut } = useAuth();
+  
   return (
     <HeaderContainer>
       <HeaderContent>
-        <img src={unimontesFrameroomLogo} alt="" />
+        <Link to="/">
+          <img src={unimontesFrameroomLogo} alt="" />
+        </Link>
         {mobile ? (
-          <FiMenu size={30} color={"#FAFAFC"} />
+          <FiMenu size={30} color={'#FAFAFC'} />
         ) : (
           <>
             <nav>
@@ -36,12 +41,15 @@ const Header = () => {
                 <a href="">Horários</a>
                 <FiChevronDown />
               </div>
+              <a href="" onClick={signOut}>
+                Logout
+              </a>
             </nav>
 
             <div className="profile-navbar">
               <div className="user-info">
-                <span>Aluno</span>
-                <p>aluno@gmail.com</p>
+                <span>{user.name}</span>
+                <p>{user.email}</p>
               </div>
 
               <div className="user-photo">
