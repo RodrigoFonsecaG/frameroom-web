@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 
 export const Content = styled.div`
+  form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    button {
+      padding: 1.6rem;
+    }
+  }
   .filters {
     display: flex;
 
@@ -71,6 +81,7 @@ export const Content = styled.div`
         border-bottom-right-radius: 8px;
         border-bottom: 3px solid var(--light-blue);
 
+
         button {
           font-size: 1.2rem;
           font-weight: 600;
@@ -95,9 +106,11 @@ export const Content = styled.div`
 
   img {
     width: 26rem;
+    max-height: 17.5rem;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     width: 100%;
+    object-fit: cover;
   }
 `;
 

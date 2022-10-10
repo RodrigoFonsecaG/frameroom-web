@@ -7,6 +7,7 @@ import Rooms from '../pages/Rooms';
 import Room from '../pages/Room';
 
 import AuthRoute from './AuthRoute'
+import CreateRoom from '../pages/CreateRoom';
 
 const Routes: React.FC = () => {
   return (
@@ -20,7 +21,8 @@ const Routes: React.FC = () => {
         element={<AuthRoute Component={SignUp} needAuth={false} />}
       />
       <Route path="rooms" element={<Rooms />} />
-      <Route path="room" element={<AuthRoute Component={Room} needAuth />} />
+      <Route path="rooms/:room_code" element={<AuthRoute Component={Room} needAuth />} />
+      <Route path="create-room" element={<AuthRoute Component={CreateRoom} needAuth />} />
     </Switch>
   );
 };

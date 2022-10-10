@@ -1,315 +1,132 @@
-import React from 'react'
-import Header from '../../components/Header'
-import Select from '../../components/Select'
-import { MdOutlineStairs, MdOutlineMeetingRoom, MdOutlineDriveFileRenameOutline } from 'react-icons/md'
-import {Content} from './styles'
-import Button from '../../components/Button'
-import { Form } from '@unform/web'
+import React, { useEffect, useState } from 'react';
+import Header from '../../components/Header';
+import Select from '../../components/Select';
+import {
+  MdOutlineStairs,
+  MdOutlineMeetingRoom,
+  MdOutlineDriveFileRenameOutline
+} from 'react-icons/md';
+import { Content } from './styles';
+import Button from '../../components/Button';
+import { Form } from '@unform/web';
+import { Link } from 'react-router-dom';
+import api from '../../services/api';
+
+interface RoomProps {
+  room_code?: string;
+  room_type: string;
+  room_number: number;
+  capacity: number;
+  floor: number;
+  description: string;
+  availability: number;
+  image: string;
+}
 
 const Rooms = () => {
-    function handleSubmit(data: object): void {
-      console.log(data);
-    }
-  
+
+  const [rooms, setRooms] = useState<RoomProps[]>();
+  const imagePath = "http://localhost:3333/files/"
+
+  function handleSubmit(data: object): void {
+    console.log(data);
+  }
+
+  async function getRooms() {
+    const rooms = await api.get('/rooms');
+
+    setRooms(rooms.data)
+  }
+
+
+
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+
+
+
+    
   return (
     <>
       <Header />
       <div className="container">
         <Content>
-
-            <Form onSubmit={handleSubmit} className="filters">
+          <Form onSubmit={handleSubmit}>
+            <div className="filters">
               <Select
                 name="type"
                 icon={MdOutlineMeetingRoom}
                 iconSize={23}
                 placeholder="Tipo de espaço"
-                options={[
-                  {
-                    text: 'Sala',
-                    value: 1
-                  },
-                  {
-                    text: 'Laborátorio',
-                    value: 2
-                  },
-                  {
-                    text: 'Auditório',
-                    value: 3
-                  }
-                ]}
-              />
+              >
+                <option value="Sala">Sala</option>
+                <option value="Laboratório">Laboratório</option>
+                <option value="Auditório">Auditório</option>
+                <option value="Gabinete">Gabinete</option>
+              </Select>
 
               <Select
                 name="andar"
                 icon={MdOutlineStairs}
                 iconSize={23}
                 placeholder="Andar"
-                options={[
-                  {
-                    text: '1° andar',
-                    value: 1
-                  },
-                  {
-                    text: '2° andar',
-                    value: 2
-                  }
-                ]}
-              />
-            </Form>
-       
+              >
+                <option value={1}>1°</option>
+                <option value={2}>2°</option>
+              </Select>
+            </div>
+
+            <Link to="/create-room">
+              <Button text="Cadastrar espaço" />
+            </Link>
+          </Form>
 
           <div className="cards">
-            <div className="card">
-              <img
-                src="https://unimontes.br/wp-content/uploads/2021/03/Predio-seis-sala-de-aula.jpg"
-                alt=""
-              />
 
-              <div className="room-title">
-                <h2>Sala 01</h2>
+            {rooms && rooms.map(room => {
+            return (
+              <div className="card">
+                <img src={imagePath + room.image} alt="" />
 
-                <a href="">
-                  <MdOutlineDriveFileRenameOutline size={22} />
-                </a>
-              </div>
+                <div className="room-title">
+                  <h2>
+                    {room.room_type} {room.room_number}
+                  </h2>
 
-              <div className="room-info">
-                <div className="info">
-                  <div>
-                    <span>Andar:</span>
-                    <p>1°</p>
-                  </div>
-
-                  <div>
-                    <span>Capacidade:</span>
-                    <p>20</p>
-                  </div>
+                  <a href="">
+                    <MdOutlineDriveFileRenameOutline size={22} />
+                  </a>
                 </div>
 
-                <Button text="Visualizar" />
-              </div>
-            </div>
+                <div className="room-info">
+                  <div className="info">
+                    <div>
+                      <span>Andar:</span>
+                      <p>{room.floor}</p>
+                    </div>
 
-            <div className="card">
-              <img
-                src="https://unimontes.br/wp-content/uploads/2021/03/Predio-seis-sala-de-aula.jpg"
-                alt=""
-              />
-
-              <div className="room-title">
-                <h2>Sala 01</h2>
-
-                <a href="">
-                  <MdOutlineDriveFileRenameOutline size={22} />
-                </a>
-              </div>
-
-              <div className="room-info">
-                <div className="info">
-                  <div>
-                    <span>Andar:</span>
-                    <p>1°</p>
+                    <div>
+                      <span>Capacidade:</span>
+                      <p>{room.capacity}</p>
+                    </div>
                   </div>
 
-                  <div>
-                    <span>Capacidade:</span>
-                    <p>20</p>
-                  </div>
+                  <Link to={`/rooms/${room.room_code}`}>
+                    <Button text="Visualizar" />
+                  </Link>
                 </div>
-
-                <button>Visualizar</button>
               </div>
-            </div>
+            );
+          })}
 
-            <div className="card">
-              <img
-                src="https://unimontes.br/wp-content/uploads/2021/03/Predio-seis-sala-de-aula.jpg"
-                alt=""
-              />
-
-              <div className="room-title">
-                <h2>Sala 01</h2>
-
-                <a href="">
-                  <MdOutlineDriveFileRenameOutline size={22} />
-                </a>
-              </div>
-
-              <div className="room-info">
-                <div className="info">
-                  <div>
-                    <span>Andar:</span>
-                    <p>1°</p>
-                  </div>
-
-                  <div>
-                    <span>Capacidade:</span>
-                    <p>20</p>
-                  </div>
-                </div>
-
-                <button>Visualizar</button>
-              </div>
-            </div>
-            <div className="card">
-              <img
-                src="https://unimontes.br/wp-content/uploads/2021/03/Predio-seis-sala-de-aula.jpg"
-                alt=""
-              />
-
-              <div className="room-title">
-                <h2>Sala 01</h2>
-
-                <a href="">
-                  <MdOutlineDriveFileRenameOutline size={22} />
-                </a>
-              </div>
-
-              <div className="room-info">
-                <div className="info">
-                  <div>
-                    <span>Andar:</span>
-                    <p>1°</p>
-                  </div>
-
-                  <div>
-                    <span>Capacidade:</span>
-                    <p>25</p>
-                  </div>
-                </div>
-
-                <button>Visualizar</button>
-              </div>
-            </div>
-
-            <div className="card">
-              <img
-                src="https://diariodocomercio.com.br/wp-content/uploads/2022/01/computadores-unimontes.jpg"
-                alt=""
-              />
-
-              <div className="room-title">
-                <h2>Laborátorio 2</h2>
-
-                <a href="">
-                  <MdOutlineDriveFileRenameOutline size={22} />
-                </a>
-              </div>
-
-              <div className="room-info">
-                <div className="info">
-                  <div>
-                    <span>Andar:</span>
-                    <p>1°</p>
-                  </div>
-
-                  <div>
-                    <span>Capacidade:</span>
-                    <p>25</p>
-                  </div>
-                </div>
-
-                <button>Visualizar</button>
-              </div>
-            </div>
-
-            <div className="card">
-              <img
-                src="https://diariodocomercio.com.br/wp-content/uploads/2022/01/computadores-unimontes.jpg"
-                alt=""
-              />
-
-              <div className="room-title">
-                <h2>Laborátorio 2</h2>
-
-                <a href="">
-                  <MdOutlineDriveFileRenameOutline size={22} />
-                </a>
-              </div>
-
-              <div className="room-info">
-                <div className="info">
-                  <div>
-                    <span>Andar:</span>
-                    <p>1°</p>
-                  </div>
-
-                  <div>
-                    <span>Capacidade:</span>
-                    <p>25</p>
-                  </div>
-                </div>
-
-                <button>Visualizar</button>
-              </div>
-            </div>
-
-            <div className="card">
-              <img
-                src="https://diariodocomercio.com.br/wp-content/uploads/2022/01/computadores-unimontes.jpg"
-                alt=""
-              />
-
-              <div className="room-title">
-                <h2>Laborátorio 2</h2>
-
-                <a href="">
-                  <MdOutlineDriveFileRenameOutline size={22} />
-                </a>
-              </div>
-
-              <div className="room-info">
-                <div className="info">
-                  <div>
-                    <span>Andar:</span>
-                    <p>1°</p>
-                  </div>
-
-                  <div>
-                    <span>Capacidade:</span>
-                    <p>25</p>
-                  </div>
-                </div>
-
-                <button>Visualizar</button>
-              </div>
-            </div>
-
-            <div className="card">
-              <img
-                src="https://diariodocomercio.com.br/wp-content/uploads/2022/01/computadores-unimontes.jpg"
-                alt=""
-              />
-
-              <div className="room-title">
-                <h2>Laborátorio 2</h2>
-
-                <a href="">
-                  <MdOutlineDriveFileRenameOutline size={22} />
-                </a>
-              </div>
-
-              <div className="room-info">
-                <div className="info">
-                  <div>
-                    <span>Andar:</span>
-                    <p>1°</p>
-                  </div>
-
-                  <div>
-                    <span>Capacidade:</span>
-                    <p>20</p>
-                  </div>
-                </div>
-
-                <button>Visualizar</button>
-              </div>
-            </div>
+   
           </div>
         </Content>
       </div>
     </>
   );
-}
+};
 
-export default Rooms
+export default Rooms;

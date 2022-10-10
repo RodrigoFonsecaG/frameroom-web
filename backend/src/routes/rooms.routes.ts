@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import ensureAuthenticated from '../middlewares/ensureAnthenticated';
 import RoomsRepository from '../repositories/RoomsRepository';
 import CreateRoomService from '../services/CreateRoomService';
@@ -7,6 +7,7 @@ import CreateRoomService from '../services/CreateRoomService';
 import multer from 'multer';
 import uploadConfig from '../config/upload';
 import UpdateRoomService from '../services/UpdateRoomService';
+import Room from '../models/Room';
 
 const roomsRouter = Router();
 const upload = multer(uploadConfig);
@@ -16,6 +17,19 @@ roomsRouter.get('/', async (request, response) => {
     const rooms = await roomsRepository.find();
 
     return response.json(rooms);
+});
+
+roomsRouter.get('/:room_code', async (request, response) => {
+    const room_code = request.params.room_code;
+
+    const roomsRepository = getRepository(Room);
+    const room = await roomsRepository.find({
+        where: {room_code}
+    });
+
+    
+
+    return response.json(room);
 });
 
 roomsRouter.post(
@@ -32,6 +46,9 @@ roomsRouter.post(
                 description,
                 availability,
             } = request.body;
+
+        console.log(request.file);
+        console.log(request.body);
 
             const { filename } = request.file;
 

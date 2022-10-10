@@ -14,16 +14,16 @@ interface SignInCredentials {
 
 interface AuthContextData {
   user: object;
-    signIn(credentials: SignInCredentials): Promise<void>;
-    signOut(): void;
+  token: string;
+  signIn(credentials: SignInCredentials): Promise<void>;
+  signOut(): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-
   const navigate = useNavigate();
-  
+
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@Frameroom:token');
     const user = localStorage.getItem('@Frameroom:user');
@@ -53,13 +53,15 @@ export const AuthProvider: React.FC = ({ children }) => {
     localStorage.removeItem('@Frameroom:token');
     localStorage.removeItem('@Frameroom:user');
 
-    navigate('/')
+    navigate('/');
 
     setData({} as AuthState);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, token: data.token, signIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
