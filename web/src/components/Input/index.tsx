@@ -6,10 +6,11 @@ import {useField} from '@unform/core'
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   iconSize?: number;
-  icon: React.ComponentType<IconBaseProps>;
+  icon?: React.ComponentType<IconBaseProps>;
+  topText?: string;
 }
 
-const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, ...rest }) => {
+const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, topText, ...rest }) => {
   const inputRef = useRef(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
@@ -23,12 +24,26 @@ const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, ...rest }) =>
   }, [fieldName, registerField])
 
   return (
-    <Container>
-      {Icon && <Icon size={iconSize ? iconSize : 20} />}
-      <input ref={inputRef} {...rest} />
+    <>
+      {topText ? (
+        <div>
+          <label htmlFor="">{topText}</label>
+          <Container>
+            {Icon && <Icon size={iconSize ? iconSize : 20} />}
+            <input ref={inputRef} {...rest} />
 
-      {error}
-    </Container>
+            {error}
+          </Container>
+        </div>
+      ) : (
+        <Container>
+          {Icon && <Icon size={iconSize ? iconSize : 20} />}
+          <input ref={inputRef} {...rest} />
+
+          {error}
+        </Container>
+      )}
+    </>
   );
 };
 
