@@ -24,10 +24,8 @@ roomsRouter.get('/:room_code', async (request, response) => {
 
     const roomsRepository = getRepository(Room);
     const room = await roomsRepository.find({
-        where: {room_code}
+        where: { room_code },
     });
-
-    
 
     return response.json(room);
 });
@@ -37,35 +35,33 @@ roomsRouter.post(
     ensureAuthenticated,
     upload.single('image'),
     async (request, response) => {
-
-            const {
-                room_type,
-                room_number,
-                capacity,
-                floor,
-                description,
-                availability,
-            } = request.body;
+        const {
+            room_type,
+            room_number,
+            capacity,
+            floor,
+            description,
+            availability,
+        } = request.body;
 
         console.log(request.file);
         console.log(request.body);
 
-            const { filename } = request.file;
+        const { filename } = request.file;
 
-            const createRoom = new CreateRoomService();
+        const createRoom = new CreateRoomService();
 
-            const room = await createRoom.execute({
-                room_type,
-                room_number,
-                capacity,
-                floor,
-                description,
-                availability,
-                image: filename,
-            });
+        const room = await createRoom.execute({
+            room_type,
+            room_number,
+            capacity,
+            floor,
+            description,
+            availability,
+            image: filename,
+        });
 
-            return response.json(room);
-
+        return response.json(room);
     },
 );
 
@@ -83,22 +79,37 @@ roomsRouter.put(
             description,
             availability,
         } = request.body;
-        const { filename } = request.file;
 
         const updateRoom = new UpdateRoomService();
 
-       const room = await updateRoom.execute({
-            room_code,
-            room_type,
-            room_number,
-            capacity,
-            floor,
-            description,
-            availability,
-            image: filename,
-        });
+        console.log(!!request.file)
 
-        return response.json(room);
+        if (!!request.file) {
+            const room = await updateRoom.execute({
+                room_code,
+                room_type,
+                room_number,
+                capacity,
+                floor,
+                description,
+                availability,
+                image: request.file.filename,
+            });
+
+            return response.json(room);
+        } else {
+            const room = await updateRoom.execute({
+                room_code,
+                room_type,
+                room_number,
+                capacity,
+                floor,
+                description,
+                availability,
+            });
+
+            return response.json(room);
+        }
     },
 );
 

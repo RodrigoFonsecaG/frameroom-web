@@ -1,6 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps {
+  isErrored: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
   background: var(--white);
   color: var(--grey);
   border: 1px solid #e6e6f0;
@@ -11,10 +15,21 @@ export const Container = styled.div`
   align-items: center;
   position: relative;
 
-  &:focus-within svg{
+  ${(props) =>
+    props.isErrored &&
+    css`
+      border: 2px solid #c53030;
+    `}
+
+  &:focus-within {
+    border: 1px solid #e6e6f0;
+  }
+
+
+  &:focus-within svg {
     color: var(--light-blue);
-  } 
-  
+  }
+
   &:focus-within:before {
     content: '';
     width: 2px;
@@ -41,6 +56,19 @@ export const Container = styled.div`
       color: var(--gray);
     }
   }
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
   svg {
     margin-right: 1.6rem;
     color: var(--gray);

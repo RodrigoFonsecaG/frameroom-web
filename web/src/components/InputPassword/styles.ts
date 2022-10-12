@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 interface ContainerProps {
   active: boolean;
+  isErrored: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -14,6 +15,16 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   align-items: center;
   position: relative;
+
+  ${(props) =>
+    props.isErrored &&
+    css`
+      border: 2px solid #c53030;
+    `}
+
+  &:focus-within {
+    border: 1px solid #e6e6f0;
+  }
 
   &:focus-within > svg {
     color: var(--light-blue);

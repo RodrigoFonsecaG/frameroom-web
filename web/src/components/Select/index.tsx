@@ -2,6 +2,7 @@ import React, { InputHTMLAttributes, useEffect, useRef } from 'react';
 import { Container } from './styles';
 import { FiChevronDown } from 'react-icons/fi';
 import { useField } from '@unform/core';
+import ErrorToolTip from '../ErrorTooltip';
 
 interface optionsKeys {
   text: string;
@@ -37,16 +38,16 @@ const Select: React.FC<InputProps> = ({
   return (
     <div>
       <label htmlFor="">{placeholder}</label>
-      <Container>
+      <Container isErrored={!!error}>
         <Icon size={iconSize ? iconSize : 20} />
         <select ref={inputRef} {...rest}>
-         {children}
+          {children}
         </select>
         <div className="icon-container">
           <FiChevronDown size={20} />
         </div>
 
-        {error}
+        {error && <ErrorToolTip title={error} />}
       </Container>
     </div>
   );

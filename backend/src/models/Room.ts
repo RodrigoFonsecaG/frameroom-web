@@ -24,7 +24,7 @@ class Room {
     availability: number;
 
     @Column()
-    image: string;
+    image?: string;
 }
 
 export default Room;

@@ -1,21 +1,22 @@
 import React from 'react';
 import GlobalStyle from './styles/global';
-import { BrowserRouter} from 'react-router-dom';
-
+import { BrowserRouter } from 'react-router-dom';
 
 import Routes from './routes';
 
-import { AuthProvider } from './context/AuthContext';
+import ToastContainer from './components/ToastContainer';
+import AppProvider from './context';
+
 
 
 const App: React.FC = () => (
   <BrowserRouter>
-    <AuthProvider>
+    <AppProvider>
       <Routes />
-    </AuthProvider>
+    </AppProvider>
+    
     <GlobalStyle />
   </BrowserRouter>
 );
 
-
-export default App
+export default App;

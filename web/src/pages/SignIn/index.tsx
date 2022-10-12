@@ -15,6 +15,7 @@ import getValidationErrors from '../../utils/getValidationErros';
 
 import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from '../../context/ToastContext';
 
 
 
@@ -29,6 +30,8 @@ const SignIn: React.FC = () => {
 
   const { signIn } = useAuth();
   const navigate = useNavigate();
+
+  const { addToast } = useToast();
 
 
   const handleSubmit = useCallback(
@@ -53,14 +56,24 @@ const SignIn: React.FC = () => {
 
         navigate('/rooms')
       } catch (err) {
-        const errors = getValidationErrors(err);
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
 
-        return
+          return;
+        }
+
+        // disparar um toast
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Ocorreu um erro ao fazer login, cheque as credenciais'
+        });
+
       }
     },
-    [signIn, navigate]
+    [signIn, navigate, addToast]
   );
 
 

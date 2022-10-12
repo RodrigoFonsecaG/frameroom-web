@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  MdOutlineAssignmentLate,
-  MdOutlineFmdBad,
-  MdOutlineGroup,
   MdOutlineHouse,
   MdOutlinePin,
   MdOutlineReduceCapacity,
@@ -18,7 +15,7 @@ import ImageInput from '../../components/ImageInput';
 import Input from '../../components/Input';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 interface RoomProps {
   room_code?: string;
@@ -102,6 +99,8 @@ const Room = () => {
                     <h2>
                       Editando {room.room_type} {room.room_number}
                     </h2>
+
+                    <Button type="submit" text="Editar espaço" />
                   </div>
 
                   <Divider />
@@ -111,7 +110,7 @@ const Room = () => {
                       name="room_type"
                       icon={MdOutlineHouse}
                       iconSize={23}
-                      placeholder="Tipo do espaço"
+                      placeholder="Tipo do espaço *"
                       defaultValue={room.room_type}
                     >
                       <option value="Sala">Sala</option>
@@ -124,7 +123,7 @@ const Room = () => {
                       name="room_number"
                       icon={MdOutlinePin}
                       iconSize={23}
-                      topText="Número"
+                      topText="Número *"
                       defaultValue={room.room_number}
                     />
                   </div>
@@ -134,7 +133,7 @@ const Room = () => {
                       name="floor"
                       icon={MdOutlineStairs}
                       iconSize={23}
-                      placeholder="Andar"
+                      placeholder="Andar *"
                       defaultValue={room.floor}
                     >
                       <option value={1}>1°</option>
@@ -145,7 +144,7 @@ const Room = () => {
                       name="capacity"
                       icon={MdOutlineReduceCapacity}
                       iconSize={23}
-                      topText="Capacidade"
+                      topText="Capacidade *"
                       defaultValue={room.capacity}
                     />
                   </div>
@@ -155,7 +154,7 @@ const Room = () => {
                       name="availability"
                       icon={MdOutlineStairs}
                       iconSize={23}
-                      placeholder="Disponibilidade"
+                      placeholder="Disponibilidade *"
                       defaultValue={room.availability}
                     >
                       <option value={1}>Disponível</option>
@@ -168,14 +167,12 @@ const Room = () => {
 
                   <div className="room-textarea">
                     <Textarea
-                      text="Descrição"
+                      text="Descrição *"
                       name="description"
                       value={room.description}
                     />
                   </div>
                 </div>
-
-                <Button type="submit" text="Cadastrar espaço" />
               </Form>
             </section>
 

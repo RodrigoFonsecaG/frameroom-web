@@ -32,39 +32,47 @@ const SignUp = () => {
   const formRef = useRef<FormHandles>(null);
   const navigate = useNavigate();
 
-  const handleSubmit = useCallback(async (data: SignUpFormData) => {
-    formRef.current?.setErrors({});
-    try {
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Nome obrigatório'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        cpf: Yup.string().required('CPF obrigatório'),
-        phone: Yup.string().required('Telefone obrigatório'),
-        password: Yup.string()
-          .required('Senha obrigatório')
-          .min(6, 'No mínimo 6 dígitos'),
-        passwordConfirm: Yup.string()
-          .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais')
-          .required('Confirmação de senha obrigatório'),
-        type_code: Yup.number().required('Cargo obrigatório')
-      });
+  const handleSubmit = useCallback(
+    async (data: SignUpFormData) => {
+      formRef.current?.setErrors({});
+      try {
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório'),
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          cpf: Yup.string()
+            .required('CPF obrigatório')
+            .length(11, 'CPF inválido'),
+          phone: Yup.string()
+            .required('Telefone obrigatório')
+            .length(11, 'Telefone inválido'),
+          password: Yup.string()
+            .required('Senha obrigatório')
+            .min(6, 'No mínimo 6 dígitos'),
+          passwordConfirm: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais')
+            .required('Confirmação de senha obrigatório'),
+          type_code: Yup.number()
+            .required('Cargo obrigatório')
+            .lessThan(10, 'Selecione uma opção')
+        });
 
-      await schema.validate(data, {
-        abortEarly: false
-      });
+        await schema.validate(data, {
+          abortEarly: false
+        });
 
-      await api.post('/users', data);
+        await api.post('/users', data);
 
-      navigate('/');
+        navigate('/');
+      } catch (err) {
+        const errors = getValidationErrors(err);
 
-    } catch (err) {
-      const errors = getValidationErrors(err);
-
-      formRef.current?.setErrors(errors);
-    }
-  }, [navigate]);
+        formRef.current?.setErrors(errors);
+      }
+    },
+    [navigate]
+  );
 
   return (
     <Container>
@@ -84,15 +92,15 @@ const SignUp = () => {
               <Input
                 icon={MdOutlineBadge}
                 name="cpf"
-                placeholder="CPF"
-                type="text"
+                placeholder="CPF (apenas números)"
+                type="number"
                 iconSize={23}
               />
               <Input
                 icon={FiPhone}
                 name="phone"
-                placeholder="Telefone"
-                type="text"
+                placeholder="Telefone com DD"
+                type="number"
               />
 
               <InputPassword

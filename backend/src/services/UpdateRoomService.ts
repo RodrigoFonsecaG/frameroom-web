@@ -14,7 +14,7 @@ interface RequestCTO {
     floor: number;
     description: string;
     availability: number;
-    image: string;
+    image?: string;
 }
 
 class UpdateRoomService {
@@ -36,19 +36,22 @@ class UpdateRoomService {
             throw new AppError('Room not founded');
         }
 
-        if (room.image) {
-            //Deletar imagem anterior
-            const roomImageFilePath = path.join(
-                uploadConfig.directory,
-                room.image,
-            );
 
-            const roomImageFileExists = await fs.promises.stat(
-                roomImageFilePath,
-            );
+        if (image) {
+            if (room.image) {
+                //Deletar imagem anterior
+                const roomImageFilePath = path.join(
+                    uploadConfig.directory,
+                    room.image,
+                );
 
-            if (roomImageFileExists) {
-                await fs.promises.unlink(roomImageFilePath);
+                const roomImageFileExists = await fs.promises.stat(
+                    roomImageFilePath,
+                );
+
+                if (roomImageFileExists) {
+                    await fs.promises.unlink(roomImageFilePath);
+                }
             }
         }
 
@@ -62,7 +65,7 @@ class UpdateRoomService {
             floor,
             description,
             availability,
-            image,
+            image: image ? image : room.image,
         };
 
         roomsRepository.update(
@@ -75,7 +78,7 @@ class UpdateRoomService {
                 floor,
                 description,
                 availability,
-                image,
+                image: image ? image : room.image,
             },
         );
 

@@ -41,19 +41,5 @@ export const Content = styled.div`
       margin-bottom: 2.4rem;
     }
 
-    .input-group div:first-child {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    .input-group div + div:not(:first-child):not(:last-child) {
-      margin-top: -1px;
-      border-radius: 0;
-    }
-
-    .input-group div:last-child {
-      margin-top: -1px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
   }
 `;

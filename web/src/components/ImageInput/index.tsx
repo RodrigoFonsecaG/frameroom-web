@@ -9,8 +9,19 @@ import { useField } from '@unform/core';
 interface Props {
   name: string;
 }
+
+import {Container} from './styles';
+import { FiUpload } from 'react-icons/fi';
 type InputProps = JSX.IntrinsicElements['input'] & Props;
 export default function ImageInput({ name, ...rest }: InputProps) {
+
+  const [filename, setFilename] = useState("")
+
+  function handleFilename(event) {
+    setFilename(event.target.files[0].name);
+  }
+
+
   const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [preview, setPreview] = useState(defaultValue);
@@ -37,9 +48,24 @@ export default function ImageInput({ name, ...rest }: InputProps) {
     });
   }, [fieldName, registerField]);
   return (
-    <>
-      {preview && <img src={preview} alt="Preview" width="100" />}
-      <input type="file" ref={inputRef} onChange={handlePreview} {...rest} />
-    </>
+    <Container>
+      <label>Imagem</label>
+
+      <div>
+        <div>
+          <input
+            id="file"
+            type="file"
+            ref={inputRef}
+            onChange={() => handleFilename(event)}
+            {...rest}
+          />
+          <FiUpload />
+
+          <span>{filename ? filename : 'Selecione uma imagem'}</span>
+        </div>
+        <label htmlFor="file">Procurar</label>
+      </div>
+    </Container>
   );
 }

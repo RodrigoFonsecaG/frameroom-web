@@ -1,7 +1,9 @@
 import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { IconBaseProps } from 'react-icons/lib';
+import { FiAlertCircle } from 'react-icons/fi';
 import { Container } from './styles';
 import {useField} from '@unform/core'
+import Error  from '../ErrorTooltip';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -23,12 +25,13 @@ const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, topText, ...r
     })
   }, [fieldName, registerField])
 
+
   return (
     <>
       {topText ? (
         <div>
           <label htmlFor="">{topText}</label>
-          <Container>
+          <Container isErrored={!!error}>
             {Icon && <Icon size={iconSize ? iconSize : 20} />}
             <input ref={inputRef} {...rest} />
 
@@ -36,11 +39,13 @@ const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, topText, ...r
           </Container>
         </div>
       ) : (
-        <Container>
+        <Container isErrored={!!error}>
           {Icon && <Icon size={iconSize ? iconSize : 20} />}
           <input ref={inputRef} {...rest} />
 
-          {error}
+          {error && 
+            <Error title={error}/>
+          }
         </Container>
       )}
     </>

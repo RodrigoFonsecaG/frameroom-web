@@ -19,10 +19,12 @@ import Input from '../../components/Input';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import ImageInput from '../../components/ImageInput';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const CreateRoom = () => {
   const { token } = useAuth();
   const imageInput = useRef();
+  const navigate = useNavigate();
 
   async function handleSubmit(data: object): Promise<void> {
     const {
@@ -48,6 +50,8 @@ const CreateRoom = () => {
       await api.post('/rooms', formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
+      navigate('/rooms');
     } catch (error) {
       console.error(error.response);
     }
