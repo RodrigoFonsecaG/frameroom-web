@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
-import User from '../models/User';
-import {hash} from 'bcryptjs'
-import AppError from '../errors/AppError';
+import User from '../infra/typeorm/entities/User';
+import { hash } from 'bcryptjs';
+import AppError from '@shared/errors/AppError';
 
 interface Request {
     cpf: string;
@@ -21,12 +21,13 @@ class CreateUserService {
         email,
         password,
         passwordConfirm,
-        type_code}: Request): Promise<User> {
+        type_code,
+    }: Request): Promise<User> {
         const usersRepository = getRepository(User);
 
         //Conferir se cpf e email ja existe
         const checkUserExists = await usersRepository.findOne({
-            where: [{email}, {cpf}]
+            where: [{ email }, { cpf }],
         });
 
         if (checkUserExists) {

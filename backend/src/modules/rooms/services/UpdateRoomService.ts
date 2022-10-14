@@ -1,10 +1,10 @@
 import { getRepository } from 'typeorm';
-import Room from '../models/Room';
+import Room from '../infra/typeorm/entities/Room';
 import path from 'path';
 import fs from 'fs';
-import uploadConfig from '../config/upload';
-import createRoomCode from '../utils/createRoomCode';
-import AppError from '../errors/AppError';
+import uploadConfig from '@config/upload';
+import createRoomCode from '@shared/utils/createRoomCode';
+import AppError from '@shared/errors/AppError';
 
 interface RequestCTO {
     room_code: string;
@@ -35,7 +35,6 @@ class UpdateRoomService {
         if (!room) {
             throw new AppError('Room not founded');
         }
-
 
         if (image) {
             if (room.image) {

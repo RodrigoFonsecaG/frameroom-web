@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import Order from '../models/Order';
+import Order from '../infra/typeorm/entities/Order';
 
 interface Request {
     date: Date;

@@ -24,30 +24,27 @@ interface RoomProps {
 }
 
 const Rooms = () => {
-
   const [rooms, setRooms] = useState<RoomProps[]>();
-  const imagePath = "http://localhost:3333/files/"
+  const imagePath = 'http://localhost:3333/files/';
 
   function handleSubmit(data: object): void {
     console.log(data);
   }
 
   async function getRooms() {
-    const rooms = await api.get('/rooms');
+    try {
+      const rooms = await api.get('/rooms');
 
-    setRooms(rooms.data)
+      setRooms(rooms.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-
 
   useEffect(() => {
     getRooms();
   }, []);
 
-
-
-
-    
   return (
     <>
       <Header />
@@ -84,44 +81,42 @@ const Rooms = () => {
           </Form>
 
           <div className="cards">
+            {rooms &&
+              rooms.map((room) => {
+                return (
+                  <div className="card">
+                    <img src={imagePath + room.image} alt="" />
 
-            {rooms && rooms.map(room => {
-            return (
-              <div className="card">
-                <img src={imagePath + room.image} alt="" />
+                    <div className="room-title">
+                      <h2>
+                        {room.room_type} {room.room_number}
+                      </h2>
 
-                <div className="room-title">
-                  <h2>
-                    {room.room_type} {room.room_number}
-                  </h2>
-
-                  <a href="">
-                    <MdOutlineDriveFileRenameOutline size={22} />
-                  </a>
-                </div>
-
-                <div className="room-info">
-                  <div className="info">
-                    <div>
-                      <span>Andar:</span>
-                      <p>{room.floor}</p>
+                      <a href="">
+                        <MdOutlineDriveFileRenameOutline size={22} />
+                      </a>
                     </div>
 
-                    <div>
-                      <span>Capacidade:</span>
-                      <p>{room.capacity}</p>
+                    <div className="room-info">
+                      <div className="info">
+                        <div>
+                          <span>Andar:</span>
+                          <p>{room.floor}</p>
+                        </div>
+
+                        <div>
+                          <span>Capacidade:</span>
+                          <p>{room.capacity}</p>
+                        </div>
+                      </div>
+
+                      <Link to={`/rooms/${room.room_code}`}>
+                        <Button text="Visualizar" />
+                      </Link>
                     </div>
                   </div>
-
-                  <Link to={`/rooms/${room.room_code}`}>
-                    <Button text="Visualizar" />
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-
-   
+                );
+              })}
           </div>
         </Content>
       </div>

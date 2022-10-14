@@ -9,6 +9,7 @@ interface AuthRouteProps{
 const AuthRoute: React.FC<AuthRouteProps> = ({ Component, needAuth }) => {
   const { user } = useAuth();
 
+
   return !!user === needAuth ? (
     <Component />
   ) : (

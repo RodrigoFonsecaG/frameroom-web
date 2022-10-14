@@ -132,6 +132,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cors@^2.8.12":
+  "integrity" "sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw=="
+  "resolved" "https://registry.npmjs.org/@types/cors/-/cors-2.8.12.tgz"
+  "version" "2.8.12"
+
 "@types/express-serve-static-core@^4.17.18":
   "integrity" "sha512-DxMhY+NAsTwMMFHBTtJFNp5qiHKJ7TeqOo23zVEM9alT1Ml27Q3xcTH0xwxn7Q0BbMcVEJOs/7aQtUWupUQN3Q=="
   "resolved" "https://registry.npmjs.org/@types/express-serve-static-core/-/express-serve-static-core-4.17.31.tgz"
@@ -1550,6 +1555,11 @@
   dependencies:
     "minimist" "^1.2.0"
 
+"json5@^2.2.1":
+  "integrity" "sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA=="
+  "resolved" "https://registry.npmjs.org/json5/-/json5-2.2.1.tgz"
+  "version" "2.2.1"
+
 "jsonwebtoken@^8.5.1":
   "integrity" "sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w=="
   "resolved" "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz"
@@ -2426,6 +2436,15 @@
   dependencies:
     "@types/json5" "^0.0.29"
     "json5" "^1.0.1"
+    "minimist" "^1.2.6"
+    "strip-bom" "^3.0.0"
+
+"tsconfig-paths@^4.1.0":
+  "integrity" "sha512-AHx4Euop/dXFC+Vx589alFba8QItjF+8hf8LtmuiCwHyI4rHXQtOOENaM8kvYf5fR0dRChy3wzWIZ9WbB7FWow=="
+  "resolved" "https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-4.1.0.tgz"
+  "version" "4.1.0"
+  dependencies:
+    "json5" "^2.2.1"
     "minimist" "^1.2.6"
     "strip-bom" "^3.0.0"
 

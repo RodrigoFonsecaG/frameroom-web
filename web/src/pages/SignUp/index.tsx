@@ -16,6 +16,8 @@ import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErros';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { useToast } from '../../context/ToastContext';
+
 import api from '../../services/api';
 
 interface SignUpFormData {
@@ -31,6 +33,7 @@ interface SignUpFormData {
 const SignUp = () => {
   const formRef = useRef<FormHandles>(null);
   const navigate = useNavigate();
+    const { addToast } = useToast();
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
@@ -64,14 +67,34 @@ const SignUp = () => {
 
         await api.post('/users', data);
 
+        // disparar um toast
+        addToast({
+          type: 'sucess',
+          title: 'Cadastro realizado!',
+          description:
+            'Você já pode fazer seu login no Frameroom.'
+        });
+
         navigate('/');
       } catch (err) {
-        const errors = getValidationErrors(err);
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        // disparar um toast
+        addToast({
+          type: 'error',
+          title: 'Erro no cadastro :(',
+          description: 'Ocorreu um erro ao fazer seu cadastro, tente novamente.'
+        });
+
       }
     },
-    [navigate]
+    [navigate, addToast]
   );
 
   return (

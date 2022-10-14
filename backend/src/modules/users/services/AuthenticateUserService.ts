@@ -1,16 +1,16 @@
-import { compare } from "bcryptjs";
-import { getRepository } from "typeorm";
-import User from "../models/User";
+import { compare } from 'bcryptjs';
+import { getRepository } from 'typeorm';
+import User from '../infra/typeorm/entities/User';
 import { sign } from 'jsonwebtoken';
-import authConfig from '../config/auth';
-import AppError from "../errors/AppError";
+import authConfig from '@config/auth';
+import AppError from '@shared/errors/AppError';
 
-interface Request{
+interface Request {
     email: string;
     password: string;
 }
 
-interface Response{
+interface Response {
     user: User;
     token: string;
 }
@@ -48,4 +48,3 @@ class AuthenticateUserService {
 }
 
 export default AuthenticateUserService;
-

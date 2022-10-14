@@ -1,22 +1,26 @@
 import { Router } from 'express';
 import { getCustomRepository, getRepository } from 'typeorm';
-import ensureAuthenticated from '../middlewares/ensureAnthenticated';
-import RoomsRepository from '../repositories/RoomsRepository';
-import CreateRoomService from '../services/CreateRoomService';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAnthenticated';
+import RoomsRepository from '@modules/rooms/repositories/RoomsRepository';
+import CreateRoomService from '@modules/rooms/services/CreateRoomService';
 
 import multer from 'multer';
-import uploadConfig from '../config/upload';
-import UpdateRoomService from '../services/UpdateRoomService';
-import Room from '../models/Room';
+import uploadConfig from '@config/upload';
+import UpdateRoomService from '@modules/rooms/services/UpdateRoomService';
+import Room from '@modules/rooms/infra/typeorm/entities/Room';
 
 const roomsRouter = Router();
 const upload = multer(uploadConfig);
 
 roomsRouter.get('/', async (request, response) => {
-    const roomsRepository = getCustomRepository(RoomsRepository);
-    const rooms = await roomsRepository.find();
+    try {
+        const roomsRepository = getCustomRepository(RoomsRepository);
+        const rooms = await roomsRepository.find();
 
-    return response.json(rooms);
+        return response.json(rooms);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 roomsRouter.get('/:room_code', async (request, response) => {
@@ -82,7 +86,7 @@ roomsRouter.put(
 
         const updateRoom = new UpdateRoomService();
 
-        console.log(!!request.file)
+        console.log(!!request.file);
 
         if (!!request.file) {
             const room = await updateRoom.execute({

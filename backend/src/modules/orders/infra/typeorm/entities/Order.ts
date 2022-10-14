@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import Room from './Room';
+import Room from '@modules/rooms/infra/typeorm/entities/Room';
 
-import User from './User'
+import User from '../../../../users/infra/typeorm/entities/User';
 
 @Entity('orders')
 class Order {

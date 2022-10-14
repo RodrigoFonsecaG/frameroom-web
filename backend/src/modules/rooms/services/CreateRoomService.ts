@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm';
-import AppError from '../errors/AppError';
-import Room from '../models/Room';
+import AppError from '@shared/errors/AppError';
+import Room from '../infra/typeorm/entities/Room';
 import RoomsRepository from '../repositories/RoomsRepository';
-import createRoomCode from '../utils/createRoomCode';
+import createRoomCode from '@shared/utils/createRoomCode';
 
 interface CreateRoomDTO {
     room_code?: string;

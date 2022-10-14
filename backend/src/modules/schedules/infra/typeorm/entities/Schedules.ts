@@ -1,6 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import Room from './Room';
-
+import Room from '@modules/rooms/infra/typeorm/entities/Room';
 
 @Entity('schedules')
 class Order {
