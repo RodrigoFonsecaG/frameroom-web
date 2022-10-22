@@ -24,6 +24,9 @@ class User {
     @ManyToOne(() => UserType)
     @JoinColumn({ name: 'type_code' })
     users_type: UserType;
+
+    @Column()
+    isAdmin: boolean;
 }
 
 export default User;

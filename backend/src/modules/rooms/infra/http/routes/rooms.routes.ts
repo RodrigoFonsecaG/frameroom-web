@@ -1,15 +1,11 @@
 import { Router } from 'express';
-import { getCustomRepository, getRepository } from 'typeorm';
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAnthenticated';
+import { ensureAuthenticated } from '@modules/users/infra/http/middlewares/ensureAnthenticated';
 
+import { needAdmin } from '@modules/users/infra/http/middlewares/permissions';
 
 import multer from 'multer';
 import uploadConfig from '@config/upload';
-import UpdateRoomService from '@modules/rooms/services/UpdateRoomService';
-import Room from '@modules/rooms/infra/typeorm/entities/Room';
 import RoomsController from '../controllers/RoomsController';
-import RoomsRepository from '../../typeorm/repositories/RoomsRepository';
-
 
 const roomsRouter = Router();
 const upload = multer(uploadConfig);
@@ -22,16 +18,18 @@ roomsRouter.get('/:room_code', roomsController.show);
 
 roomsRouter.post(
     '/',
-    ensureAuthenticated,
+    ensureAuthenticated(),
+    needAdmin(),
     upload.single('image'),
     roomsController.create,
 );
 
 roomsRouter.put(
     '/',
-    ensureAuthenticated,
+    ensureAuthenticated(),
+    needAdmin(),
     upload.single('image'),
-    roomsController.update
+    roomsController.update,
 );
 
 export default roomsRouter;

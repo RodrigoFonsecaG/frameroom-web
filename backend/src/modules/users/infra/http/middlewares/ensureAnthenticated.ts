@@ -9,37 +9,35 @@ interface TokenPayload {
     sub: string;
 }
 
-export default function ensureAuthenticated(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-): void {
-    //Validação do token JWT
+export function ensureAuthenticated() {
+    return (request: Request, response: Response, next: NextFunction) => {
+        //Validação do token JWT
 
-    const authHeader = request.headers.authorization;
+        const authHeader = request.headers.authorization;
 
-    // Verificar se token existe
-    if (!authHeader) {
-        throw new AppError('JWT token is missing', 401);
-    }
+        // Verificar se token existe
+        if (!authHeader) {
+            throw new AppError('JWT token is missing', 401);
+        }
 
-    // Separando token: Bearer DWAKOIDKAWDKAW
-    const [, token] = authHeader.split(' ');
+        // Separando token: Bearer DWAKOIDKAWDKAW
+        const [, token] = authHeader.split(' ');
 
-    try {
-        // Decodificando token
-        const decoded = verify(token, authConfig.jwt.secret);
+        try {
+            // Decodificando token
+            const decoded = verify(token, authConfig.jwt.secret);
 
-        console.log(decoded);
+            console.log(decoded);
 
-        const { sub } = decoded as TokenPayload;
+            const { sub } = decoded as TokenPayload;
 
-        request.user = {
-            cpf: sub,
-        };
+            request.user = {
+                cpf: sub,
+            };
 
-        return next();
-    } catch {
-        throw new AppError('Invalid JWT token', 401);
-    }
+            return next();
+        } catch {
+            throw new AppError('Invalid JWT token', 401);
+        }
+    };
 }

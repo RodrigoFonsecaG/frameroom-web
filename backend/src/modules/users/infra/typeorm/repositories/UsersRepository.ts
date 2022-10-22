@@ -30,6 +30,14 @@ class UsersRepository implements IUsersRepository {
         return findUser;
     }
 
+    public async findByCPF(cpf: string): Promise<User | undefined> {
+        const findUser = await this.ormRepository.findOne({
+            where: { cpf },
+        });
+
+        return findUser;
+    }
+
     public async create({
         cpf,
         name,

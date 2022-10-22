@@ -37,6 +37,11 @@ export class CreateUsers1665263732463 implements MigrationInterface {
                         name: 'type_code',
                         type: 'int',
                     },
+                    {
+                        name: 'isAdmin',
+                        type: 'boolean',
+                        default: false
+                    }
                 ],
             }),
         );
@@ -48,7 +53,10 @@ export class CreateUsers1665263732463 implements MigrationInterface {
                 referencedTableName: "users_type"
             })
         );
+
     }
+
+
 
     public async down(queryRunner: QueryRunner): Promise<void> {
          await queryRunner.dropTable('users');

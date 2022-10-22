@@ -10,4 +10,5 @@ export default interface IUsersRepository {
     findByEmailCPF(email: string, cpf: string): Promise<User | undefined>;
     findByEmail(email: string): Promise<User | undefined>;
     create(data: IUserDTO): Promise<User>;
+    findByCPF(cpf: string): Promise<User>;
 }
