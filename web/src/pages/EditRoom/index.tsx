@@ -5,14 +5,17 @@ import {
   MdOutlineReduceCapacity,
   MdOutlineStairs
 } from 'react-icons/md';
+import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Select from '../../components/Select';
 import Textarea from '../../components/Textarea';
 import { Content, Divider } from './styles';
 import { Form } from '@unform/web';
+import ImageInput from '../../components/ImageInput';
 import Input from '../../components/Input';
 import api from '../../services/api';
-
+import { useAuth } from '../../context/AuthContext';
+import {  useNavigate } from 'react-router-dom';
 
 interface RoomProps {
   room_code?: string;
@@ -25,13 +28,49 @@ interface RoomProps {
   image: string;
 }
 
-const Room = () => {
+const EditRoom = () => {
   const [room, setRoom] = useState<RoomProps>({});
   const imagePath = 'http://localhost:3333/files/';
+  const { token } = useAuth();
+  const navigate = useNavigate();
 
+  async function handleSubmit(data: object): Promise<void> {
+    const {
+      room_code,
+      image,
+      room_type,
+      room_number,
+      capacity,
+      floor,
+      description,
+      availability
+    } = data;
+
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('room_code', room.room_code);
+    formData.append('room_type', room_type);
+    formData.append('room_number', room_number);
+    formData.append('capacity', capacity);
+    formData.append('floor', floor);
+    formData.append('description', description);
+    formData.append('availability', availability);
+
+    try {
+      await api.put('/rooms', formData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      navigate('/rooms');
+    } catch (error) {
+      console.error(error.response);
+    }
+  }
 
   async function getRoom() {
-    const rooms = await api.get(window.location.pathname);
+    const rooms = await api.get(window.location.pathname.replace('/edit', ''));
+
+    console.log(rooms)
 
     setRoom(rooms.data[0]);
   }
@@ -39,6 +78,7 @@ const Room = () => {
   useEffect(() => {
     getRoom();
   }, []);
+
 
 
   return (
@@ -52,19 +92,20 @@ const Room = () => {
             </div>
 
             <section className="room-section">
-              <Form>
+              <Form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="room-infos">
                   <div className="room-header">
                     <h2>
-                      {room.room_type} {room.room_number}
+                      Editando {room.room_type} {room.room_number}
                     </h2>
+
+                    <Button type="submit" text="Editar espaço" />
                   </div>
 
                   <Divider />
 
                   <div className="room-inputs">
                     <Select
-                      disabled
                       name="room_type"
                       icon={MdOutlineHouse}
                       iconSize={23}
@@ -78,7 +119,6 @@ const Room = () => {
                     </Select>
 
                     <Input
-                      disabled
                       name="room_number"
                       icon={MdOutlinePin}
                       iconSize={23}
@@ -89,7 +129,6 @@ const Room = () => {
 
                   <div className="room-inputs">
                     <Select
-                      disabled
                       name="floor"
                       icon={MdOutlineStairs}
                       iconSize={23}
@@ -101,7 +140,6 @@ const Room = () => {
                     </Select>
 
                     <Input
-                      disabled
                       name="capacity"
                       icon={MdOutlineReduceCapacity}
                       iconSize={23}
@@ -112,7 +150,6 @@ const Room = () => {
 
                   <div className="room-inputs">
                     <Select
-                      disabled
                       name="availability"
                       icon={MdOutlineStairs}
                       iconSize={23}
@@ -123,11 +160,12 @@ const Room = () => {
                       <option value={2}>Indisponível</option>
                       <option value={3}>Em manutenção</option>
                     </Select>
+
+                    <ImageInput name="image" />
                   </div>
 
                   <div className="room-textarea">
                     <Textarea
-                      disabled
                       text="Descrição *"
                       name="description"
                       value={room.description}
@@ -141,6 +179,7 @@ const Room = () => {
               <div className="room-infos">
                 <div className="room-header">
                   <h2>Horários </h2>
+                  <Button text="Salvar horários" />
                 </div>
 
                 <Divider />
@@ -153,4 +192,4 @@ const Room = () => {
   );
 };
 
-export default Room;
+export default EditRoom;

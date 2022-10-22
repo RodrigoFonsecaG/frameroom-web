@@ -14,6 +14,7 @@ const Header = () => {
   const mobile = useMedia('(max-width: 60rem)');
 
   const { user, signOut } = useAuth();
+
   
   return (
     <HeaderContainer>
@@ -48,8 +49,8 @@ const Header = () => {
 
             <div className="profile-navbar">
               <div className="user-info">
-                <span>{user.name}</span>
-                <p>{user.email}</p>
+                <span>{user && user.name}</span>
+                <p>{user && user.email}</p>
               </div>
 
               <div className="user-photo">

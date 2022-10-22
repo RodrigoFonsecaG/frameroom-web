@@ -11,6 +11,7 @@ import Button from '../../components/Button';
 import { Form } from '@unform/web';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 
 interface RoomProps {
   room_code?: string;
@@ -45,6 +46,9 @@ const Rooms = () => {
     getRooms();
   }, []);
 
+  // Informações do usuario
+  const { user, signOut } = useAuth();
+
   return (
     <>
       <Header />
@@ -75,9 +79,11 @@ const Rooms = () => {
               </Select>
             </div>
 
-            <Link to="/create-room">
-              <Button text="Cadastrar espaço" />
-            </Link>
+            {user.isAdmin && (
+              <Link to="/create-room">
+                <Button text="Cadastrar espaço" />
+              </Link>
+            )}
           </Form>
 
           <div className="cards">
@@ -91,10 +97,11 @@ const Rooms = () => {
                       <h2>
                         {room.room_type} {room.room_number}
                       </h2>
-
-                      <a href="">
-                        <MdOutlineDriveFileRenameOutline size={22} />
-                      </a>
+                      {user.isAdmin && (
+                        <Link to={`/rooms/${room.room_code}/edit`}>
+                          <MdOutlineDriveFileRenameOutline size={22} />
+                        </Link>
+                      )}
                     </div>
 
                     <div className="room-info">

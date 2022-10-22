@@ -8,6 +8,7 @@ import Room from '../pages/Room';
 
 import AuthRoute from './AuthRoute'
 import CreateRoom from '../pages/CreateRoom';
+import EditRoom from '../pages/EditRoom';
 
 const Routes: React.FC = () => {
   return (
@@ -21,8 +22,18 @@ const Routes: React.FC = () => {
         element={<AuthRoute Component={SignUp} needAuth={false} />}
       />
       <Route path="rooms" element={<Rooms />} />
-      <Route path="rooms/:room_code" element={<AuthRoute Component={Room} needAuth />} />
-      <Route path="create-room" element={<AuthRoute Component={CreateRoom} needAuth />} />
+      <Route
+        path="rooms/:room_code"
+        element={<AuthRoute Component={Room} needAuth />}
+      />
+      <Route
+        path="rooms/:room_code/edit"
+        element={<AuthRoute Component={EditRoom} needAuth needAdmin />}
+      />
+      <Route
+        path="create-room"
+        element={<AuthRoute Component={CreateRoom} needAuth needAdmin />}
+      />
     </Switch>
   );
 };
