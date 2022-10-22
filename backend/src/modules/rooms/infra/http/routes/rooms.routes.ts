@@ -8,6 +8,8 @@ import uploadConfig from '@config/upload';
 import UpdateRoomService from '@modules/rooms/services/UpdateRoomService';
 import Room from '@modules/rooms/infra/typeorm/entities/Room';
 import RoomsController from '../controllers/RoomsController';
+import RoomsRepository from '../../typeorm/repositories/RoomsRepository';
+
 
 const roomsRouter = Router();
 const upload = multer(uploadConfig);

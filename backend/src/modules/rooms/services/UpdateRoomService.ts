@@ -1,10 +1,12 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import Room from '../infra/typeorm/entities/Room';
 import path from 'path';
 import fs from 'fs';
 import uploadConfig from '@config/upload';
 import createRoomCode from '@shared/utils/createRoomCode';
 import AppError from '@shared/errors/AppError';
+import RoomsRepository from '../infra/typeorm/repositories/RoomsRepository';
+import IRoomsRepository from '../repositories/IRoomsRepository';
 
 interface RequestCTO {
     room_code: string;
@@ -18,6 +20,8 @@ interface RequestCTO {
 }
 
 class UpdateRoomService {
+    constructor(private roomsRepository: IRoomsRepository) { }
+
     public async execute({
         room_code,
         room_type,
@@ -28,9 +32,8 @@ class UpdateRoomService {
         availability,
         image,
     }: RequestCTO): Promise<Room> {
-        const roomsRepository = getRepository(Room);
 
-        const room = await roomsRepository.findOne(room_code);
+        const room = await this.roomsRepository.findRoom(room_code);
 
         if (!room) {
             throw new AppError('Room not founded');
@@ -56,7 +59,21 @@ class UpdateRoomService {
 
         const updatedCode = createRoomCode(room_type, room_number);
 
-        const updatedRoom = {
+        // const updatedRoom = {
+        //     room_code: updatedCode,
+        //     room_type,
+        //     room_number,
+        //     capacity,
+        //     floor,
+        //     description,
+        //     availability,
+        //     image: image ? image : room.image,
+        // };
+
+        console.log(updatedCode);
+
+        const updatedRoom = this.roomsRepository.update({
+            old_room_code: room_code,
             room_code: updatedCode,
             room_type,
             room_number,
@@ -65,21 +82,7 @@ class UpdateRoomService {
             description,
             availability,
             image: image ? image : room.image,
-        };
-
-        roomsRepository.update(
-            { room_code },
-            {
-                room_code: updatedCode,
-                room_type,
-                room_number,
-                capacity,
-                floor,
-                description,
-                availability,
-                image: image ? image : room.image,
-            },
-        );
+        });
 
         return updatedRoom;
     }

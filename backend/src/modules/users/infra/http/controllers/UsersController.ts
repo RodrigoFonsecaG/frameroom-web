@@ -1,6 +1,6 @@
-import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 import CreateUserService from '@modules/users/services/CreateUserService';
+import UsersRepository from '../../typeorm/repositories/UsersRepository';
 
 export default class UsersController {
     public async create(request: Request, response: Response) {
@@ -14,7 +14,8 @@ export default class UsersController {
             type_code,
         } = request.body;
 
-        const createUser = new CreateUserService();
+        const usersRepository = new UsersRepository();
+        const createUser = new CreateUserService(usersRepository);
 
         const user = await createUser.execute({
             cpf,

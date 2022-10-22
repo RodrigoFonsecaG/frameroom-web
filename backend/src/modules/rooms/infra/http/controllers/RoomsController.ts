@@ -5,7 +5,12 @@ import { getCustomRepository, getRepository } from 'typeorm';
 import RoomsRepository from '@modules/rooms/infra/typeorm/repositories/RoomsRepository';
 import Room from '@modules/rooms/infra/typeorm/entities/Room';
 
+
+
 export default class RoomsController {
+
+
+
     public async create(
         request: Request,
         response: Response,
@@ -21,7 +26,8 @@ export default class RoomsController {
 
         const { filename } = request.file;
 
-        const createRoom = new CreateRoomService();
+        const roomsRepository = new RoomsRepository();
+        const createRoom = new CreateRoomService(roomsRepository);
 
         const room = await createRoom.execute({
             room_type,
@@ -50,7 +56,8 @@ export default class RoomsController {
             availability,
         } = request.body;
 
-        const updateRoom = new UpdateRoomService();
+        const roomsRepository = new RoomsRepository();
+        const updateRoom = new UpdateRoomService(roomsRepository);
 
         console.log(!!request.file);
 
@@ -87,6 +94,7 @@ export default class RoomsController {
         response: Response,
     ): Promise<Response> {
         try {
+
             const roomsRepository = getCustomRepository(RoomsRepository);
             const rooms = await roomsRepository.find();
 

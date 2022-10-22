@@ -3,6 +3,7 @@ import AppError from '@shared/errors/AppError';
 import Room from '../infra/typeorm/entities/Room';
 import RoomsRepository from '../infra/typeorm/repositories/RoomsRepository';
 import createRoomCode from '@shared/utils/createRoomCode';
+import IRoomsRepository from '../repositories/IRoomsRepository';
 
 
 interface CreateRoomDTO {
@@ -17,6 +18,8 @@ interface CreateRoomDTO {
 }
 
 class CreateRoomService {
+    constructor(private roomsRepository: IRoomsRepository) { }
+
     public async execute({
         room_type,
         room_number,
@@ -26,20 +29,19 @@ class CreateRoomService {
         availability,
         image,
     }: CreateRoomDTO): Promise<Room> {
-        const roomsRepository = getCustomRepository(RoomsRepository);
 
         //Criando código do espaço
         const room_code = createRoomCode(room_type, room_number);
 
         //Verificando se sala já existe
-        const findRoom = await roomsRepository.findRoom(room_code);
+        const findRoom = await this.roomsRepository.findRoom(room_code);
 
         if (findRoom) {
             throw new AppError('This room is already created!');
         }
 
-        // Criando instancia
-        const room = roomsRepository.create({
+        // Criando espaço
+        const room = await this.roomsRepository.create({
             room_code,
             room_type,
             room_number,
@@ -49,9 +51,6 @@ class CreateRoomService {
             availability,
             image,
         });
-
-        // Salvando no bd
-        await roomsRepository.save(room);
 
         return room;
     }
