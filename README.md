@@ -54,7 +54,7 @@ Para visualizar no FIGMA, clique aqui:  [FIGMA](https://www.figma.com/file/9CUhW
 - **Principios do SOLID**
 
 
--**Teste automatizados: Jest**
+- **Teste automatizados: Jest**
 
 <br/>
 
