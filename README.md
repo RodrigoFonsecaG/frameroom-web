@@ -1,7 +1,5 @@
-# Frameroom
-
 <h1 align="center">
-  <img alt="Logo" src="logo.png" width="200px">
+  <img alt="Logo" src="logo.png" width="400px">
 </h1>
 
 ## 📝 Sobre
