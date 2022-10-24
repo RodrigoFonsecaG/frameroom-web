@@ -44,7 +44,7 @@ Para visualizar no FIGMA, clique aqui:  [FIGMA](https://www.figma.com/file/9CUhW
 - **TypeORM**
 - **Migrations**
 - **Autenticação JWT**
-- 
+
 <br/>
 
 - **Teste automatizados: Jest**
