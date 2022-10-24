@@ -34,6 +34,8 @@ Para visualizar no FIGMA, clique aqui:  [FIGMA](https://www.figma.com/file/9CUhW
 - **Yup**
 - **Axios**
 
+<br/>
+
 - **Node**
 - **API REST**
 - **Express**
@@ -42,8 +44,8 @@ Para visualizar no FIGMA, clique aqui:  [FIGMA](https://www.figma.com/file/9CUhW
 - **TypeORM**
 - **Migrations**
 - **Autenticação JWT**
-
--**Teste automatizados: Jest**
+<br/>
+- **Teste automatizados: Jest**-
 
 <br/>
 
