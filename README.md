@@ -1,5 +1,9 @@
 # Frameroom
 
+<h1 align="center">
+  <img alt="Logo" src="logo.png" width="200px">
+</h1>
+
 ## 📝 Sobre
 
 **Frameroom** é uma aplicação para controle de espaços/horarios e gerenciamento de solicitações de reserva de espaço.
