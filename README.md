@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="Logo" src="logo.png" width="400px">
+  <img alt="Logo" src="logo.png" width="200px">
 </h1>
 
 ## 📝 Sobre
@@ -9,9 +9,6 @@
 A aplicação está sendo desenvolvida para o Predio CCET da Universidade Estadual de Montes (Unimontes), no formato Web.
 
 Para visualizar no FIGMA, clique aqui:  [FIGMA](https://www.figma.com/file/9CUhWoIodEfrkombF5FmWK/Layout-Frameroom?node-id=0%3A1)
-
-
-
 
 <br/>
 
