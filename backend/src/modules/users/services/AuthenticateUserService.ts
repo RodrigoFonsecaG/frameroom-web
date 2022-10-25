@@ -28,13 +28,16 @@ class AuthenticateUserService {
             throw new AppError('Incorrect email/password combination', 401);
         }
 
+
+
         // Verificando se senha está correta
         const passwordMatched = await compare(password, user.password);
+
 
         if (!passwordMatched) {
             throw new AppError('Incorrect email/password combination', 401);
         }
-
+        
         //Gerando token JWT
         const { secret, expiresIn } = authConfig.jwt;
 

@@ -59,19 +59,6 @@ class UpdateRoomService {
 
         const updatedCode = createRoomCode(room_type, room_number);
 
-        // const updatedRoom = {
-        //     room_code: updatedCode,
-        //     room_type,
-        //     room_number,
-        //     capacity,
-        //     floor,
-        //     description,
-        //     availability,
-        //     image: image ? image : room.image,
-        // };
-
-        console.log(updatedCode);
-
         const updatedRoom = this.roomsRepository.update({
             old_room_code: room_code,
             room_code: updatedCode,
