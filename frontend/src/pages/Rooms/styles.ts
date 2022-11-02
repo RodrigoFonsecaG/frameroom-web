@@ -56,7 +56,12 @@ export const Content = styled.div`
         font-size: 2rem;
       }
 
-      .room-title a {
+      .room-title .admin-commands {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .room-title .admin-commands a {
         background-color: var(--light-gray);
         border-radius: 50%;
         width: 3rem;
@@ -80,7 +85,6 @@ export const Content = styled.div`
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
         border-bottom: 3px solid var(--light-blue);
-
 
         button {
           font-size: 1.2rem;
@@ -113,5 +117,3 @@ export const Content = styled.div`
     object-fit: cover;
   }
 `;
-
-

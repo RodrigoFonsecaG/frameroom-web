@@ -12,6 +12,7 @@ import { Content, Divider } from './styles';
 import { Form } from '@unform/web';
 import Input from '../../components/Input';
 import api from '../../services/api';
+import { useParams } from 'react-router-dom';
 
 
 interface RoomProps {
@@ -28,10 +29,12 @@ interface RoomProps {
 const Room = () => {
   const [room, setRoom] = useState<RoomProps>({});
   const imagePath = 'http://localhost:3333/files/';
+  let { room_code } = useParams();
+
 
 
   async function getRoom() {
-    const rooms = await api.get(window.location.pathname);
+    const rooms = await api.get(`/rooms/${room_code}`);
 
     setRoom(rooms.data[0]);
   }

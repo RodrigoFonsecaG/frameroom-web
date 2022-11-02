@@ -9,6 +9,7 @@ import Room from '../pages/Room';
 import AuthRoute from './AuthRoute'
 import CreateRoom from '../pages/CreateRoom';
 import EditRoom from '../pages/EditRoom';
+import Schedules from '../pages/Schedules'
 
 const Routes: React.FC = () => {
   return (
@@ -29,6 +30,10 @@ const Routes: React.FC = () => {
       <Route
         path="rooms/:room_code/edit"
         element={<AuthRoute Component={EditRoom} needAuth needAdmin />}
+      />
+      <Route
+        path="schedules/:room_code"
+        element={<AuthRoute Component={Schedules} needAuth needAdmin />}
       />
       <Route
         path="create-room"

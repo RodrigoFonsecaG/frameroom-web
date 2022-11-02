@@ -4,7 +4,8 @@ import Select from '../../components/Select';
 import {
   MdOutlineStairs,
   MdOutlineMeetingRoom,
-  MdOutlineDriveFileRenameOutline
+  MdOutlineDriveFileRenameOutline,
+  MdOutlineEditCalendar
 } from 'react-icons/md';
 import { Content } from './styles';
 import Button from '../../components/Button';
@@ -98,9 +99,15 @@ const Rooms = () => {
                         {room.room_type} {room.room_number}
                       </h2>
                       {user.isAdmin && (
-                        <Link to={`/rooms/${room.room_code}/edit`}>
-                          <MdOutlineDriveFileRenameOutline size={22} />
-                        </Link>
+                        <div className='admin-commands'>
+                          <Link to={`/rooms/${room.room_code}/edit`}>
+                            <MdOutlineDriveFileRenameOutline size={22} />
+                          </Link>
+
+                          <Link to={`/schedules/${room.room_code}`}>
+                            <MdOutlineEditCalendar size={22} />
+                          </Link>
+                        </div>
                       )}
                     </div>
 

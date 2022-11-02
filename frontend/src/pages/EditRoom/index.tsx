@@ -15,7 +15,7 @@ import ImageInput from '../../components/ImageInput';
 import Input from '../../components/Input';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface RoomProps {
   room_code?: string;
@@ -33,6 +33,8 @@ const EditRoom = () => {
   const imagePath = 'http://localhost:3333/files/';
   const { token } = useAuth();
   const navigate = useNavigate();
+    let { room_code } = useParams();
+  
 
   async function handleSubmit(data: object): Promise<void> {
     const {
@@ -68,9 +70,9 @@ const EditRoom = () => {
   }
 
   async function getRoom() {
-    const rooms = await api.get(window.location.pathname.replace('/edit', ''));
+    const rooms = await api.get(`rooms/${room_code}`);
 
-    console.log(rooms)
+    console.log(rooms);
 
     setRoom(rooms.data[0]);
   }
@@ -78,7 +80,6 @@ const EditRoom = () => {
   useEffect(() => {
     getRoom();
   }, []);
-
 
 
   return (
@@ -181,6 +182,8 @@ const EditRoom = () => {
                   <h2>Horários </h2>
                   <Button text="Salvar horários" />
                 </div>
+
+    
 
                 <Divider />
               </div>
