@@ -59,9 +59,6 @@ export const Content = styled.div`
       flex-wrap: wrap;
       margin-bottom: 3rem;
 
-      label {
-        color: var(--gray);
-      }
 
       > div {
         flex: 1;
@@ -73,11 +70,6 @@ export const Content = styled.div`
       }
     }
 
-    .room-textarea {
-      label {
-        color: var(--gray);
-      }
-    }
   }
 `;
 

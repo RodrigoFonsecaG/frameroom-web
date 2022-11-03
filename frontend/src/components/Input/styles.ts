@@ -25,7 +25,6 @@ export const Container = styled.div<ContainerProps>`
     border: 1px solid #e6e6f0;
   }
 
-
   &:focus-within svg {
     color: var(--light-blue);
   }
@@ -46,12 +45,13 @@ export const Container = styled.div<ContainerProps>`
     margin-top: 8px;
   }
 
-  input {
+  input,
+  input:disabled {
     flex: 1;
     border: 0;
     background: transparent;
     width: 100%;
-    color: var(--dark-gray);
+    color: var(--dark-blue);
     &::placeholder {
       color: var(--gray);
     }

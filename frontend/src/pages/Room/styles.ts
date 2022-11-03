@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 
+
 export const Content = styled.div`
   width: 100%;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 8px;
+
+  svg {
+    color: var(--dark-blue);
+  }
 
   form > button {
     margin-top: 4rem;
@@ -59,9 +64,7 @@ export const Content = styled.div`
       flex-wrap: wrap;
       margin-bottom: 3rem;
 
-      label {
-        color: var(--gray);
-      }
+
 
       > div {
         flex: 1;
@@ -73,11 +76,6 @@ export const Content = styled.div`
       }
     }
 
-    .room-textarea {
-      label {
-        color: var(--gray);
-      }
-    }
   }
 `;
 

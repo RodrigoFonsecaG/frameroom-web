@@ -18,7 +18,6 @@ export const Content = styled.textarea<ContainerProps>`
   padding: 1.6rem;
 
   background: var(--white);
-  color: var(--grey);
   border: 1px solid #e6e6f0;
   border-radius: 8px;
   padding: 1.6rem;
@@ -26,7 +25,7 @@ export const Content = styled.textarea<ContainerProps>`
   display: flex;
   align-items: center;
   position: relative;
-  color: var(--dark-gray);
+  color: var(--dark-blue);
   height: 20rem;
 
   resize: none;

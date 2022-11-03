@@ -7,7 +7,6 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   background: var(--white);
-  color: var(--grey);
   border: 1px solid #e6e6f0;
   border-radius: 8px;
   padding: 0 1.6rem;
@@ -42,15 +41,17 @@ export const Container = styled.div<ContainerProps>`
     border-radius: 8px;
   }
 
-  select {
+  select,
+  select:disabled {
     flex: 1;
     border: 0;
     background: transparent;
-    color: var(--dark-gray);
+    color: var(--dark-blue);
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;
     text-overflow: '';
+    opacity: 1;
 
     padding: 1.6rem 0;
   }
@@ -58,6 +59,7 @@ export const Container = styled.div<ContainerProps>`
     margin-right: 1.6rem;
     color: var(--gray);
   }
+
 
   .icon-container {
     display: flex;
