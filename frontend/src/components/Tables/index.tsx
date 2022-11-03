@@ -5,16 +5,6 @@ import React, {
   useRef,
   useState
 } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper
-} from '@mui/material';
 import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
@@ -23,7 +13,13 @@ import Button from '../Button';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import { Content } from './styles';
-import { MdOutlineBrightness4, MdOutlineLightMode, MdOutlineNightsStay } from 'react-icons/md';
+import {
+  MdOutlineBrightness4,
+  MdOutlineLightMode,
+  MdOutlineNightsStay
+} from 'react-icons/md';
+import { useToast } from '../../context/ToastContext';
+
 
 interface Schedule {
   room_code: string;
@@ -70,6 +66,7 @@ interface TableProps {
 }
 
 const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
+  const { addToast } = useToast();
   const days = [
     'Segunda',
     'Terça',
@@ -243,7 +240,12 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // navigate('/rooms');
+      addToast({
+        type: 'sucess',
+        title: 'Horários cadastros com sucesso!',
+        description: 'Os horários do espaço foram atualizados.'
+      });
+
     } catch (error) {
       console.error(error.response);
     }

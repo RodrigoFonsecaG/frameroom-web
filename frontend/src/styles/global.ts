@@ -48,7 +48,7 @@ body,
 label{
    color: var(--dark-blue);
    font-size: 1.4rem;
-   margin-bottom: 0.8rem;
+
 }
 
 h1,h2,h3, h4,h5{
@@ -75,6 +75,17 @@ p{
     margin: 0 auto;
     margin-top: 4rem; 
 }
+
+ .top-text {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 1.4rem;
+
+    .error {
+      color: #c53030;
+    }
+  }
 
 
 

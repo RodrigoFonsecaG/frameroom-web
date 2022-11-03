@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MdOutlineHouse,
   MdOutlinePin,
@@ -16,6 +16,11 @@ import Input from '../../components/Input';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FormHandles } from '@unform/core';
+import { useToast } from '../../context/ToastContext';
+import { schemaEditRoom, schemaRoom } from '../../schemas/schemas';
+import getValidationErrors from '../../utils/getValidationErros';
+import * as Yup from 'yup';
 
 interface RoomProps {
   room_code?: string;
@@ -33,39 +38,64 @@ const EditRoom = () => {
   const imagePath = 'http://localhost:3333/files/';
   const { token } = useAuth();
   const navigate = useNavigate();
-    let { room_code } = useParams();
-  
+  let { room_code } = useParams();
+  const formRef = useRef<FormHandles>(null);
+  const { addToast } = useToast();
 
   async function handleSubmit(data: object): Promise<void> {
-    const {
-      room_code,
-      image,
-      room_type,
-      room_number,
-      capacity,
-      floor,
-      description,
-      availability
-    } = data;
-
-    const formData = new FormData();
-    formData.append('image', image);
-    formData.append('room_code', room.room_code);
-    formData.append('room_type', room_type);
-    formData.append('room_number', room_number);
-    formData.append('capacity', capacity);
-    formData.append('floor', floor);
-    formData.append('description', description);
-    formData.append('availability', availability);
-
+    formRef.current?.setErrors({});
     try {
+      const {
+        room_code,
+        image,
+        room_type,
+        room_number,
+        capacity,
+        floor,
+        description,
+        availability
+      } = data;
+
+      await schemaEditRoom.validate(data, {
+        abortEarly: false
+      });
+
+      const formData = new FormData();
+      formData.append('image', image);
+      formData.append('room_code', room.room_code);
+      formData.append('room_type', room_type);
+      formData.append('room_number', room_number);
+      formData.append('capacity', capacity);
+      formData.append('floor', floor);
+      formData.append('description', description);
+      formData.append('availability', availability);
+
       await api.put('/rooms', formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
+      addToast({
+        type: 'sucess',
+        title: 'Espaço editado com sucesso!',
+        description: 'As informações sobre o espaço foram atualizadas.'
+      });
+
       navigate('/rooms');
-    } catch (error) {
-      console.error(error.response);
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
+
+        formRef.current?.setErrors(errors);
+
+        return;
+      }
+
+      // disparar um toast
+      addToast({
+        type: 'error',
+        title: 'Erro na edição de espaço',
+        description: 'Ocorreu um erro ao editar o espaço, tente novamente.'
+      });
     }
   }
 
@@ -81,7 +111,6 @@ const EditRoom = () => {
     getRoom();
   }, []);
 
-
   return (
     <>
       <Header />
@@ -93,7 +122,11 @@ const EditRoom = () => {
             </div>
 
             <section className="room-section">
-              <Form onSubmit={handleSubmit} encType="multipart/form-data">
+              <Form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                encType="multipart/form-data"
+              >
                 <div className="room-infos">
                   <div className="room-header">
                     <h2>
@@ -169,7 +202,7 @@ const EditRoom = () => {
                     <Textarea
                       text="Descrição *"
                       name="description"
-                      value={room.description}
+                      defaultValue={room.description}
                     />
                   </div>
                 </div>

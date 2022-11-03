@@ -48,8 +48,11 @@ export default function ImageInput({ name, ...rest }: InputProps) {
     });
   }, [fieldName, registerField]);
   return (
-    <Container>
-      <label>Imagem *</label>
+    <Container isErrored={!!error}>
+      <p className="top-text">
+        <label>Imagem *</label>
+        {error && <div className="error">{`(${error})`}</div>}
+      </p>
 
       <div>
         <div>

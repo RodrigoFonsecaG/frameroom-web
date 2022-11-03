@@ -35,4 +35,23 @@ const schemaSignIn = Yup.object().shape({
   password: Yup.string().required('Senha obrigatório')
 });
 
-export { schemaSignIn, schemaSignUp };
+const schemaCreateRoom = Yup.object().shape({
+  room_type: Yup.string().required('Tipo do espaço obrigatório'),
+  room_number: Yup.string().required('Número obrigatório'),
+  floor: Yup.number().required('Andar obrigatório'),
+  capacity: Yup.string().required('Capacidade obrigatória'),
+  description: Yup.string().required('Descrição obrigatória'),
+  availability: Yup.string().required('Disponibilidade obrigatória'),
+  image: Yup.mixed().required('Imagem obrigatória')
+});
+
+const schemaEditRoom = Yup.object().shape({
+  room_type: Yup.string().required('Tipo do espaço obrigatório'),
+  room_number: Yup.string().required('Número obrigatório'),
+  floor: Yup.number().required('Andar obrigatório'),
+  capacity: Yup.string().required('Capacidade obrigatória'),
+  description: Yup.string().required('Descrição obrigatória'),
+  availability: Yup.string().required('Disponibilidade obrigatória')
+});
+
+export { schemaSignIn, schemaSignUp, schemaCreateRoom, schemaEditRoom };

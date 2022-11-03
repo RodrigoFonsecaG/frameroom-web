@@ -1,6 +1,19 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+interface ContainerProps {
+  isErrored: boolean;
+}
 
-export const Content = styled.textarea`
+export const Content = styled.textarea<ContainerProps>`
+  ${(props) =>
+    props.isErrored &&
+    css`
+      border: 2px solid #c53030 !important;
+    `}
+
+  &:focus-within {
+    border: 1px solid #e6e6f0;
+  }
+
   width: 100%;
   padding: 1.6rem;
 
@@ -22,4 +35,5 @@ export const Content = styled.textarea`
     border: 1px solid var(--dark-blue);
   }
 `;
+
 

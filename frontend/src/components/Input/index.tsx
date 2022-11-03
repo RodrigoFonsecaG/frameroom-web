@@ -37,7 +37,10 @@ const Input: React.FC<InputProps> = ({
     <>
       {topText ? (
         <div>
-          <label htmlFor="">{topText}</label>
+          <p className='top-text'>
+            <label htmlFor={name}>{topText}</label>
+            {error && <div className="error">{`(${error})`}</div>}
+          </p>
           <Container isErrored={!!error}>
             {Icon && <Icon size={iconSize ? iconSize : 20} />}
 
@@ -51,8 +54,6 @@ const Input: React.FC<InputProps> = ({
             ) : (
               <input ref={inputRef} {...rest} />
             )}
-
-            {error}
           </Container>
         </div>
       ) : (

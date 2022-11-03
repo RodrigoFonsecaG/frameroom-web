@@ -91,7 +91,7 @@ const Rooms = () => {
             {rooms &&
               rooms.map((room) => {
                 return (
-                  <div className="card">
+                  <div className="card" key={room.room_code}>
                     <img src={imagePath + room.image} alt="" />
 
                     <div className="room-title">

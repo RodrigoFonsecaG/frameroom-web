@@ -16,40 +16,71 @@ import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import ImageInput from '../../components/ImageInput';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { FormHandles } from '@unform/core';
+import { schemaCreateRoom } from '../../schemas/schemas';
+import { useToast } from '../../context/ToastContext';
+import getValidationErrors from '../../utils/getValidationErros';
+import * as Yup from 'yup';
 
 const CreateRoom = () => {
   const { token } = useAuth();
   const imageInput = useRef();
   const navigate = useNavigate();
+  const formRef = useRef<FormHandles>(null);
+  const { addToast } = useToast();
 
   async function handleSubmit(data: object): Promise<void> {
-    const {
-      image,
-      room_type,
-      room_number,
-      capacity,
-      floor,
-      description,
-      availability
-    } = data;
-
-    const formData = new FormData();
-    formData.append('image', image);
-    formData.append('room_type', room_type);
-    formData.append('room_number', room_number);
-    formData.append('capacity', capacity);
-    formData.append('floor', floor);
-    formData.append('description', description);
-    formData.append('availability', availability);
-
+    formRef.current?.setErrors({});
     try {
+      const {
+        image,
+        room_type,
+        room_number,
+        capacity,
+        floor,
+        description,
+        availability
+      } = data;
+
+      await schemaCreateRoom.validate(data, {
+        abortEarly: false
+      });
+
+      const formData = new FormData();
+      formData.append('image', image);
+      formData.append('room_type', room_type);
+      formData.append('room_number', room_number);
+      formData.append('capacity', capacity);
+      formData.append('floor', floor);
+      formData.append('description', description);
+      formData.append('availability', availability);
+
       await api.post('/rooms', formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
+      addToast({
+        type: 'sucess',
+        title: 'Espaço cadastrado com sucesso!',
+        description: 'Você já pode editar informações e horários do espaço!'
+      });
+
       navigate('/rooms');
-    } catch (error) {
-      console.error(error.response);
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
+
+        formRef.current?.setErrors(errors);
+
+        return;
+      }
+
+      // disparar um toast
+      addToast({
+        type: 'error',
+        title: 'Erro no cadastro de espaço',
+        description: 'Ocorreu um erro ao cadastrar o espaço, tente novamente.'
+      });
     }
   }
 
@@ -59,7 +90,11 @@ const CreateRoom = () => {
       <div className="container">
         <Content>
           <section className="room-section">
-            <Form onSubmit={handleSubmit} encType="multipart/form-data">
+            <Form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              encType="multipart/form-data"
+            >
               <div className="room-infos">
                 <div className="room-header">
                   <h2>Cadastrar espaço</h2>
@@ -120,7 +155,6 @@ const CreateRoom = () => {
                   </Select>
 
                   <ImageInput name="image" />
-
                 </div>
 
                 <div className="room-textarea">

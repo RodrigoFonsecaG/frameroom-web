@@ -1,15 +1,15 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+interface ContainerProps {
+  isErrored: boolean;
+}
 
-
-export const Container = styled.div`
+export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
 
   label {
     margin: 0;
   }
-
-
 
   > div {
     height: 5.5rem;
@@ -22,21 +22,25 @@ export const Container = styled.div`
     border: 1px solid #e6e6f0;
     border-radius: 8px;
 
-    > div{
+    ${(props) =>
+      props.isErrored &&
+      css`
+        border: 2px solid #c53030 !important;
+      `}
+
+    > div {
       display: flex;
       align-items: center;
       gap: 1.6rem;
 
-      span{
+      span {
         color: var(--dark-gray);
       }
 
-      svg{
+      svg {
         color: var(--dark-gray);
       }
     }
-
-
 
     > label {
       background-color: var(--light-blue);
