@@ -22,6 +22,8 @@ import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import Button from '../Button';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
+import { Content } from './styles';
+import { MdOutlineBrightness4, MdOutlineLightMode, MdOutlineNightsStay } from 'react-icons/md';
 
 interface Schedule {
   room_code: string;
@@ -63,116 +65,11 @@ interface Schedule {
 
 interface TableProps {
   data: Schedule[];
-  room_code;
+  room_code: string;
+  editable: boolean;
 }
 
-const Tables: React.FC<TableProps> = ({ data, room_code }) => {
-  const morningColumns = [
-    { field: 'day', headerName: 'Dia/Horário' },
-    {
-      field: 'interval_1',
-      headerName: '(07h10 às 08h00)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_2',
-      headerName: '(08h00 às 08h50)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_3',
-      headerName: '(09h00 às 09h50)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_4',
-      headerName: '(09h50 às 10h40)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_5',
-      headerName: '(10h50 às 11h40)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_6',
-      headerName: '(11h40 às 12h30)',
-      editable: true,
-      flex: 1
-    }
-  ];
-
-  const afternoonColumns = [
-    {
-      field: 'interval_7',
-      headerName: '(13h10 às 14h00)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_8',
-      headerName: '(14h00 às 14h50)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_9',
-      headerName: '(15h00 às 15h50)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_10',
-      headerName: '(15h50 às 16h40)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_11',
-      headerName: '(16h50 às 17h40)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_12',
-      headerName: '(17h40 às 18h30)',
-      editable: true,
-      flex: 1
-    }
-  ];
-
-  const nightColumns = [
-    {
-      field: 'interval_13',
-      headerName: '(13h10 às 14h00)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_14',
-      headerName: '(14h00 às 14h50)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_15',
-      headerName: '(15h00 às 15h50)',
-      editable: true,
-      flex: 1
-    },
-    {
-      field: 'interval_16',
-      headerName: '(15h50 às 16h40)',
-      editable: true,
-      flex: 1
-    }
-  ];
-
+const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
   const days = [
     'Segunda',
     'Terça',
@@ -203,47 +100,129 @@ const Tables: React.FC<TableProps> = ({ data, room_code }) => {
       width: 120,
       valueGetter: (params) => {
         return days[params.data.day];
-      },
+      }
     },
     {
       field: 'interval_1',
       headerName: '07h10 às 08h00',
-      editable: true,
+      editable: editable ? true : false,
       flex: 1
     },
     {
       field: 'interval_2',
       headerName: '08h00 às 08h50',
-      editable: true,
+      editable: editable ? true : false,
       flex: 1
     },
     {
       field: 'interval_3',
       headerName: '09h00 às 09h50',
-      editable: true,
+      editable: editable ? true : false,
       flex: 1
     },
     {
       field: 'interval_4',
       headerName: '09h50 às 10h40',
-      editable: true,
+      editable: editable ? true : false,
       flex: 1
     },
     {
       field: 'interval_5',
       headerName: '10h50 às 11h40',
-      editable: true,
+      editable: editable ? true : false,
       flex: 1
     },
     {
       field: 'interval_6',
-      headerName: '11h40 às 12h30)',
-      editable: true,
+      headerName: '11h40 às 12h30',
+      editable: editable ? true : false,
       flex: 1
     }
   ]);
 
-  // // DefaultColDef sets props common to all Columns
+  const [columnDefs2, setColumnDefs2] = useState([
+    {
+      field: 'day',
+      headerName: 'Dia/Horário',
+      width: 120,
+      valueGetter: (params) => {
+        return days[params.data.day];
+      }
+    },
+    {
+      field: 'interval_7',
+      headerName: '13h10 às 14h00',
+      editable: editable ? true : false,
+      flex: 1
+    },
+    {
+      field: 'interval_8',
+      headerName: '14h00 às 14h50',
+      editable: editable ? true : false,
+      flex: 1
+    },
+    {
+      field: 'interval_9',
+      headerName: '15h00 às 15h50',
+      editable: editable ? true : false,
+      flex: 1
+    },
+    {
+      field: 'interval_10',
+      headerName: '15h50 às 16h40',
+      editable: editable ? true : false,
+      flex: 1
+    },
+    {
+      field: 'interval_11',
+      headerName: '16h50 às 17h40',
+      editable: editable ? true : false,
+      flex: 1
+    },
+    {
+      field: 'interval_12',
+      headerName: '17h40 às 18h30',
+      editable: editable ? true : false,
+      flex: 1
+    }
+  ]);
+
+  const [columnDefs3, setColumnDefs3] = useState([
+    {
+      field: 'day',
+      headerName: 'Dia/Horário',
+      width: 120,
+      valueGetter: (params) => {
+        return days[params.data.day];
+      }
+    },
+    {
+      field: 'interval_13',
+      headerName: '(19h10 às 20h00)',
+      editable: editable ? true : false,
+      flex: 1
+    },
+    {
+      field: 'interval_14',
+      headerName: '(20h00 às 20h50)',
+      editable: editable ? true : false,
+      flex: 1
+    },
+    {
+      field: 'interval_15',
+      headerName: '(21h00 às 21h50)',
+      editable: editable ? true : false,
+      flex: 1
+    },
+    {
+      field: 'interval_16',
+      headerName: '(21h50 às 22h40)',
+      editable: editable ? true : false,
+      flex: 1
+    }
+  ]);
+
+  // DefaultColDef sets props common to all Columns
   // const defaultColDef = useMemo(() => ({
   //   sortable: true
   // }));
@@ -271,20 +250,61 @@ const Tables: React.FC<TableProps> = ({ data, room_code }) => {
   }
 
   return (
-    <div>
-      <Button type="submit" text="Salvar horários" onClick={handleSubmit} />
+    <Content>
+      {editable && (
+        <Button type="submit" text="Salvar horários" onClick={handleSubmit} />
+      )}
 
-      <div className="ag-theme-alpine" style={{ width: '100%', height: 400 }}>
-        <AgGridReact
-          ref={gridRef} // Ref for accessing Grid's API
-          rowData={data.length > 0 ? data : rowData} // Row Data for Rows
-          columnDefs={columnDefs} // Column Defs for Columns
-          // defaultColDef={defaultColDef} // Default Column Properties
-          animateRows={true} // Optional - set to 'true' to have rows animate when sorted
-          rowSelection="multiple" // Options - allows click selection of rows
-        />
+      <div
+        className="ag-theme-alpine table-container"
+        style={{ width: '100%', height: 338 }}
+      >
+        <div className="table" style={{ width: '100%', height: 377 }}>
+          <div className="schedule-time">
+            <MdOutlineLightMode size={30} />
+            <h2>Manhã</h2>
+          </div>
+          <AgGridReact
+            ref={gridRef} // Ref for accessing Grid's API
+            rowData={data.length > 0 ? data : rowData} // Row Data for Rows
+            columnDefs={columnDefs} // Column Defs for Columns
+            // defaultColDef={defaultColDef} // Default Column Properties
+            animateRows={true} // Optional - set to 'true' to have rows animate when sorted
+            rowSelection="multiple" // Options - allows click selection of rows
+          />
+        </div>
+
+        <div className="table" style={{ width: '100%', height: 377 }}>
+          <div className="schedule-time">
+            <MdOutlineBrightness4 size={30} />
+            <h2>Tarde</h2>
+          </div>
+          <AgGridReact
+            ref={gridRef} // Ref for accessing Grid's API
+            rowData={data.length > 0 ? data : rowData} // Row Data for Rows
+            columnDefs={columnDefs2} // Column Defs for Columns
+            // defaultColDef={defaultColDef} // Default Column Properties
+            animateRows={true} // Optional - set to 'true' to have rows animate when sorted
+            rowSelection="multiple" // Options - allows click selection of rows
+          />
+        </div>
+
+        <div className="table" style={{ width: '100%', height: 377 }}>
+          <div className="schedule-time">
+            <MdOutlineNightsStay size={30} />
+            <h2>Noite</h2>
+          </div>
+          <AgGridReact
+            ref={gridRef} // Ref for accessing Grid's API
+            rowData={data.length > 0 ? data : rowData} // Row Data for Rows
+            columnDefs={columnDefs3} // Column Defs for Columns
+            // defaultColDef={defaultColDef} // Default Column Properties
+            animateRows={true} // Optional - set to 'true' to have rows animate when sorted
+            rowSelection="multiple" // Options - allows click selection of rows
+          />
+        </div>
       </div>
-    </div>
+    </Content>
   );
 };
 

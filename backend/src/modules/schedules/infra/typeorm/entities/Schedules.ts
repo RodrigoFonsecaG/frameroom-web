@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import Room from '@modules/rooms/infra/typeorm/entities/Room';
 
 @Entity('schedules')
-class Order {
+class Schedules {
     @PrimaryColumn()
     room_code: string;
 
@@ -62,4 +62,4 @@ class Order {
     interval_16: string;
 }
 
-export default Order;
+export default Schedules;

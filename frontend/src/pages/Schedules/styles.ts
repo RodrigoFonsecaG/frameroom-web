@@ -5,7 +5,6 @@ export const Content = styled.div`
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 8px;
 
-
   section {
     padding: 4rem 7%;
     background-color: #fff;
@@ -22,6 +21,7 @@ export const Content = styled.div`
 
   div.room-infos {
     font-family: 'Archivo', sans-serif;
+    position: relative;
 
     .room-header {
       display: flex;

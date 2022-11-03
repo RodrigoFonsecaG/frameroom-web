@@ -68,17 +68,13 @@ const Schedules = () => {
               <div className="room-infos">
                 <div className="room-header">
                   <h2>
-                    Horários {room.room_type} {room.room_number}
+                    Horários ({room.room_type} {room.room_number})
                   </h2>
-
-                  <Button type="submit" text="Salvar horários" />
                 </div>
 
                 <Divider />
 
-                
-                  <Tables data={schedules} room_code={room_code}/>
-
+                <Tables data={schedules} room_code={room_code} editable/>
               </div>
             </section>
           </Content>

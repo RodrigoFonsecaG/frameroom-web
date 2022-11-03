@@ -175,19 +175,6 @@ const EditRoom = () => {
                 </div>
               </Form>
             </section>
-
-            <section className="room-section">
-              <div className="room-infos">
-                <div className="room-header">
-                  <h2>Horários </h2>
-                  <Button text="Salvar horários" />
-                </div>
-
-    
-
-                <Divider />
-              </div>
-            </section>
           </Content>
         )}
       </div>

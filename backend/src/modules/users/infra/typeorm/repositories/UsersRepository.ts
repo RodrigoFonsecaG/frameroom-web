@@ -46,6 +46,7 @@ class UsersRepository implements IUsersRepository {
         password,
         type_code,
     }: IUserDTO): Promise<User> {
+        
         const user = this.ormRepository.create({
             cpf,
             name,

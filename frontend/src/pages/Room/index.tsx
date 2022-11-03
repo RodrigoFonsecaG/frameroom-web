@@ -13,6 +13,7 @@ import { Form } from '@unform/web';
 import Input from '../../components/Input';
 import api from '../../services/api';
 import { useParams } from 'react-router-dom';
+import Tables from '../../components/Tables';
 
 
 interface RoomProps {
@@ -28,6 +29,7 @@ interface RoomProps {
 
 const Room = () => {
   const [room, setRoom] = useState<RoomProps>({});
+  const [schedules, setSchedules] = useState<RoomProps>({});
   const imagePath = 'http://localhost:3333/files/';
   let { room_code } = useParams();
 
@@ -39,8 +41,15 @@ const Room = () => {
     setRoom(rooms.data[0]);
   }
 
+    async function getRoomSchedules() {
+      const schedules = await api.get(`/schedules/${room_code}`);
+
+      setSchedules(schedules.data);
+    }
+
   useEffect(() => {
     getRoom();
+    getRoomSchedules();
   }, []);
 
 
@@ -143,10 +152,14 @@ const Room = () => {
             <section className="room-section">
               <div className="room-infos">
                 <div className="room-header">
-                  <h2>Horários </h2>
+                  <h2>
+                    Horários
+                  </h2>
                 </div>
 
                 <Divider />
+
+                <Tables data={schedules} room_code={room_code} />
               </div>
             </section>
           </Content>
