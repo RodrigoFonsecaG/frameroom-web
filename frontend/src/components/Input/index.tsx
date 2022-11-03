@@ -1,18 +1,26 @@
 import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { IconBaseProps } from 'react-icons/lib';
-import { FiAlertCircle } from 'react-icons/fi';
 import { Container } from './styles';
-import {useField} from '@unform/core'
-import Error  from '../ErrorTooltip';
+import { useField } from '@unform/core';
+import Error from '../ErrorTooltip';
+import InputMask from 'react-input-mask';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   iconSize?: number;
   icon?: React.ComponentType<IconBaseProps>;
   topText?: string;
+  mask?: string;
 }
 
-const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, topText, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+  icon: Icon,
+  name,
+  iconSize,
+  mask,
+  topText,
+  ...rest
+}) => {
   const inputRef = useRef(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
@@ -22,9 +30,8 @@ const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, topText, ...r
       name: fieldName,
       ref: inputRef.current,
       path: 'value'
-    })
-  }, [fieldName, registerField])
-
+    });
+  }, [fieldName, registerField]);
 
   return (
     <>
@@ -33,7 +40,17 @@ const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, topText, ...r
           <label htmlFor="">{topText}</label>
           <Container isErrored={!!error}>
             {Icon && <Icon size={iconSize ? iconSize : 20} />}
-            <input ref={inputRef} {...rest} />
+
+            {mask ? (
+              <InputMask
+                style={{ fontFamily: 'Archivo' }}
+                ref={inputRef}
+                mask={mask}
+                {...rest}
+              />
+            ) : (
+              <input ref={inputRef} {...rest} />
+            )}
 
             {error}
           </Container>
@@ -41,11 +58,18 @@ const Input: React.FC<InputProps> = ({ icon: Icon, name, iconSize, topText, ...r
       ) : (
         <Container isErrored={!!error}>
           {Icon && <Icon size={iconSize ? iconSize : 20} />}
-          <input ref={inputRef} {...rest} />
+          {mask ? (
+            <InputMask
+              style={{ fontFamily: 'Archivo' }}
+              ref={inputRef}
+              mask={mask}
+              {...rest}
+            />
+          ) : (
+            <input ref={inputRef} {...rest} />
+          )}
 
-          {error && 
-            <Error title={error}/>
-          }
+          {error && <Error title={error} />}
         </Container>
       )}
     </>

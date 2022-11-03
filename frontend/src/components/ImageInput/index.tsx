@@ -49,7 +49,7 @@ export default function ImageInput({ name, ...rest }: InputProps) {
   }, [fieldName, registerField]);
   return (
     <Container>
-      <label>Imagem</label>
+      <label>Imagem *</label>
 
       <div>
         <div>

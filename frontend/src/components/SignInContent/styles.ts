@@ -18,7 +18,8 @@ export const Content = styled.div`
   justify-content: space-between;
   width: 100%;
   max-width: 50%;
-  margin: 6.4rem 0;
+  margin: 4rem 0;
+  overflow-y: auto;
 
   animation: ${appearFromLeft} 1s;
   

@@ -17,6 +17,8 @@ import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
 
+import { schemaSignIn } from '../../schemas/schemas';
+
 
 
 interface SignInFormData{
@@ -38,14 +40,8 @@ const SignIn: React.FC = () => {
     async (data: SignInFormData) => {
       formRef.current?.setErrors({});
       try {
-        const schema = Yup.object().shape({
-          email: Yup.string()
-            .required('E-mail obrigatório')
-            .email('Digite um e-mail válido'),
-          password: Yup.string().required('Senha obrigatório')
-        });
 
-        await schema.validate(data, {
+        await schemaSignIn.validate(data, {
           abortEarly: false
         });
 
@@ -68,7 +64,7 @@ const SignIn: React.FC = () => {
         addToast({
           type: 'error',
           title: 'Erro na autenticação',
-          description: 'Ocorreu um erro ao fazer login, cheque seu e-mail e senha'
+          description: 'Ocorreu um erro ao fazer login, cheque seu e-mail e/ou senha'
         });
 
       }

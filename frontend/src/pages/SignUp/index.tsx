@@ -18,6 +18,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useToast } from '../../context/ToastContext';
 
+import {schemaSignUp} from '../../schemas/schemas'
+
 import api from '../../services/api';
 
 interface SignUpFormData {
@@ -39,29 +41,7 @@ const SignUp = () => {
     async (data: SignUpFormData) => {
       formRef.current?.setErrors({});
       try {
-        const schema = Yup.object().shape({
-          name: Yup.string().required('Nome obrigatório'),
-          email: Yup.string()
-            .required('E-mail obrigatório')
-            .email('Digite um e-mail válido'),
-          cpf: Yup.string()
-            .required('CPF obrigatório')
-            .length(11, 'CPF inválido'),
-          phone: Yup.string()
-            .required('Telefone obrigatório')
-            .length(11, 'Telefone inválido'),
-          password: Yup.string()
-            .required('Senha obrigatório')
-            .min(6, 'No mínimo 6 dígitos'),
-          passwordConfirm: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais')
-            .required('Confirmação de senha obrigatório'),
-          type_code: Yup.number()
-            .required('Cargo obrigatório')
-            .lessThan(10, 'Selecione uma opção')
-        });
-
-        await schema.validate(data, {
+        await schemaSignUp.validate(data, {
           abortEarly: false
         });
 
@@ -104,7 +84,7 @@ const SignUp = () => {
           <Form ref={formRef} onSubmit={handleSubmit} className="sign">
             <h1>Faça seu cadastro</h1>
 
-            <div className="input-group">
+            <div className="inputs-container">
               <Input icon={FiUser} name="name" placeholder="Nome" type="text" />
               <Input
                 icon={FiMail}
@@ -112,31 +92,34 @@ const SignUp = () => {
                 placeholder="E-mail"
                 type="text"
               />
-              <Input
-                icon={MdOutlineBadge}
-                name="cpf"
-                placeholder="CPF (apenas números)"
-                type="number"
-                iconSize={23}
-              />
-              <Input
-                icon={FiPhone}
-                name="phone"
-                placeholder="Telefone com DD"
-                type="number"
-              />
+              <div className="input-group">
+                <Input
+                  icon={MdOutlineBadge}
+                  name="cpf"
+                  placeholder="CPF"
+                  mask="999.999.999-99"
+                  iconSize={23}
+                />
+                <Input
+                  icon={FiPhone}
+                  name="phone"
+                  placeholder="Telefone"
+                  mask="(99) 99999-9999"
+                />
+              </div>
 
-              <InputPassword
-                name="password"
-                placeholder="Senha"
-                type="password"
-              />
 
-              <InputPassword
-                name="passwordConfirm"
-                placeholder="Confirme sua senha"
-                type="password"
-              />
+                <InputPassword
+                  name="password"
+                  placeholder="Senha"
+                  type="password"
+                />
+
+                <InputPassword
+                  name="passwordConfirm"
+                  placeholder="Confirme sua senha"
+                  type="password"
+                />
 
               <Select
                 name="type_code"

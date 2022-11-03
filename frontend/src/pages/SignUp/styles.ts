@@ -7,6 +7,7 @@ export const Container = styled.div`
   align-items: stretch;
 `;
 
+
 export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -14,12 +15,28 @@ export const MainContent = styled.div`
   justify-content: space-between;
   width: 100%;
 
-  button{
+  button {
     margin-top: 4rem;
   }
 
+  form .inputs-container .input-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 
-  
+    > div {
+      margin-bottom: 0.8rem;
+    }
+
+    > div + div {
+      margin-top: 0;
+      height: 57px;
+    }
+
+    @media (max-width: 850px) {
+      display: block;
+    }
+  }
 `;
 
 export const Footer = styled.div`

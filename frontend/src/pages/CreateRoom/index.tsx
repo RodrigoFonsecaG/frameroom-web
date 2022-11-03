@@ -1,9 +1,5 @@
 import React, { useRef } from 'react';
 import {
-  MdHouse,
-  MdOutlineAssignmentLate,
-  MdOutlineFmdBad,
-  MdOutlineGroup,
   MdOutlineHouse,
   MdOutlinePin,
   MdOutlineReduceCapacity,
@@ -76,7 +72,7 @@ const CreateRoom = () => {
                     name="room_type"
                     icon={MdOutlineHouse}
                     iconSize={23}
-                    placeholder="Tipo do espaço"
+                    placeholder="Tipo do espaço *"
                   >
                     <option value="Sala">Sala</option>
                     <option value="Laboratório">Laboratório</option>
@@ -88,7 +84,7 @@ const CreateRoom = () => {
                     name="room_number"
                     icon={MdOutlinePin}
                     iconSize={23}
-                    topText="Número"
+                    topText="Número *"
                   />
                 </div>
 
@@ -97,7 +93,7 @@ const CreateRoom = () => {
                     name="floor"
                     icon={MdOutlineStairs}
                     iconSize={23}
-                    placeholder="Andar"
+                    placeholder="Andar *"
                   >
                     <option value={1}>1°</option>
                     <option value={2}>2°</option>
@@ -107,7 +103,7 @@ const CreateRoom = () => {
                     name="capacity"
                     icon={MdOutlineReduceCapacity}
                     iconSize={23}
-                    topText="Capacidade"
+                    topText="Capacidade *"
                   />
                 </div>
 
@@ -116,7 +112,7 @@ const CreateRoom = () => {
                     name="availability"
                     icon={MdOutlineStairs}
                     iconSize={23}
-                    placeholder="Disponibilidade"
+                    placeholder="Disponibilidade *"
                   >
                     <option value={1}>Disponível</option>
                     <option value={2}>Indisponível</option>
