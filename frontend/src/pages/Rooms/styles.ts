@@ -4,8 +4,9 @@ export const Content = styled.div`
   form {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     flex-wrap: wrap;
+    margin-bottom: 3.2rem;
 
     button {
       padding: 1.6rem;
@@ -16,14 +17,18 @@ export const Content = styled.div`
 
     gap: 2rem;
 
-    margin-bottom: 3.2rem;
-
     div > select {
       width: 15rem;
     }
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 750px) {
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
     .filters {
       flex-direction: column;
       width: 100%;
@@ -110,7 +115,7 @@ export const Content = styled.div`
 
   img {
     width: 26rem;
-    max-height: 17.5rem;
+    height: 17.5rem;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     width: 100%;

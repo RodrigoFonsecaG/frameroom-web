@@ -94,39 +94,41 @@ const Rooms = () => {
                   <div className="card" key={room.room_code}>
                     <img src={imagePath + room.image} alt="" />
 
-                    <div className="room-title">
-                      <h2>
-                        {room.room_type} {room.room_number}
-                      </h2>
-                      {user.isAdmin && (
-                        <div className='admin-commands'>
-                          <Link to={`/rooms/${room.room_code}/edit`}>
-                            <MdOutlineDriveFileRenameOutline size={22} />
-                          </Link>
+                    <div className="card-main">
+                      <div className="room-title">
+                        <h2>
+                          {room.room_type} {room.room_number}
+                        </h2>
+                        {user.isAdmin && (
+                          <div className="admin-commands">
+                            <Link to={`/rooms/${room.room_code}/edit`}>
+                              <MdOutlineDriveFileRenameOutline size={22} />
+                            </Link>
 
-                          <Link to={`/schedules/${room.room_code}`}>
-                            <MdOutlineEditCalendar size={22} />
-                          </Link>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="room-info">
-                      <div className="info">
-                        <div>
-                          <span>Andar:</span>
-                          <p>{room.floor}</p>
-                        </div>
-
-                        <div>
-                          <span>Capacidade:</span>
-                          <p>{room.capacity}</p>
-                        </div>
+                            <Link to={`/schedules/${room.room_code}`}>
+                              <MdOutlineEditCalendar size={22} />
+                            </Link>
+                          </div>
+                        )}
                       </div>
 
-                      <Link to={`/rooms/${room.room_code}`}>
-                        <Button text="Visualizar" />
-                      </Link>
+                      <div className="room-info">
+                        <div className="info">
+                          <div>
+                            <span>Andar:</span>
+                            <p>{room.floor}</p>
+                          </div>
+
+                          <div>
+                            <span>Capacidade:</span>
+                            <p>{room.capacity}</p>
+                          </div>
+                        </div>
+
+                        <Link to={`/rooms/${room.room_code}`}>
+                          <Button text="Visualizar" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 );
