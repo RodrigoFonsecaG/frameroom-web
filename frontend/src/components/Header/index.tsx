@@ -31,15 +31,15 @@ const Header = () => {
                 Início
               </a>
               <div className="link-down">
-                <a href="">Espaços</a>
+                <Link to="/rooms">Espaços</Link>
                 <FiChevronDown />
               </div>
               <div className="link-down">
-                <a href="">Reserva</a>
+                <Link to="/create-order">Reservas</Link>
                 <FiChevronDown />
               </div>
               <div className="link-down">
-                <a href="">Horários</a>
+                <Link to="/">Horários</Link>
                 <FiChevronDown />
               </div>
               <a href="" onClick={signOut}>

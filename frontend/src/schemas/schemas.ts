@@ -54,4 +54,26 @@ const schemaEditRoom = Yup.object().shape({
   availability: Yup.string().required('Disponibilidade obrigatória')
 });
 
-export { schemaSignIn, schemaSignUp, schemaCreateRoom, schemaEditRoom };
+const schemaCreateOrder = Yup.object().shape({
+  room_code: Yup.string().required('Espaço obrigatório'),
+  message: Yup.string().required('Motivo de reserva é obrigatório'),
+  date: Yup.date()
+    .nullable()
+    .transform((curr, orig) => (orig === '' ? null : curr))
+    .required('Data obrigatória')
+    .min(new Date(), 'Data deve ser posterior ao dia atual'),
+  hour_start: Yup.string()
+    .required('Hora de início obrigatória')
+    .max(5, 'Selecione um horário válido'),
+  hour_end: Yup.string()
+    .required('Hora final obrigatória')
+    .max(5, 'Selecione um horário válido')
+});
+
+export {
+  schemaSignIn,
+  schemaSignUp,
+  schemaCreateRoom,
+  schemaEditRoom,
+  schemaCreateOrder
+};

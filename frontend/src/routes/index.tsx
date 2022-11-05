@@ -10,6 +10,7 @@ import AuthRoute from './AuthRoute'
 import CreateRoom from '../pages/CreateRoom';
 import EditRoom from '../pages/EditRoom';
 import Schedules from '../pages/Schedules'
+import CreateOrder from '../pages/CreateOrder';
 
 const Routes: React.FC = () => {
   return (
@@ -38,6 +39,10 @@ const Routes: React.FC = () => {
       <Route
         path="create-room"
         element={<AuthRoute Component={CreateRoom} needAuth needAdmin />}
+      />
+      <Route
+        path="create-order"
+        element={<AuthRoute Component={CreateOrder} needAuth />}
       />
     </Switch>
   );
