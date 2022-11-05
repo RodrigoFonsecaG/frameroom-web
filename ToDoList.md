@@ -1,3 +1,8 @@
+Adicionar:
+- Verificar backend da solicitações de reserva
+- Adicionar react-select
+
+
 # Redefinição de senha
 **RF**
 - O usuário deve poder recuperar sua senha informando o seu e-mail;

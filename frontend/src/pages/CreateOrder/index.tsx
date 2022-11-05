@@ -27,16 +27,7 @@ import * as Yup from 'yup';
 import { OptionsFactory } from 'ag-grid-community/dist/lib/filter/provided/optionsFactory';
 import { isEqual, parseISO, format, parse } from 'date-fns';
 
-interface RoomProps {
-  room_code?: string;
-  room_type: string;
-  room_number: number;
-  capacity: number;
-  floor: number;
-  description: string;
-  availability: number;
-  image: string;
-}
+
 
 const CreateOrder = () => {
   const { token, user } = useAuth();
