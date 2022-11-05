@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import CreateRoomService from '@modules/rooms/services/CreateRoomService';
 import UpdateRoomService from '@modules/rooms/services/UpdateRoomService';
+import DeleteRoomService from '@modules/rooms/services/DeleteRoomService';
 import { getCustomRepository, getRepository } from 'typeorm';
 import RoomsRepository from '@modules/rooms/infra/typeorm/repositories/RoomsRepository';
 import Room from '@modules/rooms/infra/typeorm/entities/Room';
@@ -8,9 +9,6 @@ import Room from '@modules/rooms/infra/typeorm/entities/Room';
 
 
 export default class RoomsController {
-
-
-
     public async create(
         request: Request,
         response: Response,
@@ -38,6 +36,21 @@ export default class RoomsController {
             availability,
             image: filename,
         });
+
+        return response.json(room);
+    }
+
+    public async delete(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+
+        const room_code = request.params.id
+
+        const roomsRepository = new RoomsRepository();
+        const deleteRoom = new DeleteRoomService(roomsRepository);
+
+        const room = await deleteRoom.execute(room_code);
 
         return response.json(room);
     }
@@ -94,7 +107,6 @@ export default class RoomsController {
         response: Response,
     ): Promise<Response> {
         try {
-
             const roomsRepository = getCustomRepository(RoomsRepository);
             const rooms = await roomsRepository.find();
 

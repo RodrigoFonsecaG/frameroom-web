@@ -99,6 +99,42 @@ const EditRoom = () => {
     }
   }
 
+  async function handleDelete() {
+    const alert = confirm('Tem certeza que deseja deletar esse espaço?');
+    if (alert) {
+      try {
+        await api.delete(`/rooms/${room_code}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        addToast({
+          type: 'sucess',
+          title: 'Espaço deletado com sucesso!',
+          description: 'As informações sobre o espaço foramdeletadas.'
+        });
+
+        navigate('/rooms');
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        // disparar um toast
+        addToast({
+          type: 'error',
+          title: 'Erro na edição de espaço',
+          description: 'Ocorreu um erro ao editar o espaço, tente novamente.'
+        });
+      }
+    }
+
+    return;
+  }
+
   async function getRoom() {
     const rooms = await api.get(`rooms/${room_code}`);
 
@@ -207,6 +243,13 @@ const EditRoom = () => {
                   </div>
                 </div>
               </Form>
+              <div className="delete">
+                <Button
+                  type="button"
+                  text="Deletar espaço"
+                  onClick={handleDelete}
+                />
+              </div>
             </section>
           </Content>
         )}

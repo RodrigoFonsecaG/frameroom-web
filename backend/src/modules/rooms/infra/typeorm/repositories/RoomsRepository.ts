@@ -45,6 +45,12 @@ class RoomsRepository implements IRoomsRepository {
         return room;
     }
 
+    public async delete(room_code: string): Promise<Room> {
+        this.ormRepository.delete({room_code: room_code});
+
+        return;
+    }
+
     public async find(): Promise<Room[]> {
         const rooms = await this.ormRepository.find();
 
@@ -62,7 +68,6 @@ class RoomsRepository implements IRoomsRepository {
         availability,
         image,
     }: IRoomDTO): Promise<Room> {
-
         const updatedRoom = {
             room_code,
             room_type,
@@ -73,7 +78,6 @@ class RoomsRepository implements IRoomsRepository {
             availability,
             image,
         };
-
 
         await this.ormRepository.update(
             { room_code: old_room_code },
@@ -88,7 +92,6 @@ class RoomsRepository implements IRoomsRepository {
                 image,
             },
         );
-
 
         return updatedRoom;
     }

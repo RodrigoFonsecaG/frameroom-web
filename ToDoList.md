@@ -1,6 +1,7 @@
 Adicionar:
 - Verificar backend da solicitações de reserva
 - Adicionar react-select
+- Excluir imagem do espaço quando ele for deletado
 
 
 # Redefinição de senha

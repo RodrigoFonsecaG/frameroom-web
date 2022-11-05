@@ -12,6 +12,19 @@ export const Content = styled.div`
   section {
     padding: 4rem 7%;
     background-color: #fff;
+
+    .delete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      > button {
+        max-width: 25rem;
+        margin-top: 4rem;
+        align-self: center;
+        background-color: #c53030;
+      }
+    }
   }
 
   div.room-image img {
@@ -59,7 +72,6 @@ export const Content = styled.div`
       flex-wrap: wrap;
       margin-bottom: 3rem;
 
-
       > div {
         flex: 1;
       }
@@ -69,7 +81,6 @@ export const Content = styled.div`
         width: 100%;
       }
     }
-
   }
 `;
 

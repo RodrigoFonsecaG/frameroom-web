@@ -32,4 +32,11 @@ roomsRouter.put(
     roomsController.update,
 );
 
+roomsRouter.delete(
+    '/:id',
+    ensureAuthenticated(),
+    needAdmin(),
+    roomsController.delete,
+);
+
 export default roomsRouter;
