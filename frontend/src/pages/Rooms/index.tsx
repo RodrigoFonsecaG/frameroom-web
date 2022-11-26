@@ -102,11 +102,17 @@ const Rooms = () => {
                         {user.isAdmin && (
                           <div className="admin-commands">
                             <Link to={`/rooms/${room.room_code}/edit`}>
-                              <MdOutlineDriveFileRenameOutline size={22} />
+                              <div>
+                                <MdOutlineDriveFileRenameOutline size={22} />
+                                Editar espaço
+                              </div>
                             </Link>
 
                             <Link to={`/schedules/${room.room_code}`}>
-                              <MdOutlineEditCalendar size={22} />
+                              <div>
+                                <MdOutlineEditCalendar size={22} />
+                                Editar horários
+                              </div>
                             </Link>
                           </div>
                         )}

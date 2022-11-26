@@ -9,6 +9,7 @@ export const Container = styled.button`
   height: 5.6rem;
   font-family: 'Archivo', sans-serif;
   font-weight: 600;
+  padding: 0 1rem 0 1rem;
 
   transition: background-color 0.2s;
 

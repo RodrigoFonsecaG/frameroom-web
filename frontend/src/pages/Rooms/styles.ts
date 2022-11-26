@@ -55,6 +55,7 @@ export const Content = styled.div`
         justify-content: space-between;
         background-color: #fff;
         border-bottom: 1px solid #e6e6f0;
+        flex-wrap: wrap;
       }
 
       .room-title h2 {
@@ -65,19 +66,23 @@ export const Content = styled.div`
         display: flex;
         align-items: center;
         gap: 0.8rem;
+        flex-wrap: wrap;
       }
-      .room-title .admin-commands a {
+      .room-title .admin-commands a > div {
         background-color: var(--light-gray);
-        border-radius: 50%;
-        width: 3rem;
+        border-radius: 8px;
+        width: 100%;
         height: 3rem;
         display: flex;
         align-items: center;
+        padding: 1rem;
         justify-content: center;
+        color: var(--dark-blue);
+        font-weight: 600;
       }
 
       .room-title svg {
-        color: var(--dark-blue);
+        margin-right: 0.8rem;
       }
 
       .room-info {

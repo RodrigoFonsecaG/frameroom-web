@@ -18,7 +18,7 @@ import Input from '../../components/Input';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import ImageInput from '../../components/ImageInput';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { FormHandles } from '@unform/core';
 import { schemaCreateOrder, schemaCreateRoom } from '../../schemas/schemas';
 import { useToast } from '../../context/ToastContext';
@@ -29,12 +29,18 @@ import { isEqual, parseISO, format, parse } from 'date-fns';
 
 
 
-const CreateOrder = () => {
+const CreateOrder = (props) => {
   const { token, user } = useAuth();
   const imageInput = useRef();
   const navigate = useNavigate();
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
+
+
+
+  const location = useLocation();
+  console.log(location.state);
+
 
   async function handleSubmit(data: object): Promise<void> {
     formRef.current?.setErrors({});
@@ -212,7 +218,10 @@ const CreateOrder = () => {
       <div className="container">
         <Content>
           <section className="room-section">
-            <Form ref={formRef} onSubmit={handleSubmit}>
+            <Form
+              ref={formRef}
+              onSubmit={handleSubmit}
+            >
               <div className="room-infos">
                 <div className="room-header">
                   <h2>Solicitação de reserva</h2>
@@ -231,6 +240,7 @@ const CreateOrder = () => {
 
                   <div className="room-inputs">
                     <Select
+                      defaultValue={location.state ? location.state : null}
                       name="room_code"
                       icon={MdOutlineHouse}
                       iconSize={23}
@@ -240,6 +250,7 @@ const CreateOrder = () => {
                         rooms.map((room) => (
                           <option
                             value={room.room_code}
+                            selected={room.room_code == location.state}
                           >{`${room.room_type} ${room.room_number}`}</option>
                         ))}
                     </Select>

@@ -27,6 +27,8 @@ const Select: React.FC<InputProps> = ({
   const inputRef = useRef(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
+  console.log(defaultValue)
+
   useEffect(() => {
     registerField({
       name: fieldName,
@@ -40,7 +42,7 @@ const Select: React.FC<InputProps> = ({
       <label htmlFor="">{placeholder}</label>
       <Container isErrored={!!error}>
         <Icon size={iconSize ? iconSize : 20} />
-        <select ref={inputRef} {...rest}>
+        <select ref={inputRef} defaultValue={defaultValue} {...rest}>
           {children}
         </select>
         <div className="icon-container">

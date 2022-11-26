@@ -88,6 +88,10 @@ export const Content = styled.div`
         background-color: var(--white);
         width: 100%;
       }
+
+      svg{
+        color: var(--dark-blue);
+      }
     }
 
 

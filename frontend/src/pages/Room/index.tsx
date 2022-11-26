@@ -12,8 +12,9 @@ import { Content, Divider } from './styles';
 import { Form } from '@unform/web';
 import Input from '../../components/Input';
 import api from '../../services/api';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Tables from '../../components/Tables';
+import Button from '../../components/Button';
 
 
 interface RoomProps {
@@ -152,9 +153,10 @@ const Room = () => {
             <section className="room-section">
               <div className="room-infos">
                 <div className="room-header">
-                  <h2>
-                    Horários
-                  </h2>
+                  <h2>Horários</h2>
+                  <Link to="/create-order" state={room_code}>
+                    <Button text="Reservar este espaço" />
+                  </Link>
                 </div>
 
                 <Divider />
