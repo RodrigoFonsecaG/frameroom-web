@@ -13,15 +13,18 @@ export const Content = styled.div`
     padding: 4rem 7%;
     background-color: #fff;
 
-    .delete {
+    .buttons {
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 1.6rem;
 
       > button {
         max-width: 25rem;
         margin-top: 4rem;
-        align-self: center;
+      }
+
+      .delete {
         background-color: #c53030;
       }
     }
@@ -40,27 +43,15 @@ export const Content = styled.div`
     font-family: 'Archivo', sans-serif;
 
     .room-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       width: 100%;
 
       h2 {
         flex: 1.5;
       }
 
-      button {
-        flex: 1;
-        max-width: 24rem;
-      }
-
       @media (max-width: 400px) {
         h2 {
           font-size: 2.4rem;
-        }
-
-        button {
-          font-size: 1.2rem;
         }
       }
     }

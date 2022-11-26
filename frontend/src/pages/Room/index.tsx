@@ -81,7 +81,7 @@ const Room = () => {
                       name="room_type"
                       icon={MdOutlineHouse}
                       iconSize={23}
-                      placeholder="Tipo do espaço *"
+                      placeholder="Tipo do espaço"
                       defaultValue={room.room_type}
                     >
                       <option value="Sala">Sala</option>
@@ -95,7 +95,7 @@ const Room = () => {
                       name="room_number"
                       icon={MdOutlinePin}
                       iconSize={23}
-                      topText="Número *"
+                      topText="Número de identificação"
                       defaultValue={room.room_number}
                     />
                   </div>
@@ -106,11 +106,11 @@ const Room = () => {
                       name="floor"
                       icon={MdOutlineStairs}
                       iconSize={23}
-                      placeholder="Andar *"
+                      placeholder="Andar"
                       defaultValue={room.floor}
                     >
-                      <option value={1}>1°</option>
-                      <option value={2}>2°</option>
+                      <option value={1}>1° andar</option>
+                      <option value={2}>2 andar°</option>
                     </Select>
 
                     <Input
@@ -118,8 +118,8 @@ const Room = () => {
                       name="capacity"
                       icon={MdOutlineReduceCapacity}
                       iconSize={23}
-                      topText="Capacidade *"
-                      defaultValue={room.capacity}
+                      topText="Quantidade de assentos"
+                      defaultValue={`${room.capacity} assentos`}
                     />
                   </div>
 
@@ -129,7 +129,7 @@ const Room = () => {
                       name="availability"
                       icon={MdOutlineStairs}
                       iconSize={23}
-                      placeholder="Disponibilidade *"
+                      placeholder="Disponibilidade"
                       defaultValue={room.availability}
                     >
                       <option value={1}>Disponível</option>
@@ -141,7 +141,7 @@ const Room = () => {
                   <div className="room-textarea">
                     <Textarea
                       disabled
-                      text="Descrição *"
+                      text="Descrição"
                       name="description"
                       value={room.description}
                     />
@@ -154,9 +154,13 @@ const Room = () => {
               <div className="room-infos">
                 <div className="room-header">
                   <h2>Horários</h2>
-                  <Link to="/create-order" state={room_code}>
-                    <Button text="Reservar este espaço" />
-                  </Link>
+                  {room.availability === 1 ? (
+                    <Link to="/create-order" state={room_code}>
+                      <Button text="Reservar este espaço" />
+                    </Link>
+                  ) : (
+                    ''
+                  )}
                 </div>
 
                 <Divider />

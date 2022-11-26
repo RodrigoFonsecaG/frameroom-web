@@ -168,8 +168,6 @@ const EditRoom = () => {
                     <h2>
                       Editando {room.room_type} {room.room_number}
                     </h2>
-
-                    <Button type="submit" text="Editar espaço" />
                   </div>
 
                   <Divider />
@@ -192,7 +190,7 @@ const EditRoom = () => {
                       name="room_number"
                       icon={MdOutlinePin}
                       iconSize={23}
-                      topText="Número *"
+                      topText="Número de identificação *"
                       defaultValue={room.room_number}
                     />
                   </div>
@@ -205,15 +203,15 @@ const EditRoom = () => {
                       placeholder="Andar *"
                       defaultValue={room.floor}
                     >
-                      <option value={1}>1°</option>
-                      <option value={2}>2°</option>
+                      <option value={1}>1° andar</option>
+                      <option value={2}>2° andar</option>
                     </Select>
 
                     <Input
                       name="capacity"
                       icon={MdOutlineReduceCapacity}
                       iconSize={23}
-                      topText="Capacidade *"
+                      topText="Quantidade de assentos *"
                       defaultValue={room.capacity}
                     />
                   </div>
@@ -242,14 +240,17 @@ const EditRoom = () => {
                     />
                   </div>
                 </div>
+
+                <div className="buttons">
+                  <Button type="submit" text="Editar espaço" />
+                  <Button
+                    className="delete"
+                    type="button"
+                    text="Deletar espaço"
+                    onClick={handleDelete}
+                  />
+                </div>
               </Form>
-              <div className="delete">
-                <Button
-                  type="button"
-                  text="Deletar espaço"
-                  onClick={handleDelete}
-                />
-              </div>
             </section>
           </Content>
         )}

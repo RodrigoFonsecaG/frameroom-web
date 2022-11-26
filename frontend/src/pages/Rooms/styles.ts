@@ -41,7 +41,9 @@ export const Content = styled.div`
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-auto-rows: 1fr;
+    justify-content: center;
     gap: 2rem;
 
     .card {
@@ -56,6 +58,7 @@ export const Content = styled.div`
         background-color: #fff;
         border-bottom: 1px solid #e6e6f0;
         flex-wrap: wrap;
+        height: 9rem;
       }
 
       .room-title h2 {

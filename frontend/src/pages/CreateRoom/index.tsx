@@ -119,7 +119,7 @@ const CreateRoom = () => {
                     name="room_number"
                     icon={MdOutlinePin}
                     iconSize={23}
-                    topText="Número *"
+                    topText="Número de identificação *"
                   />
                 </div>
 
@@ -130,15 +130,15 @@ const CreateRoom = () => {
                     iconSize={23}
                     placeholder="Andar *"
                   >
-                    <option value={1}>1°</option>
-                    <option value={2}>2°</option>
+                    <option value={1}>1° andar</option>
+                    <option value={2}>2° andar</option>
                   </Select>
 
                   <Input
                     name="capacity"
                     icon={MdOutlineReduceCapacity}
                     iconSize={23}
-                    topText="Capacidade *"
+                    topText="Quantidade de assentos *"
                   />
                 </div>
 

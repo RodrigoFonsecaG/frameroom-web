@@ -122,12 +122,12 @@ const Rooms = () => {
                         <div className="info">
                           <div>
                             <span>Andar:</span>
-                            <p>{room.floor}</p>
+                            <p>{`${room.floor}° andar`}</p>
                           </div>
 
                           <div>
                             <span>Capacidade:</span>
-                            <p>{room.capacity}</p>
+                            <p>{`${room.capacity} assentos`}</p>
                           </div>
                         </div>
 
