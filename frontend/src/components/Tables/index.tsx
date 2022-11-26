@@ -219,10 +219,6 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
     }
   ]);
 
-  // DefaultColDef sets props common to all Columns
-  // const defaultColDef = useMemo(() => ({
-  //   sortable: true
-  // }));
 
   const { token } = useAuth();
   async function handleSubmit() {

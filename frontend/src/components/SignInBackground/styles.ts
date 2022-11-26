@@ -8,6 +8,14 @@ export const Background = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 4rem;
+
+  > h1{
+    color: var(--white);
+    font-size: 4rem;
+    font-family: 'Roboto';
+  }
 
   img {
     width: 100%;

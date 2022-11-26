@@ -1,6 +1,7 @@
 import React from 'react'
 import { Content } from './styles';
-import logoFrameroom from '../../assets/logo-frameroom.png';
+import logoFrameroomAlt from '../../assets/logo-frameroom-alt.png';
+
 
 interface SignInContentProps {
   children: React.ReactNode;
@@ -9,7 +10,7 @@ interface SignInContentProps {
 const SignInContent: React.FC<SignInContentProps> = ({ children }) => {
   return (
     <Content>
-      <img src={logoFrameroom} alt="Frameroom" />
+      <img src={logoFrameroomAlt} alt="Frameroom" />
 
       {children}
     </Content>

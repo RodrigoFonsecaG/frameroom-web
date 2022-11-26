@@ -29,7 +29,7 @@ export const Content = styled.div`
   }
 
   img {
-    width: 12rem;
+    width: 16rem;
   }
 
   form {
