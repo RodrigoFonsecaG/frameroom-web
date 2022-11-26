@@ -13,6 +13,10 @@ export const Container = styled.button`
 
   transition: background-color 0.2s;
 
+  &.delete {
+    background-color: #C53030;
+  }
+
   &:hover {
     background-color: var(--dark-blue);
   }

@@ -74,6 +74,7 @@ p{
     max-width: 1300px;
     margin: 0 auto;
     margin-top: 4rem; 
+    padding-bottom: 10rem;
 }
 
  .top-text {

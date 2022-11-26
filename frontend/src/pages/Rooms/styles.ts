@@ -7,6 +7,7 @@ export const Content = styled.div`
     align-items: flex-end;
     flex-wrap: wrap;
     margin-bottom: 3.2rem;
+    gap: 2rem;
 
     button {
       padding: 1.6rem;
@@ -22,7 +23,7 @@ export const Content = styled.div`
       width: 15rem;
     }
 
-    > button{
+    > button {
       width: 12rem;
     }
   }
@@ -33,13 +34,19 @@ export const Content = styled.div`
       flex-direction: column;
       align-items: center;
       gap: 2rem;
+
     }
     .filters {
       flex-direction: column;
+      align-items: initial;
       width: 100%;
 
       > div > div {
         width: 100%;
+      }
+
+      > button {
+        margin: 0 auto;
       }
     }
   }
@@ -49,6 +56,7 @@ export const Content = styled.div`
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     grid-auto-rows: 1fr;
     justify-content: center;
+    align-items: center;
     gap: 2rem;
   }
 

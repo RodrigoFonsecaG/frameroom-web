@@ -12,6 +12,7 @@ import EditRoom from '../pages/EditRoom';
 import Schedules from '../pages/Schedules'
 import CreateOrder from '../pages/CreateOrder';
 import Orders from '../pages/Orders';
+import Order from '../pages/Order';
 
 const Routes: React.FC = () => {
   return (
@@ -47,7 +48,11 @@ const Routes: React.FC = () => {
       />
       <Route
         path="orders"
-        element={<AuthRoute Component={Orders} needAuth needAdmin/>}
+        element={<AuthRoute Component={Orders} needAuth needAdmin />}
+      />
+      <Route
+        path="orders/:order_code"
+        element={<AuthRoute Component={Order} needAuth needAdmin />}
       />
     </Switch>
   );

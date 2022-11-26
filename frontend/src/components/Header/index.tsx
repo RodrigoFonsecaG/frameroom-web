@@ -4,18 +4,14 @@ import unimontesFrameroomLogo from '../../assets/unimontes-frameroom-logo.svg';
 import { FiChevronDown, FiUser, FiMenu } from 'react-icons/fi';
 import useMedia from '../../hooks/useMedia';
 
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-
-
 const Header = () => {
-
   const mobile = useMedia('(max-width: 60rem)');
 
   const { user, signOut } = useAuth();
 
-  
   return (
     <HeaderContainer>
       <HeaderContent>
@@ -27,19 +23,19 @@ const Header = () => {
         ) : (
           <>
             <nav>
-              <a href="" className="active">
+              <NavLink className="nav-link" to="/home">
                 Início
-              </a>
+              </NavLink>
               <div className="link-down">
-                <Link to="/rooms">Espaços</Link>
+                <NavLink className="nav-link" to="/rooms">
+                  Espaços
+                </NavLink>
                 <FiChevronDown />
               </div>
               <div className="link-down">
-                <Link to="/create-order">Reservas</Link>
-                <FiChevronDown />
-              </div>
-              <div className="link-down">
-                <Link to="/">Horários</Link>
+                <NavLink className="nav-link" to="/create-order">
+                  Reservas
+                </NavLink>
                 <FiChevronDown />
               </div>
               <a href="" onClick={signOut}>

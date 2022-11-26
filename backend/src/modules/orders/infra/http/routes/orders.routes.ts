@@ -14,4 +14,6 @@ ordersRouter.get('/', needAdmin(), ordersController.index);
 
 ordersRouter.post('/', ordersController.create);
 
+ordersRouter.get('/:order_code', needAdmin(), ordersController.show);
+
 export default ordersRouter;

@@ -38,4 +38,24 @@ export default class OrdersController {
 
         return response.json(orders);
     }
+
+    public async show(request: Request, response: Response): Promise<Response> {
+        const order_code = request.params.order_code;
+
+        const ordersRepository = getRepository(Order);
+        const order = await ordersRepository.query(`
+               SELECT orders.order_code, orders.date, orders.message, orders.hour_start, orders.hour_end, rooms.room_type, rooms.room_number, users.name, users.type_code, users.phone, users.email, users_type.type
+        FROM orders
+        LEFT JOIN rooms
+        ON orders.room_code = rooms.room_code
+        LEFT JOIN users
+        ON users.cpf = orders.user_cpf
+        LEFT JOIN users_type
+        ON users.type_code = users_type.type_code
+        WHERE orders.order_code = '${order_code}'
+        ;
+        `);
+
+        return response.json(order);
+    }
 }
