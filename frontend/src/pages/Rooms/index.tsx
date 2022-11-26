@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Header from '../../components/Header';
 import Select from '../../components/Select';
-import {
-  MdOutlineStairs,
-  MdOutlineMeetingRoom,
-  MdOutlineDriveFileRenameOutline,
-  MdOutlineEditCalendar
-} from 'react-icons/md';
+import { MdOutlineStairs, MdOutlineMeetingRoom } from 'react-icons/md';
 import { Content } from './styles';
 import Button from '../../components/Button';
 import { Form } from '@unform/web';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import RoomCard from '../../components/RoomCard';
+import { FormHandles } from '@unform/core';
 
 interface RoomProps {
   room_code?: string;
@@ -27,10 +24,23 @@ interface RoomProps {
 
 const Rooms = () => {
   const [rooms, setRooms] = useState<RoomProps[]>();
-  const imagePath = 'http://localhost:3333/files/';
+  const [filteredRooms, setFilteredRooms] = useState<RoomProps[]>();
+  const formRef = useRef<FormHandles>(null);
 
   function handleSubmit(data: object): void {
     console.log(data);
+
+    const filteredRooms = rooms.filter((room) => {
+      if (data.type && data.floor) {
+        return room.room_type === data.type && room.floor == data.floor;
+      } else if (!data.type && !data.floor) {
+        return rooms;
+      } else {
+        return room.room_type === data.type || room.floor == data.floor;
+      }
+    });
+
+    setFilteredRooms(filteredRooms);
   }
 
   async function getRooms() {
@@ -55,7 +65,7 @@ const Rooms = () => {
       <Header />
       <div className="container">
         <Content>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} ref={formRef}>
             <div className="filters">
               <Select
                 name="type"
@@ -63,6 +73,7 @@ const Rooms = () => {
                 iconSize={23}
                 placeholder="Tipo de espaço"
               >
+                <option selected disabled></option>
                 <option value="Sala">Sala</option>
                 <option value="Laboratório">Laboratório</option>
                 <option value="Auditório">Auditório</option>
@@ -70,14 +81,17 @@ const Rooms = () => {
               </Select>
 
               <Select
-                name="andar"
+                name="floor"
                 icon={MdOutlineStairs}
                 iconSize={23}
                 placeholder="Andar"
               >
-                <option value={1}>1°</option>
-                <option value={2}>2°</option>
+                <option selected disabled></option>
+                <option value={1}>1° andar</option>
+                <option value={2}>2° andar</option>
               </Select>
+
+              <Button text="Filtrar" />
             </div>
 
             {user.isAdmin && (
@@ -88,57 +102,13 @@ const Rooms = () => {
           </Form>
 
           <div className="cards">
-            {rooms &&
-              rooms.map((room) => {
-                return (
-                  <div className="card" key={room.room_code}>
-                    <img src={imagePath + room.image} alt="" />
-
-                    <div className="card-main">
-                      <div className="room-title">
-                        <h2>
-                          {room.room_type} {room.room_number}
-                        </h2>
-                        {user.isAdmin && (
-                          <div className="admin-commands">
-                            <Link to={`/rooms/${room.room_code}/edit`}>
-                              <div>
-                                <MdOutlineDriveFileRenameOutline size={22} />
-                                Editar espaço
-                              </div>
-                            </Link>
-
-                            <Link to={`/schedules/${room.room_code}`}>
-                              <div>
-                                <MdOutlineEditCalendar size={22} />
-                                Editar horários
-                              </div>
-                            </Link>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="room-info">
-                        <div className="info">
-                          <div>
-                            <span>Andar:</span>
-                            <p>{`${room.floor}° andar`}</p>
-                          </div>
-
-                          <div>
-                            <span>Capacidade:</span>
-                            <p>{`${room.capacity} assentos`}</p>
-                          </div>
-                        </div>
-
-                        <Link to={`/rooms/${room.room_code}`}>
-                          <Button text="Visualizar" />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+            {filteredRooms
+              ? filteredRooms.map((room) => {
+                  return <RoomCard room={room} />;
+                })
+              : rooms?.map((room) => {
+                  return <RoomCard room={room} />;
+                })}
           </div>
         </Content>
       </div>
