@@ -10,11 +10,12 @@ export const Container = styled.button`
   font-family: 'Archivo', sans-serif;
   font-weight: 600;
   padding: 0 1rem 0 1rem;
+  max-width: 25rem;
 
   transition: background-color 0.2s;
 
   &.delete {
-    background-color: #C53030;
+    background-color: #c53030;
   }
 
   &:hover {

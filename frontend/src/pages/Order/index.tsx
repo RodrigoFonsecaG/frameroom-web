@@ -1,28 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import {
-  MdOutlineHouse,
-  MdOutlinePin,
-  MdOutlineReduceCapacity,
-  MdOutlineStairs
+  MdOutlineCalendarToday,
+  MdOutlineGroup,
+  MdOutlineMail,
+  MdOutlinePerson,
+  MdOutlinePhone,
+  MdOutlineTimer
 } from 'react-icons/md';
 import Header from '../../components/Header';
-import Select from '../../components/Select';
+import { ChakraProvider } from '@chakra-ui/react';
 import Textarea from '../../components/Textarea';
 import { Content, Divider } from './styles';
 import { Form } from '@unform/web';
 import Input from '../../components/Input';
 import api from '../../services/api';
 import { Link, useParams } from 'react-router-dom';
-import Tables from '../../components/Tables';
 import Button from '../../components/Button';
 import { useAuth } from '../../context/AuthContext';
 import { formatDate, formatTime } from '../../utils/convertDates';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Input as ChackraInput,
+  InputGroup,
+  InputLeftAddon,
+  InputLeftElement,
+  Textarea as ChackraTextarea
+} from '@chakra-ui/react';
 
 const Order = () => {
   const [order, setOrder] = useState({});
   let { order_code } = useParams();
-    const { token } = useAuth();
-    
+  const { token } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleSizeClick = (newSize) => {
+    setSize(newSize);
+    onOpen();
+  };
 
   async function getOrder() {
     const rooms = await api.get(`/orders/${order_code}`, {
@@ -58,7 +79,7 @@ const Order = () => {
                     <Input
                       disabled
                       name="name"
-                      icon={MdOutlinePin}
+                      icon={MdOutlinePerson}
                       iconSize={23}
                       topText="Solicitante"
                       defaultValue={order.name}
@@ -67,7 +88,7 @@ const Order = () => {
                     <Input
                       disabled
                       name="user_type"
-                      icon={MdOutlinePin}
+                      icon={MdOutlineGroup}
                       iconSize={23}
                       topText="Cargo"
                       defaultValue={order.type}
@@ -78,7 +99,7 @@ const Order = () => {
                     <Input
                       disabled
                       name="email"
-                      icon={MdOutlineReduceCapacity}
+                      icon={MdOutlineMail}
                       iconSize={23}
                       topText="E-mail"
                       defaultValue={order.email}
@@ -87,7 +108,7 @@ const Order = () => {
                     <Input
                       disabled
                       name="phone"
-                      icon={MdOutlineReduceCapacity}
+                      icon={MdOutlinePhone}
                       iconSize={23}
                       topText="Telefone"
                       defaultValue={order.phone}
@@ -115,7 +136,7 @@ const Order = () => {
                     <Input
                       disabled
                       name="date"
-                      icon={MdOutlinePin}
+                      icon={MdOutlineCalendarToday}
                       iconSize={23}
                       topText="Data"
                       defaultValue={formatDate(order.date)}
@@ -124,7 +145,7 @@ const Order = () => {
                     <Input
                       disabled
                       name="hour"
-                      icon={MdOutlinePin}
+                      icon={MdOutlineTimer}
                       iconSize={23}
                       topText="Horário"
                       defaultValue={`${formatTime(
@@ -135,15 +156,62 @@ const Order = () => {
                 </div>
 
                 <div className="buttons">
-                  <Button text="Entrar em contato" />
+                  <Button
+                    type="button"
+                    text="Entrar em contato"
+                    onClick={onOpen}
+                  />
                   <Button text="Aprovar" />
-                  <Button text="Rejeitar" className='delete'/>
+                  <Button text="Rejeitar" className="delete" />
                 </div>
               </Form>
             </section>
           </Content>
         )}
       </div>
+
+      <ChakraProvider>
+        <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+          <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(8px)" />
+          <ModalContent padding={10}>
+            <ModalHeader fontSize="4xl" style={{ fontWeight: 'bold' }}>
+              {`Entrar em contato com ${order.name}`}
+            </ModalHeader>
+            <ModalCloseButton size="lg" />
+            <ModalBody>
+              <div>
+                <h3 style={{ fontWeight: 'bold' }}>E-mail do remetente</h3>
+                <ChackraInput
+                  placeholder="teste"
+                  size="lg"
+                  minHeight={20}
+                  fontSize={16}
+                  value={order.email}
+                />
+              </div>
+
+              <div style={{ marginTop: 20 }}>
+                <h3 style={{ fontWeight: 'bold' }}>Mensagem</h3>
+                <ChackraTextarea
+                  placeholder="Digite a mensagem para o remetente"
+                  size="lg"
+                  minHeight={200}
+                  fontSize={16}
+                />
+              </div>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                text="Enviar por e-mail"
+                onClick={onClose}
+                className="modal-button"
+                style={{ margin: '2rem auto 0 auto' }}
+              />
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </ChakraProvider>
     </>
   );
 };

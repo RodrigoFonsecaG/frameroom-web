@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
+
+
 export const Content = styled.div`
+
   width: 100%;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
@@ -24,7 +27,6 @@ export const Content = styled.div`
       gap: 2rem;
       width: 100%;
       padding: 4rem 0;
-      
 
       > button {
         max-width: 25rem;
@@ -61,6 +63,9 @@ export const Content = styled.div`
 
       h2 {
         flex: 1.5;
+        font-weight: 600;
+        font-size: 3.2rem;
+        color: var(--dark-blue);
       }
 
       button {

@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.4.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@react-spring/web": "^9.5.5",
     "@unform/core": "^2.1.6",
     "@unform/web": "^2.1.6",
@@ -16,6 +19,7 @@
     "ag-grid-react": "^28.2.1",
     "axios": "^1.1.2",
     "date-fns": "^2.29.3",
+    "framer-motion": "^7.6.12",
     "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

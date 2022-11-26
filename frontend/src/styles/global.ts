@@ -29,7 +29,7 @@ body,
 }
 
  body{
-    background-color: var(--light-gray);
+    background-color: var(--light-gray) !important;
     -webkit-font-smoothing: antialiased;
  }
 
@@ -68,6 +68,7 @@ a{
 p{
    color: var(--gray);
 }
+
 
 .container{
     width: 90%;

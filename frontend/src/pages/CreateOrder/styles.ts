@@ -10,8 +10,13 @@ export const Content = styled.div`
     background-color: #fff;
     border-radius: 8px;
 
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
     form > button {
-      margin-top: 4rem;
+      margin: 4rem auto 0 auto;
     }
   }
 
@@ -55,10 +60,6 @@ export const Content = styled.div`
         margin-bottom: 3.6rem;
       }
 
-      button {
-        flex: 1;
-        max-width: 24rem;
-      }
 
       @media (max-width: 400px) {
         h2 {

@@ -321,7 +321,7 @@ const CreateOrder = (props) => {
                 </div>
               </div>
 
-              <Button type="submit" text="Cadastrar espaço" />
+              <Button type="submit" text="Solicitar espaço" />
             </Form>
           </section>
         </Content>

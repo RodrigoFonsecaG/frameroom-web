@@ -10,9 +10,15 @@ export const Content = styled.div`
     background-color: #fff;
     border-radius: 8px;
 
-    form > button{
-      margin-top: 4rem;
+    form {
+      display: flex;
+      flex-direction: column;
     }
+
+    form > button {
+      margin: 4rem auto 0 auto;
+    }
+
   }
 
   div.room-image img {
@@ -70,7 +76,6 @@ export const Content = styled.div`
         width: 100%;
       }
     }
-
   }
 `;
 

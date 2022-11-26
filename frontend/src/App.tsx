@@ -9,13 +9,16 @@ import AppProvider from './context';
 
 
 
+
 const App: React.FC = () => (
   <BrowserRouter>
-    <AppProvider>
-      <Routes />
-    </AppProvider>
-    
-    <GlobalStyle />
+
+      <AppProvider>
+        <Routes />
+      </AppProvider>
+
+      <GlobalStyle />
+
   </BrowserRouter>
 );
 
