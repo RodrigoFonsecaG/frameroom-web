@@ -19,14 +19,26 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
     
     const { removeToast } = useToast();
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            removeToast(message.id);
-        }, 5000)
+  useEffect(() => {
+    if (message.type == 'info') {
+         const timer = setTimeout(() => {
+           removeToast(message.id);
+         }, 500000);
 
-        return () => {
-            clearTimeout(timer);
-        }
+         return () => {
+           clearTimeout(timer);
+         };
+    }
+    else {
+       const timer = setTimeout(() => {
+         removeToast(message.id);
+       }, 5000);
+
+       return () => {
+         clearTimeout(timer);
+       };
+    }
+       
     }, [removeToast, message.id])
 
   return (

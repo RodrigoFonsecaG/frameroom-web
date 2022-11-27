@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MdOutlineCalendarToday,
   MdOutlineGroup,
@@ -8,60 +8,77 @@ import {
   MdOutlineTimer
 } from 'react-icons/md';
 import Header from '../../components/Header';
-import { ChakraProvider } from '@chakra-ui/react';
 import Textarea from '../../components/Textarea';
 import { Content, Divider } from './styles';
 import { Form } from '@unform/web';
 import Input from '../../components/Input';
 import api from '../../services/api';
-import { Link, useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import { useAuth } from '../../context/AuthContext';
 import { formatDate, formatTime } from '../../utils/convertDates';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Input as ChackraInput,
-  InputGroup,
-  InputLeftAddon,
-  InputLeftElement,
-  Textarea as ChackraTextarea
-} from '@chakra-ui/react';
+import ContactModal from './ContactModal';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useToast } from '../../context/ToastContext';
+import { FormHandles } from '@unform/core';
+
+import { useDisclosure } from '@chakra-ui/react';
 
 const Order = () => {
-  const [order, setOrder] = useState({});
+  const [order, setOrder] = useState();
   let { order_code } = useParams();
   const { token } = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleSizeClick = (newSize) => {
-    setSize(newSize);
-    onOpen();
-  };
+  const navigate = useNavigate();
+  const formRef = useRef<FormHandles>(null);
+  const { addToast } = useToast();
 
   async function getOrder() {
-    const rooms = await api.get(`/orders/${order_code}`, {
+    const order = await api.get(`/orders/${order_code}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    setOrder(rooms.data[0]);
+    console.log(order);
+    setOrder(order.data[0]);
   }
 
   useEffect(() => {
     getOrder();
   }, []);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  async function approveOrder() {
+    try {
+      await api.delete(`/orders/${order_code}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      addToast({
+        type: 'info',
+        title: 'Solicitação aprovado com sucesso!',
+        description: `Adicione o horário de ${formatTime(
+          order.hour_start
+        )} ás ${formatTime(order.hour_end)} na tabela`
+      });
+
+      navigate(`/schedules/${order.room_code}`);
+    } catch (err) {
+      // disparar um toast
+      addToast({
+        type: 'error',
+        title: 'Erro na aprovação',
+        description:
+          'Ocorreu um erro ao aprovar a solicitação, tente novamente.'
+      });
+    }
+
+    return;
+  }
+
   return (
     <>
       <Header />
       <div className="container">
-        {order.order_code && (
+        {order && (
           <Content>
             <section className="room-section">
               <Form>
@@ -161,7 +178,7 @@ const Order = () => {
                     text="Entrar em contato"
                     onClick={onOpen}
                   />
-                  <Button text="Aprovar" />
+                  <Button text="Aprovar" onClick={approveOrder} />
                   <Button text="Rejeitar" className="delete" />
                 </div>
               </Form>
@@ -170,48 +187,7 @@ const Order = () => {
         )}
       </div>
 
-      <ChakraProvider>
-        <Modal isOpen={isOpen} onClose={onClose} size="6xl">
-          <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(8px)" />
-          <ModalContent padding={10}>
-            <ModalHeader fontSize="4xl" style={{ fontWeight: 'bold' }}>
-              {`Entrar em contato com ${order.name}`}
-            </ModalHeader>
-            <ModalCloseButton size="lg" />
-            <ModalBody>
-              <div>
-                <h3 style={{ fontWeight: 'bold' }}>E-mail do remetente</h3>
-                <ChackraInput
-                  placeholder="teste"
-                  size="lg"
-                  minHeight={20}
-                  fontSize={16}
-                  value={order.email}
-                />
-              </div>
-
-              <div style={{ marginTop: 20 }}>
-                <h3 style={{ fontWeight: 'bold' }}>Mensagem</h3>
-                <ChackraTextarea
-                  placeholder="Digite a mensagem para o remetente"
-                  size="lg"
-                  minHeight={200}
-                  fontSize={16}
-                />
-              </div>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button
-                text="Enviar por e-mail"
-                onClick={onClose}
-                className="modal-button"
-                style={{ margin: '2rem auto 0 auto' }}
-              />
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </ChakraProvider>
+      <ContactModal order={order} isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
