@@ -6,6 +6,7 @@
         "module": "commonjs",
         "rootDir": "./src",
         "baseUrl": "./src",
+        "allowJs": true,
         "paths": {
             "@modules/*": ["modules/*"],
             "@shared/*": ["shared/*"],

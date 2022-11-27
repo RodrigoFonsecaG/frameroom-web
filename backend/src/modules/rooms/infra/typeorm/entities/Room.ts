@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Expose } from 'class-transformer';
 
 @Entity('rooms')
 class Room {
@@ -25,6 +26,13 @@ class Room {
 
     @Column()
     image?: string;
+
+    @Expose({name: 'image_url'})
+    getImageUrl(): string | null {
+        return this.image
+            ? `${process.env.APP_API_URL}/files/${this.image}`
+            : null;
+    }
 }
 
 export default Room;

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
 import UsersRepository from '../../typeorm/repositories/UsersRepository';
+import { instanceToInstance } from 'class-transformer';
 
 export default class SessionsController {
     public async create(request: Request, response: Response) {
@@ -14,8 +15,7 @@ export default class SessionsController {
             password,
         });
 
-        delete user.password;
 
-        return response.json({ user, token });
+        return response.json({ user: instanceToInstance(user), token });
     }
 }

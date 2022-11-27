@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import UserType from './UserType';
+import { Exclude, Expose } from 'class-transformer';
 
 @Entity('users')
 class User {
@@ -16,6 +17,7 @@ class User {
     email: string;
 
     @Column()
+    @Exclude()
     password: string;
 
     @Column()

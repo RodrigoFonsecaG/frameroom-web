@@ -5,6 +5,7 @@ import DeleteRoomService from '@modules/rooms/services/DeleteRoomService';
 import { getCustomRepository, getRepository } from 'typeorm';
 import RoomsRepository from '@modules/rooms/infra/typeorm/repositories/RoomsRepository';
 import Room from '@modules/rooms/infra/typeorm/entities/Room';
+import { instanceToInstance } from 'class-transformer';
 
 
 
@@ -110,7 +111,7 @@ export default class RoomsController {
             const roomsRepository = getCustomRepository(RoomsRepository);
             const rooms = await roomsRepository.find();
 
-            return response.json(rooms);
+            return response.json(instanceToInstance(rooms));
         } catch (error) {
             console.error(error);
         }
@@ -124,6 +125,6 @@ export default class RoomsController {
             where: { room_code },
         });
 
-        return response.json(room);
+        return response.json(instanceToInstance(room));
     }
 }

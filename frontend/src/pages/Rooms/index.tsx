@@ -27,9 +27,9 @@ const Rooms = () => {
   const [filteredRooms, setFilteredRooms] = useState<RoomProps[]>();
   const formRef = useRef<FormHandles>(null);
 
-  function handleSubmit(data: object): void {
-    console.log(data);
+  console.log(typeof(rooms))
 
+  function handleSubmit(data: object): void {
     const filteredRooms = rooms.filter((room) => {
       if (data.type && data.floor) {
         return room.room_type === data.type && room.floor == data.floor;
@@ -101,15 +101,17 @@ const Rooms = () => {
             )}
           </Form>
 
-          <div className="cards">
-            {filteredRooms
-              ? filteredRooms.map((room) => {
-                  return <RoomCard room={room} />;
-                })
-              : rooms?.map((room) => {
-                  return <RoomCard room={room} />;
-                })}
-          </div>
+          {rooms && (
+            <div className="cards">
+              {filteredRooms
+                ? filteredRooms.map((room) => {
+                    return <RoomCard room={room} />;
+                  })
+                : rooms?.map((room) => {
+                    return <RoomCard room={room} />;
+                  })}
+            </div>
+          )}
         </Content>
       </div>
     </>

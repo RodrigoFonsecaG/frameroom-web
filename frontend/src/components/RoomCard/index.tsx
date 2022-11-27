@@ -7,11 +7,10 @@ import { Content } from './styles';
 
 const RoomCard = ({ room }) => {
     const { user, signOut } = useAuth();
-      const imagePath = 'http://localhost:3333/files/';
 
   return (
     <Content className="card" key={room.room_code}>
-      <img src={imagePath + room.image} alt="" />
+      <img src={room.image_url} alt="" />
 
       <div className="card-main">
         <div className="room-title">

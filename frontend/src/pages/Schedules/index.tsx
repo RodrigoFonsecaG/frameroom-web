@@ -34,7 +34,6 @@ interface RoomProps {
 const Schedules = () => {
   const [room, setRoom] = useState<RoomProps>({});
   const [schedules, setSchedules] = useState<RoomProps>({});
-  const imagePath = 'http://localhost:3333/files/';
   let { room_code } = useParams();
 
   async function getRoom() {
@@ -61,7 +60,7 @@ const Schedules = () => {
         {room.room_type && (
           <Content>
             <div className="room-image">
-              <img src={imagePath + room.image} alt="" />
+              <img src={room.image_url} alt="" />
             </div>
 
             <section className="room-section">

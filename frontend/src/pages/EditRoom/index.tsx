@@ -35,7 +35,6 @@ interface RoomProps {
 
 const EditRoom = () => {
   const [room, setRoom] = useState<RoomProps>({});
-  const imagePath = 'http://localhost:3333/files/';
   const { token } = useAuth();
   const navigate = useNavigate();
   let { room_code } = useParams();
@@ -154,7 +153,7 @@ const EditRoom = () => {
         {room.room_type && (
           <Content>
             <div className="room-image">
-              <img src={imagePath + room.image} alt="" />
+              <img src={room.image_url} alt="" />
             </div>
 
             <section className="room-section">
