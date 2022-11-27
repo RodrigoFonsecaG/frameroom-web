@@ -9,10 +9,6 @@ import ProdMail from '@shared/providers/Mails/MailProvider/implementations/ProdM
 
 interface IRequest {
     email: string;
-    headers?: {
-        browser: string;
-        ip: any;
-    }
 }
 
 //const ethereal = new EtherealMail(new HandlebarsMailTemplate());
@@ -24,7 +20,7 @@ class SendForgotPasswordEmailService {
         private userTokensRepository: IUserTokensRepository,
     ) {}
 
-    public async execute({ email, headers }: IRequest): Promise<void> {
+    public async execute({ email }: IRequest): Promise<void> {
         const user = await this.usersRepository.findByEmail(email);
 
 
@@ -51,9 +47,7 @@ class SendForgotPasswordEmailService {
                 file: forgotPasswordTemplate,
                 variables: {
                     name: user.name,
-                    link: `${process.env.APP_WEB_URL}/reset_password?token=${token}`,
-                    browser: headers.browser,
-                    ip: headers.ip,
+                    link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
                 },
             },
         });

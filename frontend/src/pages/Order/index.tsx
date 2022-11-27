@@ -48,9 +48,24 @@ const Order = () => {
 
   async function approveOrder() {
     try {
-      await api.delete(`/orders/${order_code}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const state = 'approve';
+
+     await api.put(
+       `/orders/${order_code}`,
+       {
+         order: {
+           ...order,
+           date: formatDate(order.date),
+           hour: `${formatTime(order.hour_start)} ás ${formatTime(
+             order.hour_end
+           )}`
+         },
+         state
+       },
+       {
+         headers: { Authorization: `Bearer ${token}` }
+       }
+     );
 
       addToast({
         type: 'sucess',
@@ -82,9 +97,25 @@ const Order = () => {
 
   async function rejectOrder() {
     try {
-      await api.delete(`/orders/${order_code}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+
+      const state = 'reject'
+
+      await api.put(
+        `/orders/${order_code}`,
+        {
+          order: {
+            ...order,
+            date: formatDate(order.date),
+            hour: `${formatTime(order.hour_start)} ás ${formatTime(
+              order.hour_end
+            )}`
+          },
+          state
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
 
       addToast({
         type: 'sucess',

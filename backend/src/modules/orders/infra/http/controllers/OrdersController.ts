@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 import CreateOrderService from '@modules/orders/services/CreateOrderService';
 import DeleteOrderService from '@modules/orders/services/DeleteOrderService';
 import { Request, Response } from 'express';
+import SendOrderEmailService from '@modules/orders/services/SendOrderEmailService';
 
 export default class OrdersController {
     public async create(request: Request, response: Response) {
@@ -57,19 +58,24 @@ export default class OrdersController {
         `);
 
         if (!order) {
-            throw new Error('Order doesnt exists!')
+            throw new Error('Order doesnt exists!');
         }
 
         return response.json(order);
     }
 
-    public async delete(request: Request, response: Response) {
+    public async update(request: Request, response: Response) {
         const order_code = request.params.order_code;
+        const { order, state } = request.body;
 
-        const deleteOrder = new DeleteOrderService();
+        const sendOrderEmail = new SendOrderEmailService();
 
-        const order = await deleteOrder.execute(order_code);
+        const sendOrder = await sendOrderEmail.execute({state, order});
 
-        return response.json(order);
+
+        // const deleteOrder = new DeleteOrderService();
+        // await deleteOrder.execute(order_code);
+
+        return response.json(sendOrder);
     }
 }

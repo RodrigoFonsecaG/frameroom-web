@@ -462,7 +462,9 @@
                     <td class="content-cell">
                       <div class="f-fallback">
                         <h1>Olá {{name}},</h1>
-                        <p>Recentemente, você solicitou a redefinição da senha da sua conta. Use o botão abaixo para redefini-la. <strong>Esta redefinição de senha é válida apenas pelas próximas 24 horas.</strong></p>
+                        <p>
+                            Gostaríamos de informar que sua solicitação de reserva para o espaço "{{room}}" na data {{date}} de {{hour}} foi rejeitada!
+                           <strong>Se ainda pretende reservar o espaço, você pode tentar reservar novamente clicando no botão para solicitar uma nova reserva de espaço.</strong></p>
                         <!-- Action -->
                         <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
@@ -472,25 +474,17 @@
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
                                   <td align="center">
-                                    <a href="{{link}}" class="f-fallback button" target="_blank">Redefina sua senha</a>
+                                    <a href="{{link}}" class="f-fallback button" target="_blank">Ver espaço</a>
                                   </td>
                                 </tr>
                               </table>
                             </td>
                           </tr>
                         </table>
-                        <p>Se você não solicitou uma redefinição de senha, ignore este e-mail ou entre em contato por e-mail se tiver dúvidas.</p>
+                        <p>Caso ainda tenha dúvidas, você pode entrar em contato com o FrameRoom por esse e-mail</p>
                         <p>Obrigado,
                           <br>Equipe FrameRoom</p>
                         <!-- Sub copy -->
-                        <table class="body-sub" role="presentation">
-                          <tr>
-                            <td>
-                              <p class="f-fallback sub">Se estiver tendo problemas com o botão acima, copie e cole o URL abaixo em seu navegador.</p>
-                              <p class="f-fallback sub">{{link}}</p>
-                            </td>
-                          </tr>
-                        </table>
                       </div>
                     </td>
                   </tr>

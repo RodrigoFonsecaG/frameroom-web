@@ -18,12 +18,6 @@ export default class ForgotPasswordController {
 
         await sendForgotPasswordEmailService.execute({
             email,
-            headers: {
-                browser: request.headers['user-agent'],
-                ip:
-                    request.headers['x-forwarded-for'] ||
-                    request.socket.remoteAddress,
-            },
         });
 
 
