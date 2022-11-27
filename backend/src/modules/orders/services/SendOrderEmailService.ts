@@ -17,20 +17,33 @@ class SendOrderEmailService {
             throw new AppError('Order does not existed');
         }
 
-        const orderMailTemplate =
-            state === 'approve'
-                ? path.resolve(
-                      __dirname,
-                      '..',
-                      'views',
-                      'approve_order_mail.hbs',
-                  )
-                : path.resolve(
-                      __dirname,
-                      '..',
-                      'views',
-                      'reject_order_mail.hbs',
-                  );
+        let orderMailTemplate;
+
+        if (state === 'approve') {
+            orderMailTemplate = path.resolve(
+                __dirname,
+                '..',
+                'views',
+                'approve_order_mail.hbs',
+            );
+        }
+        else if (state === 'contact') {
+            orderMailTemplate = path.resolve(
+                __dirname,
+                '..',
+                'views',
+                'contact_order_mail.hbs',
+            );
+        }
+        else {
+            orderMailTemplate = path.resolve(
+                __dirname,
+                '..',
+                'views',
+                'reject_order_mail.hbs',
+            );
+        }
+
 
         //Envia e-mail
         await prodMail.sendMail({
@@ -38,7 +51,7 @@ class SendOrderEmailService {
                 name: order.name,
                 email: order.email,
             },
-            subject: '[FrameRoom] Recuperação de senha',
+            subject: '[FrameRoom] Solicitação de reserva de espaço',
             templateData: {
                 file: orderMailTemplate,
                 variables: {
@@ -47,6 +60,7 @@ class SendOrderEmailService {
                     hour: order.hour,
                     link: `${process.env.APP_WEB_URL}/rooms/${order.room_code}`,
                     room: `${order.room_type} ${order.room_number}`,
+                    contact: order.contact ? order.contact : ''
                 },
             },
         });

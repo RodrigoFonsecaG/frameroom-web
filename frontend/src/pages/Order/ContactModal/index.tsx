@@ -14,8 +14,64 @@ import {
 
 import { ChakraProvider } from '@chakra-ui/react';
 import Button from '../../../components/Button';
+import api from '../../../services/api';
+import { formatDate, formatTime } from '../../../utils/convertDates';
+import { useAuth } from '../../../context/AuthContext';
+import { useToast } from '../../../context/ToastContext';
+import { useNavigate } from 'react-router-dom';
 
 const ContactModal = ({ order, isOpen, onClose }) => {
+  const [message, setMessage] = React.useState('');
+  const handleChange = (event) => setMessage(event.target.value);
+  const { token } = useAuth();
+  const { addToast } = useToast();
+    const navigate = useNavigate();
+
+  async function contactOrder() {
+    console.log(message);
+
+    try {
+      const state = 'contact';
+
+      await api.put(
+        `/orders/${order.order_code}`,
+        {
+          order: {
+            ...order,
+            date: formatDate(order.date),
+            hour: `${formatTime(order.hour_start)} ás ${formatTime(
+              order.hour_end
+            )}`,
+            contact: message
+          },
+          state
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      addToast({
+        type: 'sucess',
+        title: 'E-mail enviado com sucesso!',
+        description:
+          'O e-mail com sua mensagem de contato foi enviado ao solicitante.'
+      });
+
+      navigate(`/orders`);
+    } catch (err) {
+      // disparar um toast
+      addToast({
+        type: 'error',
+        title: 'Erro ao entrar em contato',
+        description:
+          'Ocorreu um erro ao enviar um e-mail ao solicitante, tente novamente.'
+      });
+    }
+
+    return;
+  }
+
   return (
     <>
       {order && (
@@ -31,7 +87,7 @@ const ContactModal = ({ order, isOpen, onClose }) => {
                 <div>
                   <h3 style={{ fontWeight: 'bold' }}>E-mail do remetente</h3>
                   <ChackraInput
-                    placeholder="teste"
+                    placeholder="E-mail"
                     size="lg"
                     minHeight={20}
                     fontSize={16}
@@ -46,6 +102,7 @@ const ContactModal = ({ order, isOpen, onClose }) => {
                     size="lg"
                     minHeight={200}
                     fontSize={16}
+                    onChange={handleChange}
                   />
                 </div>
               </ModalBody>
@@ -53,8 +110,8 @@ const ContactModal = ({ order, isOpen, onClose }) => {
               <ModalFooter>
                 <Button
                   text="Enviar por e-mail"
-                  onClick={onClose}
                   className="modal-button"
+                  onClick={contactOrder}
                   style={{ margin: '2rem auto 0 auto' }}
                 />
               </ModalFooter>
