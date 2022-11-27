@@ -53,8 +53,14 @@ const Order = () => {
       });
 
       addToast({
+        type: 'sucess',
+        title: 'Solicitação aprovada com sucesso!',
+        description: `Um e-mail foi encaminhado ao solicitante informando que sua solicitação foi aprovada`
+      });
+
+      addToast({
         type: 'info',
-        title: 'Solicitação aprovado com sucesso!',
+        title: 'Adicione o horário na tabela!',
         description: `Adicione o horário de ${formatTime(
           order.hour_start
         )} ás ${formatTime(order.hour_end)} na tabela`
@@ -68,6 +74,33 @@ const Order = () => {
         title: 'Erro na aprovação',
         description:
           'Ocorreu um erro ao aprovar a solicitação, tente novamente.'
+      });
+    }
+
+    return;
+  }
+
+  async function rejectOrder() {
+    try {
+      await api.delete(`/orders/${order_code}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      addToast({
+        type: 'sucess',
+        title: 'Solicitação de reserva rejeitada com sucesso!',
+        description:
+          'Um e-mail foi enviado ao solicitante informando que sua reserva foi rejeitada!'
+      });
+
+      navigate(`/orders`);
+    } catch (err) {
+      // disparar um toast
+      addToast({
+        type: 'error',
+        title: 'Erro na rejeição',
+        description:
+          'Ocorreu um erro ao rejeitar a solicitação, tente novamente.'
       });
     }
 
@@ -179,7 +212,11 @@ const Order = () => {
                     onClick={onOpen}
                   />
                   <Button text="Aprovar" onClick={approveOrder} />
-                  <Button text="Rejeitar" className="delete" />
+                  <Button
+                    text="Rejeitar"
+                    onClick={rejectOrder}
+                    className="delete"
+                  />
                 </div>
               </Form>
             </section>
