@@ -70,11 +70,10 @@ export default class OrdersController {
 
         const sendOrderEmail = new SendOrderEmailService();
 
-        const sendOrder = await sendOrderEmail.execute({state, order});
+        const sendOrder = await sendOrderEmail.execute({ state, order });
 
-
-        // const deleteOrder = new DeleteOrderService();
-        // await deleteOrder.execute(order_code);
+        const deleteOrder = new DeleteOrderService();
+        await deleteOrder.execute(order_code);
 
         return response.json(sendOrder);
     }
