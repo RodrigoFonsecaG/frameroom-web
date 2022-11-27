@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useRef} from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { Container, MainContent, Footer } from './styles';
 import { FiLogIn, FiMail } from 'react-icons/fi';
 import Input from '../../components/Input';
@@ -6,7 +6,7 @@ import InputPassword from '../../components/InputPassword';
 import SignInBackground from '../../components/SignInBackground';
 import SignInContent from '../../components/SignInContent';
 import Button from '../../components/Button';
-import { Form } from '@unform/web'
+import { Form } from '@unform/web';
 
 import { FormHandles } from '@unform/core';
 
@@ -17,17 +17,15 @@ import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
 
-import { schemaSignIn } from '../../schemas/schemas';
+import { schemaForgotPassword, schemaSignIn } from '../../schemas/schemas';
+import api from '../../services/api';
 
-
-
-interface SignInFormData{
+interface ForgotPasswordFormData {
   email: string;
-  password: string;
 }
 
-const SignIn: React.FC = () => {
-
+const ForgotPassword: React.FC = () => {
+  const [loading, setLoading] = useState(false)
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
@@ -35,22 +33,30 @@ const SignIn: React.FC = () => {
 
   const { addToast } = useToast();
 
-
   const handleSubmit = useCallback(
-    async (data: SignInFormData) => {
-      formRef.current?.setErrors({});
+    async (data: ForgotPasswordFormData) => {
+      
       try {
+        setLoading(true);
 
-        await schemaSignIn.validate(data, {
+        formRef.current?.setErrors({});
+        await schemaForgotPassword.validate(data, {
           abortEarly: false
         });
 
-        await signIn({
-          email: data.email,
-          password: data.password
-        });
+        //recuperação de senha
+        await api.post('/password/forgot', {
+          email: data.email
+        })
 
-        navigate('/rooms')
+         addToast({
+           type: 'sucess',
+           title: 'E-mail de recuperação enviado!',
+           description:
+             'Enviamos um e-mail para confirmar a recuperação de senha, cheque sua caixa de entrada'
+         });
+
+        // navigate('/rooms')
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -63,15 +69,17 @@ const SignIn: React.FC = () => {
         // disparar um toast
         addToast({
           type: 'error',
-          title: 'Erro na autenticação',
-          description: 'Ocorreu um erro ao fazer login, cheque seu e-mail e/ou senha'
+          title: 'Erro na recuperação de senha',
+          description:
+            'Ocorreu um erro ao tentar realizar a recuperação de senha, tente novamente'
         });
-
+      }
+      finally {
+        setLoading(false);
       }
     },
-    [signIn, navigate, addToast]
+    [addToast]
   );
-
 
   return (
     <Container>
@@ -80,8 +88,10 @@ const SignIn: React.FC = () => {
       <SignInContent>
         <MainContent>
           <Form ref={formRef} onSubmit={handleSubmit} className="sign">
-            <h1>Faça seu login</h1>
-            
+            <div className="header">
+              <h1>Esqueceu sua senha?</h1>
+              <p>Sua redefinição de senha será enviada para seu e-mail.</p>
+            </div>
 
             <div className="input-group">
               <Input
@@ -90,36 +100,21 @@ const SignIn: React.FC = () => {
                 placeholder="E-mail"
                 type="text"
               />
-
-              <InputPassword
-                name="password"
-                placeholder="Senha"
-                type="password"
-              />
             </div>
 
-            <div className="login-commands">
-              <div>
-                <input type="checkbox" name="Lembrar-me" id="checkbox" />
-                <label htmlFor="checkbox">Lembrar-me</label>
-              </div>
-
-              <Link to="/forgot-password">Esqueci minha senha</Link>
-            </div>
-
-            <Button type="submit" text="Entrar" />
+            <Button loading={loading} type="submit" text="Recuperar senha" />
           </Form>
         </MainContent>
 
         <Footer>
           <div className="footer">
             <FiLogIn size={30} />
-            <Link to="/sign-up">Criar conta</Link>
+            <Link to="/">Voltar ao login</Link>
           </div>
-          </Footer>
+        </Footer>
       </SignInContent>
     </Container>
   );
 };
 
-export default SignIn;
+export default ForgotPassword;

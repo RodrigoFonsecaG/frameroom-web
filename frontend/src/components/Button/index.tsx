@@ -2,11 +2,14 @@ import React, {ButtonHTMLAttributes} from 'react'
 import { Container } from './styles';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    text: string;
+  text: string;
+  loading?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({text, ...rest}) => {
-  return <Container {...rest}>{text}</Container>;
+const Button: React.FC<ButtonProps> = ({text, loading, ...rest}) => {
+  return <Container {...rest}>
+    {loading ? 'Carregando...' : text}
+  </Container>;
 }
 
 export default Button

@@ -70,10 +70,28 @@ const schemaCreateOrder = Yup.object().shape({
     .max(5, 'Selecione um horário válido')
 });
 
+const schemaForgotPassword = Yup.object().shape({
+  email: Yup.string()
+    .required('E-mail obrigatório')
+    .email('Digite um e-mail válido')
+});
+
+const schemaResetPassword = Yup.object().shape({
+  password: Yup.string()
+    .required('Senha obrigatório')
+    .min(6, 'No mínimo 6 dígitos'),
+  passwordConfirm: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais')
+    .required('Confirmação de senha obrigatório'),
+});
+
+
 export {
   schemaSignIn,
   schemaSignUp,
   schemaCreateRoom,
   schemaEditRoom,
-  schemaCreateOrder
+  schemaCreateOrder,
+  schemaForgotPassword,
+  schemaResetPassword
 };

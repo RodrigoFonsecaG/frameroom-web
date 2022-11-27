@@ -13,6 +13,8 @@ import Schedules from '../pages/Schedules'
 import CreateOrder from '../pages/CreateOrder';
 import Orders from '../pages/Orders';
 import Order from '../pages/Order';
+import ForgotPassword from '../pages/ForgotPassword';
+import ResetPassword from '../pages/ResetPassword';
 
 const Routes: React.FC = () => {
   return (
@@ -24,6 +26,14 @@ const Routes: React.FC = () => {
       <Route
         path="sign-up"
         element={<AuthRoute Component={SignUp} needAuth={false} />}
+      />
+      <Route
+        path="forgot-password"
+        element={<AuthRoute Component={ForgotPassword} needAuth={false} />}
+      />
+      <Route
+        path="reset-password"
+        element={<AuthRoute Component={ResetPassword} needAuth={false} />}
       />
       <Route path="rooms" element={<Rooms />} />
       <Route
