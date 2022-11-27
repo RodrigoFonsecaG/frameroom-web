@@ -1,8 +1,8 @@
 import Order from '@modules/orders/infra/typeorm/entities/Order';
 import { getRepository } from 'typeorm';
 import CreateOrderService from '@modules/orders/services/CreateOrderService';
+import DeleteOrderService from '@modules/orders/services/DeleteOrderService';
 import { Request, Response } from 'express';
-import Room from '@modules/rooms/infra/typeorm/entities/Room';
 
 export default class OrdersController {
     public async create(request: Request, response: Response) {
@@ -44,7 +44,7 @@ export default class OrdersController {
 
         const ordersRepository = getRepository(Order);
         const order = await ordersRepository.query(`
-               SELECT orders.order_code, orders.date, orders.message, orders.hour_start, orders.hour_end, rooms.room_type, rooms.room_number, users.name, users.type_code, users.phone, users.email, users_type.type
+               SELECT orders.order_code, orders.date, orders.message, orders.hour_start, orders.hour_end, rooms.room_type, rooms.room_code, rooms.room_number, users.name, users.type_code, users.phone, users.email, users_type.type
         FROM orders
         LEFT JOIN rooms
         ON orders.room_code = rooms.room_code
@@ -55,6 +55,20 @@ export default class OrdersController {
         WHERE orders.order_code = '${order_code}'
         ;
         `);
+
+        if (!order) {
+            throw new Error('Order doesnt exists!')
+        }
+
+        return response.json(order);
+    }
+
+    public async delete(request: Request, response: Response) {
+        const order_code = request.params.order_code;
+
+        const deleteOrder = new DeleteOrderService();
+
+        const order = await deleteOrder.execute(order_code);
 
         return response.json(order);
     }

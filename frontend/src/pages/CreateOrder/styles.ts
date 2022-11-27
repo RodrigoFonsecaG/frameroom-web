@@ -41,10 +41,18 @@ export const Content = styled.div`
         align-items: center;
         flex-wrap: wrap;
         gap: 1rem;
+        font-weight: 600;
 
         p {
           font-size: 1.2rem;
         }
+
+      }
+
+      .date-hour{
+        display: flex;
+        align-items: baseline;
+        gap: 2rem;
       }
     }
 
@@ -56,10 +64,12 @@ export const Content = styled.div`
 
       h2 {
         flex: 1.5;
+        font-weight: 600;
+        font-size: 3.2rem;
+        color: var(--dark-blue);
         text-align: center;
         margin-bottom: 3.6rem;
       }
-
 
       @media (max-width: 400px) {
         h2 {
@@ -90,12 +100,10 @@ export const Content = styled.div`
         width: 100%;
       }
 
-      svg{
+      svg {
         color: var(--dark-blue);
       }
     }
-
-
 
     .date-inputs > div:first-child {
       flex: 2;

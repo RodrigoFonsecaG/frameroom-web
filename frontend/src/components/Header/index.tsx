@@ -30,14 +30,14 @@ const Header = () => {
                 <NavLink className="nav-link" to="/rooms">
                   Espaços
                 </NavLink>
-                <FiChevronDown />
               </div>
-              <div className="link-down">
-                <NavLink className="nav-link" to="/create-order">
-                  Reservas
-                </NavLink>
-                <FiChevronDown />
-              </div>
+              {user.isAdmin && (
+                <div className="link-down">
+                  <NavLink className="nav-link" to="/orders">
+                    Reservas
+                  </NavLink>
+                </div>
+              )}
               <a href="" onClick={signOut}>
                 Logout
               </a>

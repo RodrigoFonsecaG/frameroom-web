@@ -211,7 +211,11 @@ const Order = () => {
                     text="Entrar em contato"
                     onClick={onOpen}
                   />
-                  <Button text="Aprovar" onClick={approveOrder} />
+                  <Button
+                    text="Aprovar"
+                    onClick={approveOrder}
+                    className="approve"
+                  />
                   <Button
                     text="Rejeitar"
                     onClick={rejectOrder}

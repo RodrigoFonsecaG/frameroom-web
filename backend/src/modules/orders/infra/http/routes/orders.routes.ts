@@ -13,6 +13,7 @@ ordersRouter.use(ensureAuthenticated());
 ordersRouter.get('/', needAdmin(), ordersController.index);
 
 ordersRouter.post('/', ordersController.create);
+ordersRouter.delete('/:order_code', needAdmin(), ordersController.delete);
 
 ordersRouter.get('/:order_code', needAdmin(), ordersController.show);
 

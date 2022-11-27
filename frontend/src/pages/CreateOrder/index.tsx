@@ -27,6 +27,11 @@ import * as Yup from 'yup';
 import { OptionsFactory } from 'ag-grid-community/dist/lib/filter/provided/optionsFactory';
 import { isEqual, parseISO, format, parse } from 'date-fns';
 
+import {
+  useDisclosure,
+} from '@chakra-ui/react';
+import SchedulesModal from './SchedulesModal';
+
 
 
 const CreateOrder = (props) => {
@@ -212,16 +217,15 @@ const CreateOrder = (props) => {
     setTimeEndOptions(filteredTimes);
   }
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <Header />
       <div className="container">
         <Content>
           <section className="room-section">
-            <Form
-              ref={formRef}
-              onSubmit={handleSubmit}
-            >
+            <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="room-infos">
                 <div className="room-header">
                   <h2>Solicitação de reserva</h2>
@@ -245,6 +249,7 @@ const CreateOrder = (props) => {
                       icon={MdOutlineHouse}
                       iconSize={23}
                       placeholder="Espaço *"
+                      disabled
                     >
                       {rooms &&
                         rooms.map((room) => (
@@ -270,8 +275,15 @@ const CreateOrder = (props) => {
                   </div>
                 </div>
                 <div className="content">
-                  <h3>Data e horário</h3>
-
+                  <div className='date-hour'>
+                    <h3>Data e horário</h3>
+                    <Button
+                      className='alt'
+                      type="button"
+                      text="Ver horários"
+                      onClick={onOpen}
+                    />
+                  </div>
                   <Divider />
 
                   <div className="room-inputs date-inputs">
@@ -325,6 +337,12 @@ const CreateOrder = (props) => {
             </Form>
           </section>
         </Content>
+
+        <SchedulesModal
+          roomCode={location.state}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
       </div>
     </>
   );
