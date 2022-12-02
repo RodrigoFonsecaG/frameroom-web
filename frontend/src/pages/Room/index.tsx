@@ -70,6 +70,13 @@ const Room = () => {
                     <h2>
                       {room.room_type} {room.room_number}
                     </h2>
+                    {room.availability === 1 ? (
+                      <Link to="/create-order" state={room_code}>
+                        <Button text="Reservar este espaço" />
+                      </Link>
+                    ) : (
+                      ''
+                    )}
                   </div>
 
                   <Divider />
@@ -153,13 +160,6 @@ const Room = () => {
               <div className="room-infos">
                 <div className="room-header">
                   <h2>Horários</h2>
-                  {room.availability === 1 ? (
-                    <Link to="/create-order" state={room_code}>
-                      <Button text="Reservar este espaço" />
-                    </Link>
-                  ) : (
-                    ''
-                  )}
                 </div>
 
                 <Divider />

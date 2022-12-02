@@ -11,55 +11,28 @@ class Schedules {
     room: Room;
 
     @PrimaryColumn()
-    day: number;
+    interval: number;
 
     @Column()
-    interval_1: string;
+    day_0: string;
 
     @Column()
-    interval_2: string;
+    day_1: string;
 
     @Column()
-    interval_3: string;
+    day_2: string;
 
     @Column()
-    interval_4: string;
+    day_3: string;
 
     @Column()
-    interval_5: string;
+    day_4: string;
 
     @Column()
-    interval_6: string;
+    day_5: string;
 
     @Column()
-    interval_7: string;
-
-    @Column()
-    interval_8: string;
-
-    @Column()
-    interval_9: string;
-
-    @Column()
-    interval_10: string;
-
-    @Column()
-    interval_11: string;
-
-    @Column()
-    interval_12: string;
-
-    @Column()
-    interval_13: string;
-
-    @Column()
-    interval_14: string;
-
-    @Column()
-    interval_15: string;
-
-    @Column()
-    interval_16: string;
+    day_6: string;
 }
 
 export default Schedules;

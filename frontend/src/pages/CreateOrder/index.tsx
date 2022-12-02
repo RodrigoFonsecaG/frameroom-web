@@ -135,7 +135,7 @@ const CreateOrder = (props) => {
       label: '11h40'
     },
     {
-      value: '12:20',
+      value: '12:30',
       label: '12h30'
     },
     {

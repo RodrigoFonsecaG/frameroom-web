@@ -20,43 +20,24 @@ import {
 } from 'react-icons/md';
 import { useToast } from '../../context/ToastContext';
 
-
 interface Schedule {
   room_code: string;
 
-  day: number;
+  interval: number;
 
-  interval_1: string;
+  day_0: string;
 
-  interval_2: string;
+  day_1: string;
 
-  interval_3: string;
+  day_2: string;
 
-  interval_4: string;
+  day_3: string;
 
-  interval_5: string;
+  day_4: string;
 
-  interval_6: string;
+  day_5: string;
 
-  interval_7: string;
-
-  interval_8: string;
-
-  interval_9: string;
-
-  interval_10: string;
-
-  interval_11: string;
-
-  interval_12: string;
-
-  interval_13: string;
-
-  interval_14: string;
-
-  interval_15: string;
-
-  interval_16: string;
+  day_6: string;
 }
 
 interface TableProps {
@@ -67,167 +48,362 @@ interface TableProps {
 
 const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
   const { addToast } = useToast();
-  const days = [
-    'Segunda',
-    'Terça',
-    'Quarta',
-    'Quinta',
-    'Sexta',
-    'Sabádo',
-    'Domingo'
+
+  const intervals = [
+    '07h10 às 08h00',
+    '08h00 às 08h50',
+    '09h00 às 09h50',
+    '09h50 às 10h40',
+    '10h50 às 11h40',
+    '11h40 às 12h30',
+    '13h10 às 14h00',
+    '14h00 às 14h50',
+    '15h00 às 15h50',
+    '15h50 às 16h40',
+    '16h50 às 17h40',
+    '17h40 às 18h30',
+    '19h10 às 20h00',
+    '20h00 às 20h50',
+    '21h00 às 21h50',
+    '21h50 às 22h40'
   ];
 
-  const gridRef = useRef(); // Optional - for accessing Grid's API
-
-  const rowData = [
-    { day: 0 },
-    { day: 1 },
-    { day: 2 },
-    { day: 3 },
-    { day: 4 },
-    { day: 5 },
-    { day: 6 }
+  const rowDataMorning = [
+    { interval: 0 },
+    { interval: 1 },
+    { interval: 2 },
+    { interval: 3 },
+    { interval: 4 },
+    { interval: 5 }
   ];
+
+  const rowDataAfternoon = [
+    { interval: 6 },
+    { interval: 7 },
+    { interval: 8 },
+    { interval: 9 },
+    { interval: 10 },
+    { interval: 11 }
+  ];
+
+  const rowDataNight = [
+    { interval: 12 },
+    { interval: 13 },
+    { interval: 14 },
+    { interval: 15 }
+  ];
+
+  function filteredData(arrayIntervals) {
+    const filteredSchedules = data.filter((d) => {
+      return arrayIntervals.includes(d.interval);
+    });
+
+    console.log(filteredSchedules);
+
+    return filteredSchedules;
+  }
+
+  const gridRefMorning = useRef(); // Optional - for accessing Grid's API
+  const gridRefAfternoon = useRef(); // Optional - for accessing Grid's API
+  const gridRefNight = useRef(); // Optional - for accessing Grid's API
 
   // Each Column Definition results in one Column.
   const [columnDefs, setColumnDefs] = useState([
     {
-      field: 'day',
+      field: 'interval',
       headerName: 'Dia/Horário',
-      width: 120,
+      width: 180,
       valueGetter: (params) => {
-        return days[params.data.day];
+        return intervals[params.data.interval];
+      },
+      cellStyle: function (params) {
+        return { fontWeight: 'bold' };
       }
     },
     {
-      field: 'interval_1',
-      headerName: '07h10 às 08h00',
+      field: 'day_0',
+      headerName: 'Segunda',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+      cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_2',
-      headerName: '08h00 às 08h50',
+      field: 'day_1',
+      headerName: 'Terça',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+      cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_3',
-      headerName: '09h00 às 09h50',
+      field: 'day_2',
+      headerName: 'Quarta',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+      cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_4',
-      headerName: '09h50 às 10h40',
+      field: 'day_3',
+      headerName: 'Quinta',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+      cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_5',
-      headerName: '10h50 às 11h40',
+      field: 'day_4',
+      headerName: 'Sexta',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+      cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_6',
-      headerName: '11h40 às 12h30',
+      field: 'day_5',
+      headerName: 'Sabádo',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+      cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
+    },
+    {
+      field: 'day_6',
+      headerName: 'Domingo',
+      editable: editable ? true : false,
+      flex: 1,
+      cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     }
   ]);
 
   const [columnDefs2, setColumnDefs2] = useState([
     {
-      field: 'day',
+      field: 'interval',
       headerName: 'Dia/Horário',
-      width: 120,
+      width: 180,
       valueGetter: (params) => {
-        return days[params.data.day];
+        return intervals[params.data.interval];
+      },
+      cellStyle: function (params) {
+        return { fontWeight: 'bold' };
       }
     },
     {
-      field: 'interval_7',
-      headerName: '13h10 às 14h00',
+      field: 'day_0',
+      headerName: 'Segunda',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+      cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_8',
-      headerName: '14h00 às 14h50',
+      field: 'day_1',
+      headerName: 'Terça',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_9',
-      headerName: '15h00 às 15h50',
+      field: 'day_2',
+      headerName: 'Quarta',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_10',
-      headerName: '15h50 às 16h40',
+      field: 'day_3',
+      headerName: 'Quinta',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_11',
-      headerName: '16h50 às 17h40',
+      field: 'day_4',
+      headerName: 'Sexta',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_12',
-      headerName: '17h40 às 18h30',
+      field: 'day_5',
+      headerName: 'Sabádo',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
+    },
+    {
+      field: 'day_6',
+      headerName: 'Domingo',
+      editable: editable ? true : false,
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     }
   ]);
 
   const [columnDefs3, setColumnDefs3] = useState([
     {
-      field: 'day',
+      field: 'interval',
       headerName: 'Dia/Horário',
-      width: 120,
+      width: 180,
       valueGetter: (params) => {
-        return days[params.data.day];
+        return intervals[params.data.interval];
+      },
+      cellStyle: function (params) {
+        return { fontWeight: 'bold' };
       }
     },
     {
-      field: 'interval_13',
-      headerName: '(19h10 às 20h00)',
+      field: 'day_0',
+      headerName: 'Segunda',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_14',
-      headerName: '(20h00 às 20h50)',
+      field: 'day_1',
+      headerName: 'Terça',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_15',
-      headerName: '(21h00 às 21h50)',
+      field: 'day_2',
+      headerName: 'Quarta',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     },
     {
-      field: 'interval_16',
-      headerName: '(21h50 às 22h40)',
+      field: 'day_3',
+      headerName: 'Quinta',
       editable: editable ? true : false,
-      flex: 1
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
+    },
+    {
+      field: 'day_4',
+      headerName: 'Sexta',
+      editable: editable ? true : false,
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
+    },
+    {
+      field: 'day_5',
+      headerName: 'Sabádo',
+      editable: editable ? true : false,
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
+    },
+    {
+      field: 'day_6',
+      headerName: 'Domingo',
+      editable: editable ? true : false,
+      flex: 1,
+       cellStyle: (params) => {
+        return params.value != null
+          ? { backgroundColor: '#ffb7b7' }
+          : { backgroundColor: '#b6f8c4' };
+      }
     }
   ]);
-
-
+  console.log(data);
   const { token } = useAuth();
+
   async function handleSubmit() {
     let rowData = [];
-    gridRef.current.api.forEachNode((node) => {
+
+    gridRefMorning.current.api.forEachNode((node) => {
       return rowData.push({
         ...node.data,
-        room_code,
-        day: Number(node.id)
+        room_code
+      });
+    });
+
+    gridRefAfternoon.current.api.forEachNode((node) => {
+      return rowData.push({
+        ...node.data,
+        room_code
+      });
+    });
+
+    gridRefNight.current.api.forEachNode((node) => {
+      return rowData.push({
+        ...node.data,
+        room_code
       });
     });
 
@@ -241,7 +417,6 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
         title: 'Horários cadastros com sucesso!',
         description: 'Os horários do espaço foram atualizados.'
       });
-
     } catch (error) {
       console.error(error.response);
     }
@@ -255,16 +430,25 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
 
       <div
         className="ag-theme-alpine table-container"
-        style={{ width: '100%', height: 338 }}
+        style={{
+          width: '100%',
+          height: 338,
+          fontFamily: 'Poppins',
+          fontSize: '1.4rem'
+        }}
       >
-        <div className="table" style={{ width: '100%', height: 377 }}>
+        <div className="table" style={{ width: '100%', height: 345 }}>
           <div className="schedule-time">
             <MdOutlineLightMode size={30} />
             <h2>Manhã</h2>
           </div>
           <AgGridReact
-            ref={gridRef} // Ref for accessing Grid's API
-            rowData={data.length > 0 ? data : rowData} // Row Data for Rows
+            ref={gridRefMorning} // Ref for accessing Grid's API
+            rowData={
+              data.length > 0
+                ? filteredData([0, 1, 2, 3, 4, 5])
+                : rowDataMorning
+            } // Row Data for Rows
             columnDefs={columnDefs} // Column Defs for Columns
             // defaultColDef={defaultColDef} // Default Column Properties
             animateRows={true} // Optional - set to 'true' to have rows animate when sorted
@@ -272,14 +456,18 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
           />
         </div>
 
-        <div className="table" style={{ width: '100%', height: 377 }}>
+        <div className="table" style={{ width: '100%', height: 345 }}>
           <div className="schedule-time">
             <MdOutlineBrightness4 size={30} />
             <h2>Tarde</h2>
           </div>
           <AgGridReact
-            ref={gridRef} // Ref for accessing Grid's API
-            rowData={data.length > 0 ? data : rowData} // Row Data for Rows
+            ref={gridRefAfternoon} // Ref for accessing Grid's API
+            rowData={
+              data.length > 0
+                ? filteredData([6, 7, 8, 9, 10, 11])
+                : rowDataAfternoon
+            } // Row Data for Rows
             columnDefs={columnDefs2} // Column Defs for Columns
             // defaultColDef={defaultColDef} // Default Column Properties
             animateRows={true} // Optional - set to 'true' to have rows animate when sorted
@@ -287,14 +475,16 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
           />
         </div>
 
-        <div className="table" style={{ width: '100%', height: 377 }}>
+        <div className="table" style={{ height: 260 }}>
           <div className="schedule-time">
             <MdOutlineNightsStay size={30} />
             <h2>Noite</h2>
           </div>
           <AgGridReact
-            ref={gridRef} // Ref for accessing Grid's API
-            rowData={data.length > 0 ? data : rowData} // Row Data for Rows
+            ref={gridRefNight}
+            rowData={
+              data.length > 0 ? filteredData([12, 13, 14, 15]) : rowDataNight
+            } // Row Data for Rows
             columnDefs={columnDefs3} // Column Defs for Columns
             // defaultColDef={defaultColDef} // Default Column Properties
             animateRows={true} // Optional - set to 'true' to have rows animate when sorted

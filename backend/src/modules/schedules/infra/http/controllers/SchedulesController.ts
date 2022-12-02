@@ -8,33 +8,32 @@ export default class SchedulesController {
     public async create(request: Request, response: Response) {
         const {
             room_code,
-            day,
-            interval_1,
-            interval_2,
-            interval_3,
-            interval_4,
-            interval_5,
-            interval_6,
-            interval_7,
-            interval_8,
-            interval_9,
-            interval_10,
-            interval_11,
-            interval_12,
-            interval_13,
-            interval_14,
-            interval_15,
-            interval_16,
+            interval,
+            day_0,
+            day_1,
+            day_2,
+            day_3,
+            day_4,
+            day_5,
+            day_6,
         } = request.body;
 
         const data = request.body;
 
-        const schedulesRepository = new SchedulesRepository();
-        const createSchedules = new CreateScheduleService(schedulesRepository);
+        console.log(data)
 
-        const schedule = await createSchedules.execute(data);
+        try {
+            const schedulesRepository = new SchedulesRepository();
+            const createSchedules = new CreateScheduleService(
+                schedulesRepository,
+            );
 
-        return response.json(schedule);
+            const schedule = await createSchedules.execute(data);
+
+            return response.json(schedule);
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     public async index(
@@ -47,7 +46,7 @@ export default class SchedulesController {
         const schedules = await schedulesRepository.find({
             where: { room_code },
             order: {
-                day: 'ASC',
+                interval: 'ASC',
             },
         });
 

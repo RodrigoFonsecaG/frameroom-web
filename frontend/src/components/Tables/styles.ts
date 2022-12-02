@@ -1,5 +1,3 @@
-import { Content } from './styles';
-
 import styled from 'styled-components';
 
 export const Content = styled.div`
@@ -9,7 +7,8 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 2rem;
 
-  .table-container {
+
+    .table-container {
     display: flex;
     flex-direction: column;
     gap: 4rem;

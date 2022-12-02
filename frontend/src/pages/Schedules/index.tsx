@@ -48,6 +48,7 @@ const Schedules = () => {
     setSchedules(schedules.data);
   }
 
+
   useEffect(() => {
     getRoom();
     getRoomSchedules();
@@ -72,7 +73,7 @@ const Schedules = () => {
                 </div>
 
                 <Divider />
-
+                
                 <Tables data={schedules} room_code={room_code} editable/>
               </div>
             </section>
