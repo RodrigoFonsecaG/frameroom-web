@@ -439,8 +439,15 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       >
         <div className="table" style={{ width: '100%', height: 345 }}>
           <div className="schedule-time">
-            <MdOutlineLightMode size={30} />
-            <h2>Manhã</h2>
+            <div className="schedule-title">
+              <MdOutlineLightMode size={30} />
+              <h2>Manhã</h2>
+            </div>
+
+            <div className="disponibility">
+              <p className="available">Disponível</p>
+              <p className="unavailable">Indisponível</p>
+            </div>
           </div>
           <AgGridReact
             ref={gridRefMorning} // Ref for accessing Grid's API
@@ -458,8 +465,15 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
 
         <div className="table" style={{ width: '100%', height: 345 }}>
           <div className="schedule-time">
-            <MdOutlineBrightness4 size={30} />
-            <h2>Tarde</h2>
+            <div className="schedule-title">
+              <MdOutlineBrightness4 size={30} />
+              <h2>Tarde</h2>
+            </div>
+
+            <div className="disponibility">
+              <p className="available">Disponível</p>
+              <p className="unavailable">Indisponível</p>
+            </div>
           </div>
           <AgGridReact
             ref={gridRefAfternoon} // Ref for accessing Grid's API
@@ -477,8 +491,15 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
 
         <div className="table" style={{ height: 260 }}>
           <div className="schedule-time">
-            <MdOutlineNightsStay size={30} />
-            <h2>Noite</h2>
+            <div className="schedule-title">
+              <MdOutlineNightsStay size={30} />
+              <h2>Noite</h2>
+            </div>
+
+            <div className="disponibility">
+              <p className="available">Disponível</p>
+              <p className="unavailable">Indisponível</p>
+            </div>
           </div>
           <AgGridReact
             ref={gridRefNight}

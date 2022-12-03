@@ -7,8 +7,7 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 2rem;
 
-
-    .table-container {
+  .table-container {
     display: flex;
     flex-direction: column;
     gap: 4rem;
@@ -23,6 +22,44 @@ export const Content = styled.div`
         display: flex;
         align-items: center;
         gap: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .schedule-title {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+        }
+      }
+
+      .disponibility {
+        display: flex;
+        gap: 1.6rem;
+
+        p {
+          color: black;
+          font-weight: bold;
+        }
+
+        p::before {
+          content: '';
+          display: inline-block;
+          width: 36px;
+          height: 16px;
+          background-color: red;
+          border: 1px solid var(--dark-blue);
+          vertical-align: middle;
+          margin-right: 0.4rem;
+        }
+
+        .available::before {
+          background-color: #b6f8c4;
+        }
+
+        .unavailable::before {
+          background-color: #ffb7b7;
+        }
       }
 
       h2 {
