@@ -12,58 +12,56 @@ const prodMail = new ProdMail(new HandlebarsMailTemplate());
 
 class SendOrderEmailService {
     public async execute({ order, state }): Promise<void> {
+        try {
+            if (!order) {
+                throw new AppError('Order does not existed');
+            }
 
-        if (!order) {
-            throw new AppError('Order does not existed');
-        }
+            let orderMailTemplate;
 
-        let orderMailTemplate;
+            if (state === 'approve') {
+                orderMailTemplate = path.resolve(
+                    __dirname,
+                    '..',
+                    'views',
+                    'approve_order_mail.hbs',
+                );
+            } else if (state === 'contact') {
+                orderMailTemplate = path.resolve(
+                    __dirname,
+                    '..',
+                    'views',
+                    'contact_order_mail.hbs',
+                );
+            } else {
+                orderMailTemplate = path.resolve(
+                    __dirname,
+                    '..',
+                    'views',
+                    'reject_order_mail.hbs',
+                );
+            }
 
-        if (state === 'approve') {
-            orderMailTemplate = path.resolve(
-                __dirname,
-                '..',
-                'views',
-                'approve_order_mail.hbs',
-            );
-        }
-        else if (state === 'contact') {
-            orderMailTemplate = path.resolve(
-                __dirname,
-                '..',
-                'views',
-                'contact_order_mail.hbs',
-            );
-        }
-        else {
-            orderMailTemplate = path.resolve(
-                __dirname,
-                '..',
-                'views',
-                'reject_order_mail.hbs',
-            );
-        }
-
-
-        //Envia e-mail
-        await prodMail.sendMail({
-            to: {
-                name: order.name,
-                email: order.email,
-            },
-            subject: '[FrameRoom] Solicitação de reserva de espaço',
-            templateData: {
-                file: orderMailTemplate,
-                variables: {
+            //Envia e-mail
+            await prodMail.sendMail({
+                to: {
                     name: order.name,
-                    date: order.date,
-                    hour: order.hour,
-                    link: `${process.env.APP_WEB_URL}/rooms/${order.room_code}`,
-                    room: `${order.room_type} ${order.room_number}`,
-                    contact: order.contact ? order.contact : ''
+                    email: order.email,
                 },
-            },
-        });
+                subject: '[FrameRoom] Solicitação de reserva de espaço',
+                templateData: {
+                    file: orderMailTemplate,
+                    variables: {
+                        name: order.name,
+                        link: `${process.env.APP_WEB_URL}/rooms/${order.room_code}`,
+                        room: `${order.room_type} ${order.room_number}`,
+                        contact: order.contact ? order.contact : '',
+                    },
+                },
+            });
+        } catch (error) {
+            console.error(error)
+        }
     }
 }
 

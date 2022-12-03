@@ -7,15 +7,13 @@ import SendOrderEmailService from '@modules/orders/services/SendOrderEmailServic
 
 export default class OrdersController {
     public async create(request: Request, response: Response) {
-        const { date, hour_start, hour_end, user_cpf, room_code, message } =
-            request.body;
+        const { date, intervals, user_cpf, room_code, message } = request.body;
 
         const createOrder = new CreateOrderService();
 
         const order = await createOrder.execute({
             date,
-            hour_start,
-            hour_end,
+            intervals,
             user_cpf,
             room_code,
             message,
@@ -27,7 +25,7 @@ export default class OrdersController {
     public async index(request: Request, response: Response) {
         const ordersRepository = getRepository(Order);
         const orders = await ordersRepository.query(`
-        SELECT orders.order_code, orders.date, orders.hour_start, orders.hour_end, rooms.room_type, rooms.room_number, users.name, users.type_code, users_type.type
+        SELECT orders.order_code, orders.date, orders.intervals, rooms.room_type, rooms.room_number, users.name, users.type_code, users_type.type
         FROM orders
         LEFT JOIN rooms
         ON orders.room_code = rooms.room_code
@@ -45,7 +43,7 @@ export default class OrdersController {
 
         const ordersRepository = getRepository(Order);
         const order = await ordersRepository.query(`
-               SELECT orders.order_code, orders.date, orders.message, orders.hour_start, orders.hour_end, rooms.room_type, rooms.room_code, rooms.room_number, users.name, users.type_code, users.phone, users.email, users_type.type
+               SELECT orders.order_code, orders.date, orders.message, orders.intervals, rooms.room_type, rooms.room_code, rooms.room_number, users.name, users.type_code, users.phone, users.email, users_type.type
         FROM orders
         LEFT JOIN rooms
         ON orders.room_code = rooms.room_code
@@ -65,16 +63,23 @@ export default class OrdersController {
     }
 
     public async update(request: Request, response: Response) {
-        const order_code = request.params.order_code;
-        const { order, state } = request.body;
+        try {
+            const order_code = request.params.order_code;
+            const { order, state } = request.body;
 
-        const sendOrderEmail = new SendOrderEmailService();
+            const sendOrderEmail = new SendOrderEmailService();
 
-        const sendOrder = await sendOrderEmail.execute({ state, order });
+            const sendOrder = await sendOrderEmail.execute({ state, order });
 
-        // const deleteOrder = new DeleteOrderService();
-        // await deleteOrder.execute(order_code);
+            if (state !== 'contact') {
+               const deleteOrder = new DeleteOrderService();
+               await deleteOrder.execute(order_code);
+            }
 
-        return response.json(sendOrder);
+
+            return response.json(sendOrder);
+        } catch (error) {
+            console.log(error)
+        }
     }
 }

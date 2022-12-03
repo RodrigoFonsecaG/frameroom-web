@@ -2,6 +2,10 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import Room from '@modules/rooms/infra/typeorm/entities/Room';
 
 import User from '../../../../users/infra/typeorm/entities/User';
+interface IIntervals {
+    interval: number;
+    day: string;
+}
 
 @Entity('orders')
 class Order {
@@ -11,11 +15,8 @@ class Order {
     @Column('timestamp with time zone')
     date: Date;
 
-    @Column('time')
-    hour_start: Date;
-
-    @Column('time')
-    hour_end: Date;
+    @Column('jsonb')
+    intervals: IIntervals[];
 
     @Column()
     user_cpf: string;

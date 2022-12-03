@@ -3,10 +3,14 @@ import Room from '@modules/rooms/infra/typeorm/entities/Room';
 import { getRepository } from 'typeorm';
 import Order from '../infra/typeorm/entities/Order';
 
+interface IIntervals{
+    interval: number;
+    day: string;
+}
+
 interface Request {
     date: Date;
-    hour_start: Date;
-    hour_end: Date;
+    intervals: IIntervals[];
     user_cpf: string;
     room_code: string;
     message: string;
@@ -15,8 +19,7 @@ interface Request {
 class CreateOrderService {
     public async execute({
         date,
-        hour_start,
-        hour_end,
+        intervals,
         user_cpf,
         room_code,
         message,
@@ -39,8 +42,7 @@ class CreateOrderService {
 
         const order = ordersRepository.create({
             date,
-            hour_start,
-            hour_end,
+            intervals,
             user_cpf,
             room_code,
             message,
