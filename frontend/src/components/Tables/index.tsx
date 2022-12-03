@@ -19,6 +19,7 @@ import {
   MdOutlineNightsStay
 } from 'react-icons/md';
 import { useToast } from '../../context/ToastContext';
+import { CellClickedEvent } from 'ag-grid-community';
 
 interface Schedule {
   room_code: string;
@@ -46,7 +47,12 @@ interface TableProps {
   editable: boolean;
 }
 
-const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
+const Tables: React.FC<TableProps> = ({
+  data,
+  selectable,
+  room_code,
+  editable
+}) => {
   const { addToast } = useToast();
 
   const intervals = [
@@ -66,6 +72,16 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
     '20h00 às 20h50',
     '21h00 às 21h50',
     '21h50 às 22h40'
+  ];
+
+  const days = [
+    'Segunda',
+    'Terça',
+    'Quarta',
+    'Quinta',
+    'Sexta',
+    'Sabádo',
+    'Domingo'
   ];
 
   const rowDataMorning = [
@@ -97,8 +113,6 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
     const filteredSchedules = data.filter((d) => {
       return arrayIntervals.includes(d.interval);
     });
-
-    console.log(filteredSchedules);
 
     return filteredSchedules;
   }
@@ -227,7 +241,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Terça',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -238,7 +252,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Quarta',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -249,7 +263,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Quinta',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -260,7 +274,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Sexta',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -271,7 +285,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Sabádo',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -282,7 +296,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Domingo',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -307,7 +321,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Segunda',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -318,7 +332,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Terça',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -329,7 +343,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Quarta',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -340,7 +354,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Quinta',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -351,7 +365,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Sexta',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -362,7 +376,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Sabádo',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
@@ -373,14 +387,14 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
       headerName: 'Domingo',
       editable: editable ? true : false,
       flex: 1,
-       cellStyle: (params) => {
+      cellStyle: (params) => {
         return params.value != null
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
     }
   ]);
-  console.log(data);
+
   const { token } = useAuth();
 
   async function handleSubmit() {
@@ -422,6 +436,49 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
     }
   }
 
+  const [hours, setHours] = useState([]);
+
+  const onCellClicked = useCallback(
+    (params: CellClickedEvent) => {
+      if (params.value !== null && params.value !== 'SELECIONADO') {
+        alert('Horário não disponivel para reserva');
+        return;
+      }
+
+      let day = params.colDef.field;
+      let interval = params.data.interval;
+      let column = params.column.colDef.field;
+
+      const index = hours.findIndex(
+        (hour) => hour.day === day && hour.interval == interval
+      );
+
+      if (index > -1) {
+        hours.splice(index, 1);
+
+        params.node.setDataValue(column, null);
+        params.column.colDef.cellStyle = { backgroundColor: '#b6f8c4' };
+        params.api.refreshCells({
+          force: true,
+          columns: [column],
+          rowNodes: [params.node]
+        });
+      } else {
+        setHours([...hours, { day, interval }]);
+
+        params.node.setDataValue(column, 'SELECIONADO');
+        params.column.colDef.cellStyle = { backgroundColor: 'cyan' };
+        params.api.refreshCells({
+          force: true,
+          columns: [column],
+          rowNodes: [params.node]
+        });
+      }
+    },
+    [hours]
+  );
+
+  console.log(hours);
   return (
     <Content>
       {editable && (
@@ -450,6 +507,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
             </div>
           </div>
           <AgGridReact
+            onCellClicked={selectable ? onCellClicked : null}
             ref={gridRefMorning} // Ref for accessing Grid's API
             rowData={
               data.length > 0
@@ -476,6 +534,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
             </div>
           </div>
           <AgGridReact
+            onCellClicked={selectable ? onCellClicked : null}
             ref={gridRefAfternoon} // Ref for accessing Grid's API
             rowData={
               data.length > 0
@@ -502,6 +561,7 @@ const Tables: React.FC<TableProps> = ({ data, room_code, editable }) => {
             </div>
           </div>
           <AgGridReact
+            onCellClicked={selectable ? onCellClicked : null}
             ref={gridRefNight}
             rowData={
               data.length > 0 ? filteredData([12, 13, 14, 15]) : rowDataNight

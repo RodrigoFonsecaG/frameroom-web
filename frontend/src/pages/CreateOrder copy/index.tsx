@@ -31,7 +31,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import SchedulesModal from './SchedulesModal';
-import Tables from '../../components/Tables';
 
 
 
@@ -102,18 +101,123 @@ const CreateOrder = (props) => {
     getRooms();
   }, []);
 
+  const timeOptions = [
+    {
+      value: '07:10',
+      label: '07h10'
+    },
+    {
+      value: '08:00',
+      label: '08h00'
+    },
+    {
+      value: '08:50',
+      label: '08h50'
+    },
+    {
+      value: '09:00',
+      label: '09h00'
+    },
+    {
+      value: '09:50',
+      label: '09h50'
+    },
+    {
+      value: '10:40',
+      label: '10h40'
+    },
+    {
+      value: '10:50',
+      label: '10h50'
+    },
+    {
+      value: '11:40',
+      label: '11h40'
+    },
+    {
+      value: '12:30',
+      label: '12h30'
+    },
+    {
+      value: '13:10',
+      label: '13h10'
+    },
+    {
+      value: '14:00',
+      label: '14h00'
+    },
+    {
+      value: '14:50',
+      label: '14h50'
+    },
+    {
+      value: '15:00',
+      label: '15h00'
+    },
+    {
+      value: '15:50',
+      label: '15h50'
+    },
+    {
+      value: '16:40',
+      label: '16h40'
+    },
+    {
+      value: '16:50',
+      label: '16h50'
+    },
+    {
+      value: '17:40',
+      label: '17h40'
+    },
+    {
+      value: '18:30',
+      label: '18h30'
+    },
+    {
+      value: '19:10',
+      label: '19h10'
+    },
+    {
+      value: '20:00',
+      label: '20h00'
+    },
+    {
+      value: '20:50',
+      label: '20h50'
+    },
+    {
+      value: '21:00',
+      label: '21h00'
+    },
+    {
+      value: '21:50',
+      label: '21h50'
+    },
+    {
+      value: '22:40',
+      label: '22h40'
+    }
+  ];
 
-      const [schedules, setSchedules] = useState();
+  const [timeEndOptions, setTimeEndOptions] = useState([]);
+  const [timeEndDisabled, setTimeEndDisabled] = useState(true);
 
-      async function getRoomSchedules() {
-        const schedules = await api.get(`/schedules/${location.state}`);
+  function handleTimeEnd(data) {
+    const selectedTime = parseInt(data.target.value.replace(':', ''));
 
-        setSchedules(schedules.data);
+    const filteredTimes = timeOptions.filter((time, index) => {
+      if (selectedTime < parseInt(time.value.replace(':', ''))) {
+        return { value: time.value, label: time.label };
       }
+    });
 
-      useEffect(() => {
-        getRoomSchedules();
-      }, []);
+    setTimeEndDisabled(false);
+
+    setTimeEndOptions(filteredTimes);
+  }
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -171,8 +275,14 @@ const CreateOrder = (props) => {
                   </div>
                 </div>
                 <div className="content">
-                  <div className="date-hour">
+                  <div className='date-hour'>
                     <h3>Data e horário</h3>
+                    <Button
+                      className='alt'
+                      type="button"
+                      text="Ver horários"
+                      onClick={onOpen}
+                    />
                   </div>
                   <Divider />
 
@@ -183,11 +293,43 @@ const CreateOrder = (props) => {
                       iconSize={23}
                       topText="Data *"
                       type="date"
-                    />  
+                    />
+
+                    <Select
+                      name="hour_start"
+                      icon={MdOutlineTimer}
+                      iconSize={23}
+                      placeholder="Horário de início *"
+                      onChange={handleTimeEnd}
+                    >
+                      <option selected disabled>
+                        Selecione um horário
+                      </option>
+                      {timeOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </Select>
+
+                    <Select
+                      name="hour_end"
+                      icon={MdOutlineTimerOff}
+                      iconSize={23}
+                      placeholder="Horário final *"
+                      disabled={timeEndDisabled}
+                    >
+                      <option selected disabled>
+                        Selecione um horário
+                      </option>
+                      {timeEndOptions &&
+                        timeEndOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                    </Select>
                   </div>
-
-
-                  {schedules && <Tables data={schedules} selectable room_code={location.state} />}
                 </div>
               </div>
 
@@ -195,6 +337,12 @@ const CreateOrder = (props) => {
             </Form>
           </section>
         </Content>
+
+        <SchedulesModal
+          roomCode={location.state}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
       </div>
     </>
   );
