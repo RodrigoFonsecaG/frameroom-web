@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Content = styled.div`
-  height: 1300px;
 
   display: flex;
   flex-direction: column;
@@ -12,6 +11,12 @@ export const Content = styled.div`
     flex-direction: column;
     gap: 4rem;
     flex: 1;
+
+    .error {
+      color: #c53030;
+      font-size: 1.6rem;
+      text-align: center;
+    }
 
     .table {
       display: flex;

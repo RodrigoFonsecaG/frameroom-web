@@ -57,17 +57,22 @@ const schemaEditRoom = Yup.object().shape({
 const schemaCreateOrder = Yup.object().shape({
   room_code: Yup.string().required('Espaço obrigatório'),
   message: Yup.string().required('Motivo de reserva é obrigatório'),
-  date: Yup.date()
-    .nullable()
-    .transform((curr, orig) => (orig === '' ? null : curr))
-    .required('Data obrigatória')
-    .min(new Date(), 'Data deve ser posterior ao dia atual'),
-  hour_start: Yup.string()
-    .required('Hora de início obrigatória')
-    .max(5, 'Selecione um horário válido'),
-  hour_end: Yup.string()
-    .required('Hora final obrigatória')
-    .max(5, 'Selecione um horário válido')
+  // date: Yup.date()
+  //   .nullable()
+  //   .transform((curr, orig) => (orig === '' ? null : curr))
+  //   .required('Data obrigatória')
+  //   .min(new Date(), 'Data deve ser posterior ao dia atual'),
+  intervals: Yup.array()
+    .of(
+      Yup.object()
+        .shape({
+          day: Yup.string().required('Selecione pelo menos 1 horário'),
+          interval: Yup.string().required('Selecione pelo menos 1 horário')
+        })
+        .required('Selecione pelo menos 1 horário')
+    )
+    .required('Selecione pelo menos 1 horário')
+    .min(1, 'Selecione pelo menos 1 horário')
 });
 
 const schemaForgotPassword = Yup.object().shape({
@@ -82,9 +87,8 @@ const schemaResetPassword = Yup.object().shape({
     .min(6, 'No mínimo 6 dígitos'),
   passwordConfirm: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais')
-    .required('Confirmação de senha obrigatório'),
+    .required('Confirmação de senha obrigatório')
 });
-
 
 export {
   schemaSignIn,

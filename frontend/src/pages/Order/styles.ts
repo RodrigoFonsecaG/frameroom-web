@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 
-
-
 export const Content = styled.div`
-
   width: 100%;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
@@ -84,6 +81,16 @@ export const Content = styled.div`
       }
     }
 
+    .date-inputs {
+      display: flex;
+      flex-direction: column;
+
+      .dates{
+        display: flex;
+        gap: 2rem;
+      }
+    }
+
     .room-inputs {
       display: flex;
       gap: 2.4rem;
@@ -96,7 +103,6 @@ export const Content = styled.div`
       }
 
       > div > div {
-        background-color: var(--white);
         width: 100%;
       }
     }

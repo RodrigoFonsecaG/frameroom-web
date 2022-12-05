@@ -27,13 +27,9 @@ import * as Yup from 'yup';
 import { OptionsFactory } from 'ag-grid-community/dist/lib/filter/provided/optionsFactory';
 import { isEqual, parseISO, format, parse } from 'date-fns';
 
-import {
-  useDisclosure,
-} from '@chakra-ui/react';
+import { useDisclosure } from '@chakra-ui/react';
 import SchedulesModal from './SchedulesModal';
 import Tables from '../../components/Tables';
-
-
 
 const CreateOrder = (props) => {
   const { token, user } = useAuth();
@@ -41,22 +37,26 @@ const CreateOrder = (props) => {
   const navigate = useNavigate();
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-
-
+  const [intervals, setIntervals] = useState([]);
+  const [intervalsError, setIntervalsError] = useState([]);
 
   const location = useLocation();
   console.log(location.state);
 
-
   async function handleSubmit(data: object): Promise<void> {
     formRef.current?.setErrors({});
+
     try {
       const order = {
         ...data,
+        intervals,
         user_cpf: user.cpf
       };
 
-      await schemaCreateOrder.validate(data, {
+      order.date = '2022-12-03T13:24:04.233Z';
+
+      console.log(order)
+      await schemaCreateOrder.validate(order, {
         abortEarly: false
       });
 
@@ -67,13 +67,15 @@ const CreateOrder = (props) => {
       addToast({
         type: 'sucess',
         title: 'Solicitação de reserva realizada com sucesso!',
-        description: 'Sua solicitação de reserva será analisada e respondida por e-mail'
+        description:
+          'Sua solicitação de reserva será analisada e respondida por e-mail'
       });
 
       navigate('/rooms');
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
+        setIntervalsError(errors.intervals);
 
         formRef.current?.setErrors(errors);
 
@@ -102,18 +104,23 @@ const CreateOrder = (props) => {
     getRooms();
   }, []);
 
+  const [schedules, setSchedules] = useState();
 
-      const [schedules, setSchedules] = useState();
+  async function getRoomSchedules() {
+    const schedules = await api.get(`/schedules/${location.state}`);
 
-      async function getRoomSchedules() {
-        const schedules = await api.get(`/schedules/${location.state}`);
+    setSchedules(schedules.data);
+  }
 
-        setSchedules(schedules.data);
-      }
+  useEffect(() => {
+    getRoomSchedules();
+  }, []);
 
-      useEffect(() => {
-        getRoomSchedules();
-      }, []);
+  const getTableData = (data) => {
+    setIntervals(data)
+  }
+
+  console.log(intervalsError)
 
   return (
     <>
@@ -176,18 +183,25 @@ const CreateOrder = (props) => {
                   </div>
                   <Divider />
 
-                  <div className="room-inputs date-inputs">
+                  {/* <div className="room-inputs date-inputs">
                     <Input
                       name="date"
                       icon={MdOutlineCalendarToday}
                       iconSize={23}
                       topText="Data *"
                       type="date"
-                    />  
-                  </div>
+                    />
+                  </div> */}
 
-
-                  {schedules && <Tables data={schedules} selectable room_code={location.state} />}
+                  {schedules && (
+                    <Tables
+                      data={schedules}
+                      selectable
+                      room_code={location.state}
+                      onTableChange={getTableData}
+                      error={intervalsError}
+                    />
+                  )}
                 </div>
               </div>
 

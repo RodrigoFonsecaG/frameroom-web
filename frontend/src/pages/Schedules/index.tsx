@@ -15,7 +15,7 @@ import ImageInput from '../../components/ImageInput';
 import Input from '../../components/Input';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Tables from '../../components/Tables';
 
 
@@ -35,6 +35,13 @@ const Schedules = () => {
   const [room, setRoom] = useState<RoomProps>({});
   const [schedules, setSchedules] = useState<RoomProps>({});
   let { room_code } = useParams();
+  const { state } = useLocation();
+
+  if (state) {
+    console.log(state)
+  }
+
+
 
   async function getRoom() {
     const rooms = await api.get(`/rooms/${room_code}`);
@@ -74,7 +81,7 @@ const Schedules = () => {
 
                 <Divider />
                 
-                <Tables data={schedules} room_code={room_code} editable/>
+                <Tables data={schedules} room_code={room_code} state={state} editable/>
               </div>
             </section>
           </Content>

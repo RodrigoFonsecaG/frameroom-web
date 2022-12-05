@@ -37,6 +37,9 @@ export const Content = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+
+
 
     @media (max-width: 650px) {
       grid-template-columns: 1fr;
@@ -76,6 +79,19 @@ export const Content = styled.div`
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
         border-bottom: 3px solid var(--light-blue);
+        height: 360px;
+
+        .dates {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start !important;
+
+          .intervals {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+        }
 
         .order-button {
           margin-left: auto;

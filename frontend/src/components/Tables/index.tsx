@@ -20,6 +20,7 @@ import {
 } from 'react-icons/md';
 import { useToast } from '../../context/ToastContext';
 import { CellClickedEvent } from 'ag-grid-community';
+import { intervals } from './intervals';
 
 interface Schedule {
   room_code: string;
@@ -51,38 +52,12 @@ const Tables: React.FC<TableProps> = ({
   data,
   selectable,
   room_code,
-  editable
+  editable,
+  onTableChange,
+  error,
+  state
 }) => {
   const { addToast } = useToast();
-
-  const intervals = [
-    '07h10 às 08h00',
-    '08h00 às 08h50',
-    '09h00 às 09h50',
-    '09h50 às 10h40',
-    '10h50 às 11h40',
-    '11h40 às 12h30',
-    '13h10 às 14h00',
-    '14h00 às 14h50',
-    '15h00 às 15h50',
-    '15h50 às 16h40',
-    '16h50 às 17h40',
-    '17h40 às 18h30',
-    '19h10 às 20h00',
-    '20h00 às 20h50',
-    '21h00 às 21h50',
-    '21h50 às 22h40'
-  ];
-
-  const days = [
-    'Segunda',
-    'Terça',
-    'Quarta',
-    'Quinta',
-    'Sexta',
-    'Sabádo',
-    'Domingo'
-  ];
 
   const rowDataMorning = [
     { interval: 0 },
@@ -440,7 +415,12 @@ const Tables: React.FC<TableProps> = ({
 
   const onCellClicked = useCallback(
     (params: CellClickedEvent) => {
-      if (params.value !== null && params.value !== 'SELECIONADO') {
+      console.log(params.value);
+      if (
+        params.value !== undefined &&
+        params.value !== null &&
+        params.value !== 'SELECIONADO'
+      ) {
         alert('Horário não disponivel para reserva');
         return;
       }
@@ -478,7 +458,47 @@ const Tables: React.FC<TableProps> = ({
     [hours]
   );
 
-  console.log(hours);
+  if (onTableChange) {
+    onTableChange(hours);
+  }
+
+  console.log(state)
+
+  const onUpdateSomeValues = useCallback(async () => {
+    if (gridRefMorning && gridRefAfternoon && gridRefNight) {
+
+      gridRefMorning.current.api.forEachNode((node) => {
+              
+        state.filter((interval) => {
+          if (interval.interval === node.data.interval) {
+            node.setDataValue(interval.day, 'RESERVADO');
+          }
+        });
+      });
+
+      gridRefAfternoon.current.api.forEachNode((node) => {
+        state.filter((interval) => {
+          if (interval.interval === node.data.interval) {
+            console.log(node);
+            node.setDataValue(interval.day, 'RESERVADO');
+          }
+        });
+      });
+
+      gridRefNight.current.api.forEachNode((node) => {
+        state.filter((interval) => {
+          if (interval.interval === node.data.interval) {
+            node.setDataValue(interval.day, 'RESERVADO');
+          }
+        });
+      });
+    }
+  }, []);
+
+  if (state) {
+    onUpdateSomeValues();
+  }
+
   return (
     <Content>
       {editable && (
@@ -506,6 +526,7 @@ const Tables: React.FC<TableProps> = ({
               <p className="unavailable">Indisponível</p>
             </div>
           </div>
+
           <AgGridReact
             onCellClicked={selectable ? onCellClicked : null}
             ref={gridRefMorning} // Ref for accessing Grid's API
@@ -572,6 +593,7 @@ const Tables: React.FC<TableProps> = ({
             rowSelection="multiple" // Options - allows click selection of rows
           />
         </div>
+        {error && <div className="error">{`${error}`}</div>}
       </div>
     </Content>
   );

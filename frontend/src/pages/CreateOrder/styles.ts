@@ -46,10 +46,9 @@ export const Content = styled.div`
         p {
           font-size: 1.2rem;
         }
-
       }
 
-      .date-hour{
+      .date-hour {
         display: flex;
         align-items: baseline;
         gap: 2rem;
@@ -70,6 +69,7 @@ export const Content = styled.div`
         text-align: center;
         margin-bottom: 3.6rem;
       }
+
 
       @media (max-width: 400px) {
         h2 {

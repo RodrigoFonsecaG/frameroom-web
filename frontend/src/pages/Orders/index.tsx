@@ -18,11 +18,15 @@ import { Form } from '@unform/web';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-import { formatDate, formatTime } from '../../utils/convertDates';
+import {
+  formatDate,
+  formatTime,
+  convertIntervalTime,
+  convertIntervalDate
+} from '../../utils/convertDates';
 
 const Orders = () => {
   const [orders, setOrders] = useState();
-  const imagePath = 'http://localhost:3333/files/';
 
   const { token } = useAuth();
 
@@ -46,15 +50,17 @@ const Orders = () => {
   }
 
   function filterByUserType() {
-        const filteredOrders = orders.slice(0).sort(function (a, b) {
-          return a.type_code - b.type_code;
-        });
-        setOrders(filteredOrders);
+    const filteredOrders = orders.slice(0).sort(function (a, b) {
+      return a.type_code - b.type_code;
+    });
+    setOrders(filteredOrders);
   }
 
   useEffect(() => {
     getOrders();
   }, []);
+
+  console.log(orders);
 
   return (
     <>
@@ -95,18 +101,23 @@ const Orders = () => {
                             <p>{order.type}</p>
                           </div>
 
-                          <div>
-                            <MdOutlineCalendarToday />
-                            <span>Data: </span>
-                            <p>{formatDate(order.date)}</p>
-                          </div>
-
-                          <div>
-                            <MdOutlineTimer />
-                            <span>Horário: </span>
-                            <p>{`${formatTime(
-                              order.hour_start
-                            )} ás ${formatTime(order.hour_end)}`}</p>
+                          <div className="dates">
+                            <div className="dates-header">
+                              <MdOutlineCalendarToday />
+                              <span>Datas: </span>
+                            </div>
+                            <div className="intervals">
+                              {order.intervals.map((interval) => {
+                                return (
+                                  <div className="interval">
+                                    <p>{convertIntervalDate(interval.day)} -</p>
+                                    <p>
+                                      {convertIntervalTime(interval.interval)}
+                                    </p>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
 
@@ -122,6 +133,8 @@ const Orders = () => {
               })}
           </div>
         </Content>
+
+        
       </div>
     </>
   );

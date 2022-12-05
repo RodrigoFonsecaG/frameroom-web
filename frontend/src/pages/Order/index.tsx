@@ -15,13 +15,14 @@ import Input from '../../components/Input';
 import api from '../../services/api';
 import Button from '../../components/Button';
 import { useAuth } from '../../context/AuthContext';
-import { formatDate, formatTime } from '../../utils/convertDates';
+import { convertIntervalDate, convertIntervalTime, formatDate, formatTime } from '../../utils/convertDates';
 import ContactModal from './ContactModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
 import { FormHandles } from '@unform/core';
 
 import { useDisclosure } from '@chakra-ui/react';
+import SchedulesModal from './SchedulesModal';
 
 const Order = () => {
   const [order, setOrder] = useState();
@@ -36,7 +37,6 @@ const Order = () => {
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    console.log(order);
     setOrder(order.data[0]);
   }
 
@@ -45,6 +45,7 @@ const Order = () => {
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
 
   async function approveOrder() {
     try {
@@ -56,9 +57,9 @@ const Order = () => {
          order: {
            ...order,
            date: formatDate(order.date),
-           hour: `${formatTime(order.hour_start)} ás ${formatTime(
-             order.hour_end
-           )}`
+          //  hour: `${formatTime(order.hour_start)} ás ${formatTime(
+          //    order.hour_end
+          //  )}`
          },
          state
        },
@@ -75,13 +76,11 @@ const Order = () => {
 
       addToast({
         type: 'info',
-        title: 'Adicione o horário na tabela!',
-        description: `Adicione o horário de ${formatTime(
-          order.hour_start
-        )} ás ${formatTime(order.hour_end)} na tabela`
+        title: 'Horários adicionados na tabela!',
+        description: `Após conferir, clique em salvar horários para validar a reserva.`
       });
 
-      navigate(`/schedules/${order.room_code}`);
+      navigate(`/schedules/${order.room_code}`, {state: order.intervals});
     } catch (err) {
       // disparar um toast
       addToast({
@@ -106,9 +105,9 @@ const Order = () => {
           order: {
             ...order,
             date: formatDate(order.date),
-            hour: `${formatTime(order.hour_start)} ás ${formatTime(
-              order.hour_end
-            )}`
+            // hour: `${formatTime(order.hour_start)} ás ${formatTime(
+            //   order.hour_end
+            // )}`
           },
           state
         },
@@ -208,19 +207,50 @@ const Order = () => {
 
                 <div className="room-infos">
                   <div className="room-header">
-                    <h2>Data e horário</h2>
+                    <h2>Datas e horários</h2>
+                    <Button
+                      className="alt"
+                      type="button"
+                      text="Ver horários do espaço"
+                      onClick={onOpen2}
+                    />
                   </div>
 
                   <Divider />
 
-                  <div className="room-inputs">
-                    <Input
+                  <div className="room-inputs date-inputs">
+                    {order.intervals.map((interval) => {
+                      return (
+                        <div className="dates" key={interval.day + interval.interval}>
+                          <Input
+                            disabled
+                            name="date"
+                            icon={MdOutlineCalendarToday}
+                            iconSize={23}
+                            topText="Data"
+                            defaultValue={convertIntervalDate(interval.day)}
+                          />
+
+                          <Input
+                            disabled
+                            name="hour"
+                            icon={MdOutlineTimer}
+                            iconSize={23}
+                            topText="Horário"
+                            defaultValue={convertIntervalTime(
+                              interval.interval
+                            )}
+                          />
+                        </div>
+                      );
+                    })}
+                    {/* <Input
                       disabled
                       name="date"
                       icon={MdOutlineCalendarToday}
                       iconSize={23}
                       topText="Data"
-                      defaultValue={formatDate(order.date)}
+                      defaultValue="19/02/2002"
                     />
 
                     <Input
@@ -229,10 +259,8 @@ const Order = () => {
                       icon={MdOutlineTimer}
                       iconSize={23}
                       topText="Horário"
-                      defaultValue={`${formatTime(
-                        order.hour_start
-                      )} ás ${formatTime(order.hour_end)}`}
-                    />
+                      defaultValue="19/02/2002"
+                    /> */}
                   </div>
                 </div>
 
@@ -260,6 +288,13 @@ const Order = () => {
       </div>
 
       <ContactModal order={order} isOpen={isOpen} onClose={onClose} />
+      {order && (
+        <SchedulesModal
+          roomCode={order.room_code}
+          isOpen={isOpen2}
+          onClose={onClose2}
+        />
+      )}
     </>
   );
 };

@@ -25,10 +25,12 @@ const ContactModal = ({ order, isOpen, onClose }) => {
   const handleChange = (event) => setMessage(event.target.value);
   const { token } = useAuth();
   const { addToast } = useToast();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
 
   async function contactOrder() {
-    console.log(message);
+
+    console.log(order)
 
     try {
       const state = 'contact';
@@ -39,9 +41,9 @@ const ContactModal = ({ order, isOpen, onClose }) => {
           order: {
             ...order,
             date: formatDate(order.date),
-            hour: `${formatTime(order.hour_start)} ás ${formatTime(
-              order.hour_end
-            )}`,
+            // hour: `${formatTime(order.hour_start)} ás ${formatTime(
+            //   order.hour_end
+            // )}`,
             contact: message
           },
           state
