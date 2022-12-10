@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
@@ -14,6 +8,8 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import { Content } from './styles';
 import {
+  MdOutlineArrowBack,
+  MdOutlineArrowForward,
   MdOutlineBrightness4,
   MdOutlineLightMode,
   MdOutlineNightsStay
@@ -21,6 +17,8 @@ import {
 import { useToast } from '../../context/ToastContext';
 import { CellClickedEvent } from 'ag-grid-community';
 import { intervals } from './intervals';
+import { startOfWeek, endOfWeek, addDays } from 'date-fns';
+import { formatDate } from '../../utils/convertDates';
 
 interface Schedule {
   room_code: string;
@@ -55,9 +53,11 @@ const Tables: React.FC<TableProps> = ({
   editable,
   onTableChange,
   error,
+  week_date,
   state
 }) => {
   const { addToast } = useToast();
+
 
   const rowDataMorning = [
     { interval: 0 },
@@ -83,6 +83,14 @@ const Tables: React.FC<TableProps> = ({
     { interval: 14 },
     { interval: 15 }
   ];
+
+  const [dayStart, setDayStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 })
+  );
+
+  const [dayEnd, setDayEnd] = useState(() =>
+    endOfWeek(new Date(), { weekStartsOn: 1 })
+  );
 
   function filteredData(arrayIntervals) {
     const filteredSchedules = data.filter((d) => {
@@ -374,30 +382,108 @@ const Tables: React.FC<TableProps> = ({
 
   async function handleSubmit() {
     let rowData = [];
+    let nonFixedRowData = [];
 
     gridRefMorning.current.api.forEachNode((node) => {
-      return rowData.push({
-        ...node.data,
+      const data = { ...node.data };
+      const data2 = { ...node.data };
+
+
+      // Removendo se o campo esta como 'reservado'
+      Object.keys(data).forEach((key) => {
+        if (data[key] === 'RESERVADO') {
+          delete data[key];
+        }
+      });
+
+      Object.keys(data2).forEach((key) => {
+        if (data2[key] !== 'RESERVADO' && typeof data2[key] !== 'number') {
+          delete data2[key];
+        }
+      });
+
+      rowData.push({
+        ...data,
         room_code
+      });
+
+      nonFixedRowData.push({
+        ...data2,
+        room_code,
+        week: week_date
       });
     });
 
     gridRefAfternoon.current.api.forEachNode((node) => {
-      return rowData.push({
-        ...node.data,
+      const data = { ...node.data };
+      const data2 = { ...node.data };
+
+      // Removendo se o campo esta como 'reservado'
+      Object.keys(data).forEach((key) => {
+        if (data[key] === 'RESERVADO') {
+          delete data[key];
+        }
+      });
+
+      Object.keys(data2).forEach((key) => {
+        if (data2[key] !== 'RESERVADO' && typeof data2[key] !== 'number') {
+          delete data2[key];
+        }
+      });
+
+      rowData.push({
+        ...data,
         room_code
+      });
+
+      nonFixedRowData.push({
+        ...data2,
+        room_code,
+        week: week_date
       });
     });
 
     gridRefNight.current.api.forEachNode((node) => {
-      return rowData.push({
-        ...node.data,
+      const data = { ...node.data };
+      const data2 = { ...node.data };
+
+      // Removendo se o campo esta como 'reservado'
+      Object.keys(data).forEach((key) => {
+        if (data[key] === 'RESERVADO') {
+          delete data[key];
+        }
+      });
+
+      Object.keys(data2).forEach((key) => {
+        if (data2[key] !== 'RESERVADO' && typeof data2[key] !== 'number') {
+          delete data2[key];
+        }
+      });
+
+      rowData.push({
+        ...data,
         room_code
+      });
+
+      nonFixedRowData.push({
+        ...data2,
+        room_code,
+        week: week_date
       });
     });
 
+    
+
     try {
+      console.log(rowData)
+      console.log(nonFixedRowData);
       await api.post('/schedules', rowData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      console.log(nonFixedRowData)
+
+      await api.post('/non-fixed-schedules', nonFixedRowData, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -415,7 +501,6 @@ const Tables: React.FC<TableProps> = ({
 
   const onCellClicked = useCallback(
     (params: CellClickedEvent) => {
-      console.log(params.value);
       if (
         params.value !== undefined &&
         params.value !== null &&
@@ -444,7 +529,14 @@ const Tables: React.FC<TableProps> = ({
           rowNodes: [params.node]
         });
       } else {
-        setHours([...hours, { day, interval }]);
+        setHours([
+          ...hours,
+          {
+            day,
+            interval,
+            dateDay: addDays(dayStart, day.charAt(day.length - 1))
+          }
+        ]);
 
         params.node.setDataValue(column, 'SELECIONADO');
         params.column.colDef.cellStyle = { backgroundColor: 'cyan' };
@@ -455,20 +547,16 @@ const Tables: React.FC<TableProps> = ({
         });
       }
     },
-    [hours]
+    [hours, dayStart]
   );
 
   if (onTableChange) {
     onTableChange(hours);
   }
 
-  console.log(state)
-
   const onUpdateSomeValues = useCallback(async () => {
     if (gridRefMorning && gridRefAfternoon && gridRefNight) {
-
       gridRefMorning.current.api.forEachNode((node) => {
-              
         state.filter((interval) => {
           if (interval.interval === node.data.interval) {
             node.setDataValue(interval.day, 'RESERVADO');
@@ -479,7 +567,6 @@ const Tables: React.FC<TableProps> = ({
       gridRefAfternoon.current.api.forEachNode((node) => {
         state.filter((interval) => {
           if (interval.interval === node.data.interval) {
-            console.log(node);
             node.setDataValue(interval.day, 'RESERVADO');
           }
         });
@@ -499,6 +586,18 @@ const Tables: React.FC<TableProps> = ({
     onUpdateSomeValues();
   }
 
+  function nextWeek() {
+    setDayStart(addDays(dayStart, 7));
+    setDayEnd(addDays(dayEnd, 7));
+    setHours([]);
+  }
+
+  function prevWeek() {
+    setDayStart(addDays(dayStart, -7));
+    setDayEnd(addDays(dayEnd, -7));
+    setHours([]);
+  }
+
   return (
     <Content>
       {editable && (
@@ -514,6 +613,11 @@ const Tables: React.FC<TableProps> = ({
           fontSize: '1.4rem'
         }}
       >
+        {/* <div className="week-choose">
+          <MdOutlineArrowBack size={30} onClick={prevWeek} />
+          <span>{`${formatDate(dayStart)} à ${formatDate(dayEnd)}`}</span>
+          <MdOutlineArrowForward size={30} onClick={nextWeek} />
+        </div> */}
         <div className="table" style={{ width: '100%', height: 345 }}>
           <div className="schedule-time">
             <div className="schedule-title">

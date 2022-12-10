@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Content = styled.div`
-
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -11,6 +10,7 @@ export const Content = styled.div`
     flex-direction: column;
     gap: 4rem;
     flex: 1;
+
 
     .error {
       color: #c53030;

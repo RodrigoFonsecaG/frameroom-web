@@ -41,10 +41,12 @@ const CreateOrder = (props) => {
   const [intervalsError, setIntervalsError] = useState([]);
 
   const location = useLocation();
-  console.log(location.state);
+
 
   async function handleSubmit(data: object): Promise<void> {
     formRef.current?.setErrors({});
+
+
 
     try {
       const order = {
@@ -53,13 +55,12 @@ const CreateOrder = (props) => {
         user_cpf: user.cpf
       };
 
-      order.date = '2022-12-03T13:24:04.233Z';
+      order.date = intervals[0].dateDay;
 
-      console.log(order)
+
       await schemaCreateOrder.validate(order, {
         abortEarly: false
       });
-
       await api.post('/orders', order, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -120,7 +121,6 @@ const CreateOrder = (props) => {
     setIntervals(data)
   }
 
-  console.log(intervalsError)
 
   return (
     <>

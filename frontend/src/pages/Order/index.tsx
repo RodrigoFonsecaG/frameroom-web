@@ -3,9 +3,11 @@ import {
   MdOutlineCalendarToday,
   MdOutlineGroup,
   MdOutlineMail,
+  MdOutlineNextWeek,
   MdOutlinePerson,
   MdOutlinePhone,
-  MdOutlineTimer
+  MdOutlineTimer,
+  MdOutlineWeekend
 } from 'react-icons/md';
 import Header from '../../components/Header';
 import Textarea from '../../components/Textarea';
@@ -15,7 +17,7 @@ import Input from '../../components/Input';
 import api from '../../services/api';
 import Button from '../../components/Button';
 import { useAuth } from '../../context/AuthContext';
-import { convertIntervalDate, convertIntervalTime, formatDate, formatTime } from '../../utils/convertDates';
+import { convertIntervalDate, convertIntervalTime, formatDate, getWeek } from '../../utils/convertDates';
 import ContactModal from './ContactModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
@@ -219,15 +221,26 @@ const Order = () => {
                   <Divider />
 
                   <div className="room-inputs date-inputs">
+                    <Input
+                      disabled
+                      name="week"
+                      icon={MdOutlineNextWeek}
+                      iconSize={23}
+                      topText="Semana"
+                      defaultValue={getWeek(order.date)}
+                    />
                     {order.intervals.map((interval) => {
                       return (
-                        <div className="dates" key={interval.day + interval.interval}>
+                        <div
+                          className="dates"
+                          key={interval.day + interval.interval}
+                        >
                           <Input
                             disabled
                             name="date"
                             icon={MdOutlineCalendarToday}
                             iconSize={23}
-                            topText="Data"
+                            topText="Dia"
                             defaultValue={convertIntervalDate(interval.day)}
                           />
 

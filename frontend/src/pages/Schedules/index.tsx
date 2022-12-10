@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
+  MdOutlineArrowBack,
+  MdOutlineArrowForward,
   MdOutlineHouse,
   MdOutlinePin,
   MdOutlineReduceCapacity,
@@ -17,8 +19,8 @@ import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Tables from '../../components/Tables';
-
-
+import { startOfWeek, endOfWeek, addDays } from 'date-fns';
+import { formatDate } from '../../utils/convertDates';
 
 interface RoomProps {
   room_code?: string;
@@ -38,10 +40,16 @@ const Schedules = () => {
   const { state } = useLocation();
 
   if (state) {
-    console.log(state)
+    console.log(state);
   }
 
+  const [dayStart, setDayStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 })
+  );
 
+  const [dayEnd, setDayEnd] = useState(() =>
+    endOfWeek(new Date(), { weekStartsOn: 1 })
+  );
 
   async function getRoom() {
     const rooms = await api.get(`/rooms/${room_code}`);
@@ -50,16 +58,44 @@ const Schedules = () => {
   }
 
   async function getRoomSchedules() {
-    const schedules = await api.get(`/schedules/${room_code}`);
+    const weekDate = `${formatDate(dayStart)} à ${formatDate(dayEnd)}`;
+    const schedules = await api.get(`/schedules/${room_code}`, {
+      params: {
+        weekDate
+      }
+    });
 
     setSchedules(schedules.data);
   }
-
 
   useEffect(() => {
     getRoom();
     getRoomSchedules();
   }, []);
+
+  async function nextWeek(date) {
+    const weekDate = `${formatDate(dayStart)} à ${formatDate(dayEnd)}`;
+
+    setDayStart(addDays(dayStart, 7));
+    setDayEnd(addDays(dayEnd, 7));
+
+    // const schedules = await api.get(`/schedules/${room_code}`, {
+    //   params: {
+    //     weekDate
+    //   }
+    // });
+
+    // setSchedules(schedules.data);
+  }
+
+  useEffect(() => {
+    getRoomSchedules();
+  }, [dayStart, dayEnd]);
+
+  function prevWeek(date) {
+    setDayStart(addDays(dayStart, -7));
+    setDayEnd(addDays(dayEnd, -7));
+  }
 
   return (
     <>
@@ -80,8 +116,22 @@ const Schedules = () => {
                 </div>
 
                 <Divider />
-                
-                <Tables data={schedules} room_code={room_code} state={state} editable/>
+
+                <div className="week-choose">
+                  <MdOutlineArrowBack size={30} onClick={prevWeek} />
+                  <span>{`${formatDate(dayStart)} à ${formatDate(
+                    dayEnd
+                  )}`}</span>
+                  <MdOutlineArrowForward size={30} onClick={nextWeek} />
+                </div>
+
+                <Tables
+                  data={schedules}
+                  room_code={room_code}
+                  state={state}
+                  week_date={`${formatDate(dayStart)} à ${formatDate(dayEnd)}`}
+                  editable
+                />
               </div>
             </section>
           </Content>

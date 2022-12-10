@@ -19,16 +19,17 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import {
-  formatDate,
-  formatTime,
+  getWeek,
   convertIntervalTime,
   convertIntervalDate
 } from '../../utils/convertDates';
+import { endOfWeek, format, startOfWeek } from 'date-fns';
 
 const Orders = () => {
   const [orders, setOrders] = useState();
 
   const { token } = useAuth();
+
 
   async function getOrders() {
     try {
@@ -62,6 +63,9 @@ const Orders = () => {
 
   console.log(orders);
 
+
+
+
   return (
     <>
       <Header />
@@ -80,6 +84,7 @@ const Orders = () => {
           <div className="cards">
             {orders &&
               orders.map((order) => {
+                
                 return (
                   <div className="card" key={order.order_code}>
                     <div className="card-main">
@@ -101,10 +106,17 @@ const Orders = () => {
                             <p>{order.type}</p>
                           </div>
 
+                          <div>
+                            <MdOutlineBadge />
+                            <span>Semana:</span>
+                            <p>{getWeek(order.date)}</p>
+                          </div>
+
+
                           <div className="dates">
                             <div className="dates-header">
                               <MdOutlineCalendarToday />
-                              <span>Datas: </span>
+                              <span>Dias/Horários: </span>
                             </div>
                             <div className="intervals">
                               {order.intervals.map((interval) => {
