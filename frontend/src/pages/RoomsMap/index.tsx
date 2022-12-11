@@ -49,6 +49,7 @@ const RoomsMap = () => {
     setFilteredRooms(filteredRooms);
   }
 
+
   const numberDayWeek = [6, 0, 1, 2, 3, 4, 5];
   const day = new Date().getDay();
 
@@ -168,58 +169,88 @@ const RoomsMap = () => {
             </div>
           )} */}
 
-          {/* {rooms && (
+          {rooms && (
             <div className="cards">
               {filteredRooms
                 ? filteredRooms.map((room) => {
-                    return <RoomCard room={room} />;
-                  })
-                : rooms?.map((room) => {
-                    return <RoomCard room={room} />;
-                  })}
-            </div>
-          )} */}
-          <div className="cards">
-            {rooms &&
-              rooms.map((room) => {
-                return (
-                  <div className="card">
-                    <div className="card-main">
-                      <div className="room-title">
-                        <h2>
-                          {room[fieldDay]
-                            ? `${room.room_type} ${room.room_number} - RESERVADO`
-                            : `${room.room_type} ${room.room_number} - DISPONÍVEL`}
-                        </h2>
-                      </div>
-
-                      <div
-                        className="room-info"
-                        id={room[fieldDay] ? 'unavailable' : 'available'}
-                      >
-                        <div className="info">
-                          <div>
-                            <MdOutlinePerson />
-                            <span>Ocupação:</span>
-                            <p>
+                    return (
+                      <div className="card">
+                        <div className="card-main">
+                          <div className="room-title">
+                            <h2>
                               {room[fieldDay]
-                                ? `${room[fieldDay]}`
-                                : 'Disponível'}
-                            </p>
+                                ? `${room.room_type} ${room.room_number} - RESERVADO`
+                                : `${room.room_type} ${room.room_number} - DISPONÍVEL`}
+                            </h2>
                           </div>
 
-                          <div>
-                            <MdOutlineBadge />
-                            <span>Andar:</span>
-                            <p>{`${room.floor}° andar`}</p>
+                          <div
+                            className="room-info"
+                            id={room[fieldDay] ? 'unavailable' : 'available'}
+                          >
+                            <div className="info">
+                              <div>
+                                <MdOutlinePerson />
+                                <span>Ocupação:</span>
+                                <p>
+                                  {room[fieldDay]
+                                    ? `${room[fieldDay]}`
+                                    : 'Disponível'}
+                                </p>
+                              </div>
+
+                              <div>
+                                <MdOutlineBadge />
+                                <span>Andar:</span>
+                                <p>{`${room.floor}° andar`}</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
+                    );
+                  })
+                : rooms?.map((room) => {
+                    return (
+                      <div className="card">
+                        <div className="card-main">
+                          <div className="room-title">
+                            <h2>
+                              {room[fieldDay]
+                                ? `${room.room_type} ${room.room_number} - RESERVADO`
+                                : `${room.room_type} ${room.room_number} - DISPONÍVEL`}
+                            </h2>
+                          </div>
+
+                          <div
+                            className="room-info"
+                            id={room[fieldDay] ? 'unavailable' : 'available'}
+                          >
+                            <div className="info">
+                              <div>
+                                <MdOutlinePerson />
+                                <span>Ocupação:</span>
+                                <p>
+                                  {room[fieldDay]
+                                    ? `${room[fieldDay]}`
+                                    : 'Disponível'}
+                                </p>
+                              </div>
+
+                              <div>
+                                <MdOutlineBadge />
+                                <span>Andar:</span>
+                                <p>{`${room.floor}° andar`}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+            </div>
+          )}
+          
         </Content>
       </div>
     </>
