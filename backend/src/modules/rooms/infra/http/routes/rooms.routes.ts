@@ -14,7 +14,11 @@ const roomsController = new RoomsController();
 
 roomsRouter.get('/', roomsController.index);
 
+roomsRouter.get('/map', roomsController.showOnDay);
+
+
 roomsRouter.get('/:room_code', roomsController.show);
+
 
 roomsRouter.post(
     '/',

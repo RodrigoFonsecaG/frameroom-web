@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Link to="/">
+        <Link to="/rooms">
           <img src={unimontesFrameroomLogo} alt="" />
         </Link>
         {mobile ? (
@@ -23,8 +23,8 @@ const Header = () => {
         ) : (
           <>
             <nav>
-              <NavLink className="nav-link" to="/home">
-                Início
+              <NavLink className="nav-link" to="/rooms/map">
+                Mapa
               </NavLink>
               <div className="link-down">
                 <NavLink className="nav-link" to="/rooms">

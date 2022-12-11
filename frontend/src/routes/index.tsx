@@ -15,6 +15,7 @@ import Orders from '../pages/Orders';
 import Order from '../pages/Order';
 import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword';
+import RoomsMap from '../pages/RoomsMap';
 
 const Routes: React.FC = () => {
   return (
@@ -36,6 +37,7 @@ const Routes: React.FC = () => {
         element={<AuthRoute Component={ResetPassword} needAuth={false} />}
       />
       <Route path="rooms" element={<Rooms />} />
+      <Route path="rooms/map" element={<RoomsMap />} />
       <Route
         path="rooms/:room_code"
         element={<AuthRoute Component={Room} needAuth />}
