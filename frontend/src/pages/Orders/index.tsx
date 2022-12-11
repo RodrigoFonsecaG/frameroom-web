@@ -112,25 +112,6 @@ const Orders = () => {
                             <p>{getWeek(order.date)}</p>
                           </div>
 
-
-                          <div className="dates">
-                            <div className="dates-header">
-                              <MdOutlineCalendarToday />
-                              <span>Dias/Horários: </span>
-                            </div>
-                            <div className="intervals">
-                              {order.intervals.map((interval) => {
-                                return (
-                                  <div className="interval">
-                                    <p>{convertIntervalDate(interval.day)} -</p>
-                                    <p>
-                                      {convertIntervalTime(interval.interval)}
-                                    </p>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
                         </div>
 
                         <div className="order-button">

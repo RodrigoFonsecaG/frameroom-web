@@ -54,9 +54,12 @@ const Tables: React.FC<TableProps> = ({
   onTableChange,
   error,
   week_date,
+  stateDay,
   state
 }) => {
   const { addToast } = useToast();
+
+
 
   const [schedules, setSchedules] = useState<RoomProps>({});
 
@@ -102,11 +105,13 @@ const Tables: React.FC<TableProps> = ({
   ];
 
   const [dayStart, setDayStart] = useState(() =>
-    startOfWeek(new Date(), { weekStartsOn: 1 })
+    stateDay
+      ? startOfWeek(new Date(stateDay), { weekStartsOn: 1 })
+      : startOfWeek(new Date(), { weekStartsOn: 1 })
   );
 
   const [dayEnd, setDayEnd] = useState(() =>
-    endOfWeek(new Date(), { weekStartsOn: 1 })
+    stateDay ? endOfWeek(new Date(stateDay), { weekStartsOn: 1 }) : endOfWeek(new Date(), { weekStartsOn: 1 })
   );
 
     async function nextWeek() {

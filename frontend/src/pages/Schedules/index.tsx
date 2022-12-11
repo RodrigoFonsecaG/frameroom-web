@@ -75,7 +75,8 @@ const Schedules = () => {
 
                 <Tables
                   room_code={room_code}
-                  state={state}
+                  state={state.intervals}
+                  stateDay={state.day}
                   editable
                 />
               </div>

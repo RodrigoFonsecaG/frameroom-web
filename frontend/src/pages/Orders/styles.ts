@@ -73,13 +73,11 @@ export const Content = styled.div`
         background-color: #fafafc;
         display: flex;
         align-items: flex-start;
-        justify-content: space-between;
         flex-direction: column;
         font-family: 'Archivo', sans-serif;
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
         border-bottom: 3px solid var(--light-blue);
-        height: 360px;
 
         .dates {
           display: flex;

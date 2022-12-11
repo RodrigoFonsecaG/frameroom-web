@@ -91,8 +91,6 @@ const Order = () => {
     console.log(order.intervals.length);
   }
 
-
-
   async function approveOrder() {
     try {
       const state = 'approve';
@@ -132,7 +130,9 @@ const Order = () => {
         description: `Após conferir, clique em salvar horários para validar a reserva.`
       });
 
-      navigate(`/schedules/${order.room_code}`, { state: order.intervals });
+      navigate(`/schedules/${order.room_code}`, {
+        state: { intervals: order.intervals, day: order.date }
+      });
     } catch (err) {
       // disparar um toast
       addToast({
@@ -150,15 +150,14 @@ const Order = () => {
     try {
       const state = 'reject';
 
-            const filteredIntervals = order?.intervals.map((interval) => {
-              return {
-                ...interval,
-                day: convertIntervalDate(interval.day),
-                interval: convertIntervalTime(interval.interval)
-              };
-            });
+      const filteredIntervals = order?.intervals.map((interval) => {
+        return {
+          ...interval,
+          day: convertIntervalDate(interval.day),
+          interval: convertIntervalTime(interval.interval)
+        };
+      });
 
-     
       await api.put(
         `/orders/${order_code}`,
         {
