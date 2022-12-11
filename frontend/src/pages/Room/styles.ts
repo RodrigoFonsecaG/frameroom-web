@@ -31,6 +31,8 @@ export const Content = styled.div`
   div.room-infos {
     font-family: 'Archivo', sans-serif;
 
+   
+
     .room-header {
       display: flex;
       align-items: center;
@@ -64,8 +66,6 @@ export const Content = styled.div`
       flex-wrap: wrap;
       margin-bottom: 3rem;
 
-
-
       > div {
         flex: 1;
       }
@@ -75,7 +75,6 @@ export const Content = styled.div`
         width: 100%;
       }
     }
-
   }
 `;
 

@@ -11,6 +11,27 @@ export const Content = styled.div`
     gap: 4rem;
     flex: 1;
 
+    .week-choose {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.6rem;
+      margin: 2rem 0;
+
+      span {
+        font-size: 2.4rem;
+        font-weight: bold;
+        font-family: 'Archivo', sans-serif;
+        color: var(--light-blue);
+      }
+
+      svg {
+        cursor: pointer;
+        color: var(--white);
+        background-color: var(--light-blue);
+        border-radius: 4px;
+      }
+    }
 
     .error {
       color: #c53030;

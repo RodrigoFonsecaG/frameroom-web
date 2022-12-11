@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
+  MdOutlineArrowBack,
+  MdOutlineArrowForward,
   MdOutlineHouse,
   MdOutlinePin,
   MdOutlineReduceCapacity,
@@ -15,6 +17,8 @@ import api from '../../services/api';
 import { Link, useParams } from 'react-router-dom';
 import Tables from '../../components/Tables';
 import Button from '../../components/Button';
+import { startOfWeek, endOfWeek, addDays } from 'date-fns';
+import { formatDate } from '../../utils/convertDates';
 
 
 interface RoomProps {
@@ -30,9 +34,7 @@ interface RoomProps {
 
 const Room = () => {
   const [room, setRoom] = useState<RoomProps>({});
-  const [schedules, setSchedules] = useState<RoomProps>({});
   let { room_code } = useParams();
-
 
 
   async function getRoom() {
@@ -41,15 +43,9 @@ const Room = () => {
     setRoom(rooms.data[0]);
   }
 
-    async function getRoomSchedules() {
-      const schedules = await api.get(`/schedules/${room_code}`);
-
-      setSchedules(schedules.data);
-    }
 
   useEffect(() => {
     getRoom();
-    getRoomSchedules();
   }, []);
 
 
@@ -164,7 +160,9 @@ const Room = () => {
 
                 <Divider />
 
-                <Tables data={schedules} room_code={room_code} />
+                <Tables
+                  room_code={room_code}
+                />
               </div>
             </section>
           </Content>

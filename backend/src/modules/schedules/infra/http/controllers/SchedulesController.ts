@@ -60,7 +60,8 @@ export default class SchedulesController {
   SELECT room_code, interval, day_0, day_1, day_2, day_3, day_4, day_5, day_6 FROM non_fixed_schedules
   WHERE non_fixed_schedules.room_code = '${room_code}' AND non_fixed_schedules.week = '${weekDate}'
   ) t
-  GROUP BY t.interval`);
+  GROUP BY t.interval
+  ORDER BY t.interval`);
 
         return response.json(schedules);
     }

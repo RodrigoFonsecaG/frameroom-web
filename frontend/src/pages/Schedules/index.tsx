@@ -35,7 +35,6 @@ interface RoomProps {
 
 const Schedules = () => {
   const [room, setRoom] = useState<RoomProps>({});
-  const [schedules, setSchedules] = useState<RoomProps>({});
   let { room_code } = useParams();
   const { state } = useLocation();
 
@@ -43,13 +42,6 @@ const Schedules = () => {
     console.log(state);
   }
 
-  const [dayStart, setDayStart] = useState(() =>
-    startOfWeek(new Date(), { weekStartsOn: 1 })
-  );
-
-  const [dayEnd, setDayEnd] = useState(() =>
-    endOfWeek(new Date(), { weekStartsOn: 1 })
-  );
 
   async function getRoom() {
     const rooms = await api.get(`/rooms/${room_code}`);
@@ -57,45 +49,9 @@ const Schedules = () => {
     setRoom(rooms.data[0]);
   }
 
-  async function getRoomSchedules() {
-    const weekDate = `${formatDate(dayStart)} à ${formatDate(dayEnd)}`;
-    const schedules = await api.get(`/schedules/${room_code}`, {
-      params: {
-        weekDate
-      }
-    });
-
-    setSchedules(schedules.data);
-  }
-
   useEffect(() => {
     getRoom();
-    getRoomSchedules();
   }, []);
-
-  async function nextWeek(date) {
-    const weekDate = `${formatDate(dayStart)} à ${formatDate(dayEnd)}`;
-
-    setDayStart(addDays(dayStart, 7));
-    setDayEnd(addDays(dayEnd, 7));
-
-    // const schedules = await api.get(`/schedules/${room_code}`, {
-    //   params: {
-    //     weekDate
-    //   }
-    // });
-
-    // setSchedules(schedules.data);
-  }
-
-  useEffect(() => {
-    getRoomSchedules();
-  }, [dayStart, dayEnd]);
-
-  function prevWeek(date) {
-    setDayStart(addDays(dayStart, -7));
-    setDayEnd(addDays(dayEnd, -7));
-  }
 
   return (
     <>
@@ -117,19 +73,9 @@ const Schedules = () => {
 
                 <Divider />
 
-                <div className="week-choose">
-                  <MdOutlineArrowBack size={30} onClick={prevWeek} />
-                  <span>{`${formatDate(dayStart)} à ${formatDate(
-                    dayEnd
-                  )}`}</span>
-                  <MdOutlineArrowForward size={30} onClick={nextWeek} />
-                </div>
-
                 <Tables
-                  data={schedules}
                   room_code={room_code}
                   state={state}
-                  week_date={`${formatDate(dayStart)} à ${formatDate(dayEnd)}`}
                   editable
                 />
               </div>

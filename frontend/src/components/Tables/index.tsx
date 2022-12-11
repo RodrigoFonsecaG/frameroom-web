@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
@@ -58,6 +58,23 @@ const Tables: React.FC<TableProps> = ({
 }) => {
   const { addToast } = useToast();
 
+  const [schedules, setSchedules] = useState<RoomProps>({});
+
+    async function getRoomSchedules() {
+      const weekDate = `${formatDate(dayStart)} à ${formatDate(dayEnd)}`;
+      const schedules = await api.get(`/schedules/${room_code}`, {
+        params: {
+          weekDate
+        }
+      });
+
+      setSchedules(schedules.data);
+    }
+
+    useEffect(() => {
+      getRoomSchedules();
+    }, []);
+
 
   const rowDataMorning = [
     { interval: 0 },
@@ -92,8 +109,22 @@ const Tables: React.FC<TableProps> = ({
     endOfWeek(new Date(), { weekStartsOn: 1 })
   );
 
+    async function nextWeek() {
+      setDayStart(addDays(dayStart, 7));
+      setDayEnd(addDays(dayEnd, 7));
+    }
+
+    useEffect(() => {
+      getRoomSchedules();
+    }, [dayStart, dayEnd]);
+
+    function prevWeek() {
+      setDayStart(addDays(dayStart, -7));
+      setDayEnd(addDays(dayEnd, -7));
+    }
+
   function filteredData(arrayIntervals) {
-    const filteredSchedules = data.filter((d) => {
+    const filteredSchedules = schedules.filter((d) => {
       return arrayIntervals.includes(d.interval);
     });
 
@@ -410,7 +441,7 @@ const Tables: React.FC<TableProps> = ({
       nonFixedRowData.push({
         ...data2,
         room_code,
-        week: week_date
+        week: `${formatDate(dayStart)} à ${formatDate(dayEnd)}`
       });
     });
 
@@ -439,7 +470,7 @@ const Tables: React.FC<TableProps> = ({
       nonFixedRowData.push({
         ...data2,
         room_code,
-        week: week_date
+        week: `${formatDate(dayStart)} à ${formatDate(dayEnd)}`
       });
     });
 
@@ -468,7 +499,7 @@ const Tables: React.FC<TableProps> = ({
       nonFixedRowData.push({
         ...data2,
         room_code,
-        week: week_date
+        week: `${formatDate(dayStart)} à ${formatDate(dayEnd)}`
       });
     });
 
@@ -586,17 +617,6 @@ const Tables: React.FC<TableProps> = ({
     onUpdateSomeValues();
   }
 
-  function nextWeek() {
-    setDayStart(addDays(dayStart, 7));
-    setDayEnd(addDays(dayEnd, 7));
-    setHours([]);
-  }
-
-  function prevWeek() {
-    setDayStart(addDays(dayStart, -7));
-    setDayEnd(addDays(dayEnd, -7));
-    setHours([]);
-  }
 
   return (
     <Content>
@@ -613,11 +633,12 @@ const Tables: React.FC<TableProps> = ({
           fontSize: '1.4rem'
         }}
       >
-        {/* <div className="week-choose">
+        <div className="week-choose">
           <MdOutlineArrowBack size={30} onClick={prevWeek} />
           <span>{`${formatDate(dayStart)} à ${formatDate(dayEnd)}`}</span>
           <MdOutlineArrowForward size={30} onClick={nextWeek} />
-        </div> */}
+        </div>
+
         <div className="table" style={{ width: '100%', height: 345 }}>
           <div className="schedule-time">
             <div className="schedule-title">
@@ -635,7 +656,7 @@ const Tables: React.FC<TableProps> = ({
             onCellClicked={selectable ? onCellClicked : null}
             ref={gridRefMorning} // Ref for accessing Grid's API
             rowData={
-              data.length > 0
+              schedules.length > 0
                 ? filteredData([0, 1, 2, 3, 4, 5])
                 : rowDataMorning
             } // Row Data for Rows
@@ -662,7 +683,7 @@ const Tables: React.FC<TableProps> = ({
             onCellClicked={selectable ? onCellClicked : null}
             ref={gridRefAfternoon} // Ref for accessing Grid's API
             rowData={
-              data.length > 0
+              schedules.length > 0
                 ? filteredData([6, 7, 8, 9, 10, 11])
                 : rowDataAfternoon
             } // Row Data for Rows
@@ -689,7 +710,9 @@ const Tables: React.FC<TableProps> = ({
             onCellClicked={selectable ? onCellClicked : null}
             ref={gridRefNight}
             rowData={
-              data.length > 0 ? filteredData([12, 13, 14, 15]) : rowDataNight
+              schedules.length > 0
+                ? filteredData([12, 13, 14, 15])
+                : rowDataNight
             } // Row Data for Rows
             columnDefs={columnDefs3} // Column Defs for Columns
             // defaultColDef={defaultColDef} // Default Column Properties

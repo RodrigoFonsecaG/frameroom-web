@@ -17,7 +17,12 @@ import Input from '../../components/Input';
 import api from '../../services/api';
 import Button from '../../components/Button';
 import { useAuth } from '../../context/AuthContext';
-import { convertIntervalDate, convertIntervalTime, formatDate, getWeek } from '../../utils/convertDates';
+import {
+  convertIntervalDate,
+  convertIntervalTime,
+  formatDate,
+  getWeek
+} from '../../utils/convertDates';
 import ContactModal from './ContactModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
@@ -47,42 +52,84 @@ const Order = () => {
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
+  const {
+    isOpen: isOpen2,
+    onOpen: onOpen2,
+    onClose: onClose2
+  } = useDisclosure();
+
+  function deleteSchedule(data) {
+    let day = data.target.dataset.day;
+    let intervalDate = data.target.dataset.interval;
+
+    if (order.intervals.length < 2) {
+      alert('Não é possivel deletar todos os horários');
+      return;
+    }
+    else {
+      let filteredIntervals = order.intervals.filter((interval) => {
+        if (interval.interval != intervalDate) {
+          if (interval.dateDay == day) {
+            return interval;
+          }
+          if (interval.dateDay != day) {
+            return interval;
+          }
+        } else if (interval.interval == intervalDate) {
+          if (interval.dateDay != day) {
+            return interval;
+          }
+          if (interval.dateDay == day) {
+            data.target.parentElement.remove();
+            return false;
+          }
+        }
+      });
+
+      order.intervals = filteredIntervals;
+    }
+
+    
+
+    console.log(order.intervals.length);
+  }
 
   async function approveOrder() {
     try {
       const state = 'approve';
 
-     await api.put(
-       `/orders/${order_code}`,
-       {
-         order: {
-           ...order,
-           date: formatDate(order.date),
-          //  hour: `${formatTime(order.hour_start)} ás ${formatTime(
-          //    order.hour_end
-          //  )}`
-         },
-         state
-       },
-       {
-         headers: { Authorization: `Bearer ${token}` }
-       }
-     );
+      console.log(order);
 
-      addToast({
-        type: 'sucess',
-        title: 'Solicitação aprovada com sucesso!',
-        description: `Um e-mail foi encaminhado ao solicitante informando que sua solicitação foi aprovada`
-      });
+      //  await api.put(
+      //    `/orders/${order_code}`,
+      //    {
+      //      order: {
+      //        ...order,
+      //        date: formatDate(order.date),
+      //       //  hour: `${formatTime(order.hour_start)} ás ${formatTime(
+      //       //    order.hour_end
+      //       //  )}`
+      //      },
+      //      state
+      //    },
+      //    {
+      //      headers: { Authorization: `Bearer ${token}` }
+      //    }
+      //  );
 
-      addToast({
-        type: 'info',
-        title: 'Horários adicionados na tabela!',
-        description: `Após conferir, clique em salvar horários para validar a reserva.`
-      });
+      // addToast({
+      //   type: 'sucess',
+      //   title: 'Solicitação aprovada com sucesso!',
+      //   description: `Um e-mail foi encaminhado ao solicitante informando que sua solicitação foi aprovada`
+      // });
 
-      navigate(`/schedules/${order.room_code}`, {state: order.intervals});
+      // addToast({
+      //   type: 'info',
+      //   title: 'Horários adicionados na tabela!',
+      //   description: `Após conferir, clique em salvar horários para validar a reserva.`
+      // });
+
+      // navigate(`/schedules/${order.room_code}`, {state: order.intervals});
     } catch (err) {
       // disparar um toast
       addToast({
@@ -98,15 +145,14 @@ const Order = () => {
 
   async function rejectOrder() {
     try {
-
-      const state = 'reject'
+      const state = 'reject';
 
       await api.put(
         `/orders/${order_code}`,
         {
           order: {
             ...order,
-            date: formatDate(order.date),
+            date: formatDate(order.date)
             // hour: `${formatTime(order.hour_start)} ás ${formatTime(
             //   order.hour_end
             // )}`
@@ -253,6 +299,14 @@ const Order = () => {
                             defaultValue={convertIntervalTime(
                               interval.interval
                             )}
+                          />
+
+                          <Button
+                            type="button"
+                            text="X"
+                            onClick={deleteSchedule}
+                            data-day={interval.dateDay}
+                            data-interval={interval.interval}
                           />
                         </div>
                       );

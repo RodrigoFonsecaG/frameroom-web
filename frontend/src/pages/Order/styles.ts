@@ -88,6 +88,15 @@ export const Content = styled.div`
       .dates{
         display: flex;
         gap: 2rem;
+        align-items: flex-end;
+
+        >div{
+          flex: 6;
+        }
+
+        button{
+          flex: 1;
+        }
       }
     }
 
