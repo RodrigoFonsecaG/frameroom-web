@@ -59,25 +59,22 @@ const Tables: React.FC<TableProps> = ({
 }) => {
   const { addToast } = useToast();
 
-
-
   const [schedules, setSchedules] = useState<RoomProps>({});
 
-    async function getRoomSchedules() {
-      const weekDate = `${formatDate(dayStart)} à ${formatDate(dayEnd)}`;
-      const schedules = await api.get(`/schedules/${room_code}`, {
-        params: {
-          weekDate
-        }
-      });
+  async function getRoomSchedules() {
+    const weekDate = `${formatDate(dayStart)} à ${formatDate(dayEnd)}`;
+    const schedules = await api.get(`/schedules/${room_code}`, {
+      params: {
+        weekDate
+      }
+    });
 
-      setSchedules(schedules.data);
-    }
+    setSchedules(schedules.data);
+  }
 
-    useEffect(() => {
-      getRoomSchedules();
-    }, []);
-
+  useEffect(() => {
+    getRoomSchedules();
+  }, []);
 
   const rowDataMorning = [
     { interval: 0 },
@@ -111,22 +108,40 @@ const Tables: React.FC<TableProps> = ({
   );
 
   const [dayEnd, setDayEnd] = useState(() =>
-    stateDay ? endOfWeek(new Date(stateDay), { weekStartsOn: 1 }) : endOfWeek(new Date(), { weekStartsOn: 1 })
+    stateDay
+      ? endOfWeek(new Date(stateDay), { weekStartsOn: 1 })
+      : endOfWeek(new Date(), { weekStartsOn: 1 })
   );
 
-    async function nextWeek() {
+  async function nextWeek() {
+    if (hours.length > 0) {
+      addToast({
+        type: 'error',
+        title: 'Reserva limitada a semana!',
+        description: `Os horários solicitados devem ser da mesma semana, caso deseje mudar a semana, desmarque os horários selecionados`
+      });
+    } else {
       setDayStart(addDays(dayStart, 7));
       setDayEnd(addDays(dayEnd, 7));
     }
+  }
 
-    useEffect(() => {
-      getRoomSchedules();
-    }, [dayStart, dayEnd]);
+  useEffect(() => {
+    getRoomSchedules();
+  }, [dayStart, dayEnd]);
 
-    function prevWeek() {
+  function prevWeek() {
+    if (hours.length > 0) {
+      addToast({
+        type: 'error',
+        title: 'Reserva limitada a semana!',
+        description: `Os horários solicitados devem ser da mesma semana, caso deseje mudar a semana, desmarque os horários selecionados`
+      });
+    } else {
       setDayStart(addDays(dayStart, -7));
       setDayEnd(addDays(dayEnd, -7));
     }
+  }
 
   function filteredData(arrayIntervals) {
     const filteredSchedules = schedules.filter((d) => {
@@ -159,7 +174,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -170,7 +185,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -181,7 +196,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -192,7 +207,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -203,18 +218,18 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
     },
     {
       field: 'day_5',
-      headerName: 'Sabádo',
+      headerName: 'Sábado',
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -225,7 +240,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -250,7 +265,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -261,7 +276,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -272,7 +287,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -283,7 +298,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -294,7 +309,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -305,7 +320,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -316,7 +331,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -341,7 +356,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -352,7 +367,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -363,7 +378,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -374,7 +389,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -385,7 +400,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -396,7 +411,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -407,7 +422,7 @@ const Tables: React.FC<TableProps> = ({
       editable: editable ? true : false,
       flex: 1,
       cellStyle: (params) => {
-        return params.value != null
+        return params.value != null && params.value != ''
           ? { backgroundColor: '#ffb7b7' }
           : { backgroundColor: '#b6f8c4' };
       }
@@ -423,7 +438,6 @@ const Tables: React.FC<TableProps> = ({
     gridRefMorning.current.api.forEachNode((node) => {
       const data = { ...node.data };
       const data2 = { ...node.data };
-
 
       // Removendo se o campo esta como 'reservado'
       Object.keys(data).forEach((key) => {
@@ -508,16 +522,14 @@ const Tables: React.FC<TableProps> = ({
       });
     });
 
-    
-
     try {
-      console.log(rowData)
+      console.log(rowData);
       console.log(nonFixedRowData);
       await api.post('/schedules', rowData, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      console.log(nonFixedRowData)
+      console.log(nonFixedRowData);
 
       await api.post('/non-fixed-schedules', nonFixedRowData, {
         headers: { Authorization: `Bearer ${token}` }
@@ -540,9 +552,14 @@ const Tables: React.FC<TableProps> = ({
       if (
         params.value !== undefined &&
         params.value !== null &&
-        params.value !== 'SELECIONADO'
+        params.value !== 'SELECIONADO' &&
+        params.value !== ''
       ) {
-        alert('Horário não disponivel para reserva');
+        addToast({
+          type: 'error',
+          title: 'Horário não disponível para reserva',
+          description: `Não é possível selecionar horários que já possuem ocupação.`
+        });
         return;
       }
 
@@ -621,7 +638,6 @@ const Tables: React.FC<TableProps> = ({
   if (state) {
     onUpdateSomeValues();
   }
-
 
   return (
     <Content>

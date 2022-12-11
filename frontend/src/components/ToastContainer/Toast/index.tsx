@@ -32,7 +32,7 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
     else {
        const timer = setTimeout(() => {
          removeToast(message.id);
-       }, 5000);
+       }, 10000);
 
        return () => {
          clearTimeout(timer);
