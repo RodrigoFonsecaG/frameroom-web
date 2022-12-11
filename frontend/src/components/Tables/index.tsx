@@ -17,7 +17,7 @@ import {
 import { useToast } from '../../context/ToastContext';
 import { CellClickedEvent } from 'ag-grid-community';
 import { intervals } from './intervals';
-import { startOfWeek, endOfWeek, addDays } from 'date-fns';
+import { startOfWeek, endOfWeek, addDays, isEqual } from 'date-fns';
 import { formatDate } from '../../utils/convertDates';
 
 interface Schedule {
@@ -639,6 +639,10 @@ const Tables: React.FC<TableProps> = ({
     onUpdateSomeValues();
   }
 
+  console.log(dayStart)
+  console.log(startOfWeek(new Date(), {weekStartsOn: 1}));
+  console.log(isEqual(dayStart, startOfWeek(new Date(), { weekStartsOn: 1 })));
+
   return (
     <Content>
       {editable && (
@@ -655,7 +659,8 @@ const Tables: React.FC<TableProps> = ({
         }}
       >
         <div className="week-choose">
-          <MdOutlineArrowBack size={30} onClick={prevWeek} />
+          {!isEqual(dayStart, startOfWeek(new Date(), { weekStartsOn: 1 })) && <MdOutlineArrowBack size={30} onClick={prevWeek} />}
+          
           <span>{`${formatDate(dayStart)} à ${formatDate(dayEnd)}`}</span>
           <MdOutlineArrowForward size={30} onClick={nextWeek} />
         </div>
