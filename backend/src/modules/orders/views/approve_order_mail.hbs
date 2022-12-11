@@ -464,6 +464,13 @@
                         <h1>Olá {{name}},</h1>
                         <p>
                             Gostaríamos de informar que sua solicitação de reserva para o espaço "{{room}}" foi aprovada! <br/><br/>
+                            <strong><p>Semana: {{week}}</p></strong>
+                            {{#each intervals}}
+                            <div>
+                              <p>{{{this.day}}} - {{{this.interval}}}</p>
+                           </div>
+                        {{/each}}
+                            <br/>
                            <strong>Se ainda tiver dúvidas sobre o espaço reservado. Clique no botão para acessar suas informações.</strong></p>
                         <!-- Action -->
                         <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">

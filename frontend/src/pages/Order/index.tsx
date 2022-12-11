@@ -65,8 +65,7 @@ const Order = () => {
     if (order.intervals.length < 2) {
       alert('Não é possivel deletar todos os horários');
       return;
-    }
-    else {
+    } else {
       let filteredIntervals = order.intervals.filter((interval) => {
         if (interval.interval != intervalDate) {
           if (interval.dateDay == day) {
@@ -89,47 +88,51 @@ const Order = () => {
       order.intervals = filteredIntervals;
     }
 
-    
-
     console.log(order.intervals.length);
   }
+
+
 
   async function approveOrder() {
     try {
       const state = 'approve';
 
-      console.log(order);
+      const filteredIntervals = order?.intervals.map((interval) => {
+        return {
+          ...interval,
+          day: convertIntervalDate(interval.day),
+          interval: convertIntervalTime(interval.interval)
+        };
+      });
 
-      //  await api.put(
-      //    `/orders/${order_code}`,
-      //    {
-      //      order: {
-      //        ...order,
-      //        date: formatDate(order.date),
-      //       //  hour: `${formatTime(order.hour_start)} ás ${formatTime(
-      //       //    order.hour_end
-      //       //  )}`
-      //      },
-      //      state
-      //    },
-      //    {
-      //      headers: { Authorization: `Bearer ${token}` }
-      //    }
-      //  );
+      await api.put(
+        `/orders/${order_code}`,
+        {
+          order: {
+            ...order,
+            date: getWeek(order.date),
+            intervals: filteredIntervals
+          },
+          state
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
 
-      // addToast({
-      //   type: 'sucess',
-      //   title: 'Solicitação aprovada com sucesso!',
-      //   description: `Um e-mail foi encaminhado ao solicitante informando que sua solicitação foi aprovada`
-      // });
+      addToast({
+        type: 'sucess',
+        title: 'Solicitação aprovada com sucesso!',
+        description: `Um e-mail foi encaminhado ao solicitante informando que sua solicitação foi aprovada`
+      });
 
-      // addToast({
-      //   type: 'info',
-      //   title: 'Horários adicionados na tabela!',
-      //   description: `Após conferir, clique em salvar horários para validar a reserva.`
-      // });
+      addToast({
+        type: 'info',
+        title: 'Horários adicionados na tabela!',
+        description: `Após conferir, clique em salvar horários para validar a reserva.`
+      });
 
-      // navigate(`/schedules/${order.room_code}`, {state: order.intervals});
+      navigate(`/schedules/${order.room_code}`, { state: order.intervals });
     } catch (err) {
       // disparar um toast
       addToast({
@@ -147,15 +150,22 @@ const Order = () => {
     try {
       const state = 'reject';
 
+            const filteredIntervals = order?.intervals.map((interval) => {
+              return {
+                ...interval,
+                day: convertIntervalDate(interval.day),
+                interval: convertIntervalTime(interval.interval)
+              };
+            });
+
+     
       await api.put(
         `/orders/${order_code}`,
         {
           order: {
             ...order,
-            date: formatDate(order.date)
-            // hour: `${formatTime(order.hour_start)} ás ${formatTime(
-            //   order.hour_end
-            // )}`
+            date: getWeek(order.date),
+            intervals: filteredIntervals
           },
           state
         },

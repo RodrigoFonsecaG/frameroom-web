@@ -19,6 +19,9 @@ import { formatDate, formatTime } from '../../../utils/convertDates';
 import { useAuth } from '../../../context/AuthContext';
 import { useToast } from '../../../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
+import {
+  getWeek
+} from '../../../utils/convertDates';
 
 const ContactModal = ({ order, isOpen, onClose }) => {
   const [message, setMessage] = React.useState('');
@@ -40,7 +43,7 @@ const ContactModal = ({ order, isOpen, onClose }) => {
         {
           order: {
             ...order,
-            date: formatDate(order.date),
+            date: getWeek(order.date),
             // hour: `${formatTime(order.hour_start)} ás ${formatTime(
             //   order.hour_end
             // )}`,

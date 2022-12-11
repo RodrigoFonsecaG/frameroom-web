@@ -17,6 +17,8 @@ class SendOrderEmailService {
                 throw new AppError('Order does not existed');
             }
 
+            console.log(order)
+
             let orderMailTemplate;
 
             if (state === 'approve') {
@@ -42,6 +44,8 @@ class SendOrderEmailService {
                 );
             }
 
+            console.log(order)
+
             //Envia e-mail
             await prodMail.sendMail({
                 to: {
@@ -56,6 +60,8 @@ class SendOrderEmailService {
                         link: `${process.env.APP_WEB_URL}/rooms/${order.room_code}`,
                         room: `${order.room_type} ${order.room_number}`,
                         contact: order.contact ? order.contact : '',
+                        week: order.date,
+                        intervals: order.intervals
                     },
                 },
             });
