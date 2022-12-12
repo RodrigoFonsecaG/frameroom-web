@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import 'dotenv/config'
+import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
@@ -11,24 +11,24 @@ import routes from './routes';
 
 import '@shared/infra/typeorm';
 
-
 const app = express();
+
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept',
+    );
+
+    next();
+});
 
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
 
-app.use(function (req, res, next) {
 
-res.header("Access-Control-Allow-Origin", "*");
-res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept',
-);
-
-next();
-});
 
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     if (err instanceof AppError) {
