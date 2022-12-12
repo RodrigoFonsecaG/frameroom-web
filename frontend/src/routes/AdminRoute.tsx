@@ -6,11 +6,11 @@ interface AuthRouteProps{
   needAuth: boolean;
 }
 
-const AuthRoute: React.FC<AuthRouteProps> = ({ Component }) => {
+const AuthRoute: React.FC<AuthRouteProps> = ({ Component, needAdmin }) => {
   const { user } = useAuth();
 
 
-  return """ === needAdmin ? (
+  return needAdmin ? (
     <Component />
   ) : (
     <Navigate to={needAdmin ? '/' : '/rooms'} />
