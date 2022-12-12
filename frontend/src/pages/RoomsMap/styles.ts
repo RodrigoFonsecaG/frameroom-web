@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
 export const Content = styled.div`
+  > h2 {
+    margin-bottom: 2rem;
+    font-size: 3rem;
+  }
   form {
     display: flex;
     justify-content: space-between;

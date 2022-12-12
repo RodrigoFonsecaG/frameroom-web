@@ -133,9 +133,8 @@ export default class RoomsController {
 
         const interval = request.query["interval"]
         const day = request.query['day'];
+        const week = request.query['week'];
 
-        console.log(interval)
-        console.log(day);
 
         try {
             const roomsRepository = getRepository(Room);
@@ -145,7 +144,7 @@ export default class RoomsController {
   FROM non_fixed_schedules
   LEFT JOIN rooms
   ON non_fixed_schedules.room_code = rooms.room_code
-  WHERE non_fixed_schedules.week = '05/12/2022 à 11/12/2022' AND non_fixed_schedules.interval = ${interval}
+  WHERE non_fixed_schedules.week = '${week}' AND non_fixed_schedules.interval = ${interval}
       UNION
   SELECT schedules.room_code, schedules.interval, schedules.${day}, rooms.room_type, rooms.room_number, rooms.floor
   FROM schedules

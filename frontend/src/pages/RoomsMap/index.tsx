@@ -16,6 +16,8 @@ import { useAuth } from '../../context/AuthContext';
 import RoomCard from '../../components/RoomCard';
 import { FormHandles } from '@unform/core';
 import moment from 'moment';
+import { endOfWeek, startOfWeek } from 'date-fns';
+import { formatDate } from '../../utils/convertDates';
 
 interface RoomProps {
   room_code?: string;
@@ -33,8 +35,6 @@ const RoomsMap = () => {
   const [filteredRooms, setFilteredRooms] = useState<RoomProps[]>();
   const formRef = useRef<FormHandles>(null);
 
-  console.log(typeof rooms);
-
   function handleSubmit(data: object): void {
     const filteredRooms = rooms.filter((room) => {
       if (data.type && data.floor) {
@@ -48,7 +48,6 @@ const RoomsMap = () => {
 
     setFilteredRooms(filteredRooms);
   }
-
 
   const numberDayWeek = [6, 0, 1, 2, 3, 4, 5];
   const day = new Date().getDay();
@@ -77,48 +76,50 @@ const RoomsMap = () => {
   ];
 
   let format = 'hh:mm:ss';
-  const [fieldInterval, setFieldInterval] = useState('')
+  const [fieldInterval, setFieldInterval] = useState('');
+
+  const [dayStart, setDayStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 })
+  );
+
+  const [dayEnd, setDayEnd] = useState(() =>
+      endOfWeek(new Date(), { weekStartsOn: 1 })
+  );
 
   useEffect(() => {
-  hours.filter((hour, index) => {
-    console.log(hour);
+    hours.filter((hour, index) => {
+      // var time = moment() gives you current time. no format required.
+      let time = moment(),
+        beforeTime = moment(hour.start, format),
+        afterTime = moment(hour.end, format);
 
-    // var time = moment() gives you current time. no format required.
-    let time = moment(),
-      beforeTime = moment(hour.start, format),
-      afterTime = moment(hour.end, format);
-
-    if (time.isBetween(beforeTime, afterTime)) {
-      setFieldInterval(index);
-    } else {
-      return;
-    }
-  });
-  }, [])
-
-    async function getRooms() {
-      try {
-        const rooms = await api.get('/rooms/map', {
-          params: {
-            interval: fieldInterval,
-            day: fieldDay
-        }});
-
-        setRooms(rooms.data);
-      } catch (error) {
-        console.log(error);
+      if (time.isBetween(beforeTime, afterTime)) {
+        setFieldInterval(index);
+      } else {
+        return;
       }
+    });
+  }, []);
+
+  async function getRooms() {
+    try {
+      const rooms = await api.get('/rooms/map', {
+        params: {
+          interval: fieldInterval,
+          day: fieldDay,
+          week: `${formatDate(dayStart)} à ${formatDate(dayEnd)}`
+        }
+      });
+
+      setRooms(rooms.data);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
   useEffect(() => {
     getRooms();
   }, [fieldInterval]);
-
-
-
-  
-
-
 
   return (
     <>
@@ -250,7 +251,6 @@ const RoomsMap = () => {
                   })}
             </div>
           )}
-          
         </Content>
       </div>
     </>
