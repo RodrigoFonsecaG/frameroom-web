@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://b50f-177-10-147-105.sa.ngrok.io'
+  baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:3333'
 });
 
 api.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
