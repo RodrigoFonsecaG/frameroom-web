@@ -62,7 +62,13 @@ const CreateOrder = (props) => {
         abortEarly: false
       });
       await api.post('/orders', order, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Methods': 'POST',
+          'ngrok-skip-browser-warning': 'any'
+        }
       });
 
       addToast({
