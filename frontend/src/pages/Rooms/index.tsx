@@ -45,14 +45,7 @@ const Rooms = () => {
 
   async function getRooms() {
     try {
-      const rooms = await api.get('/rooms', {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Methods': 'GET',
-          'ngrok-skip-browser-warning': 'any'
-        }
-      });
+      const rooms = await api.get('/rooms');
 
       setRooms(rooms.data);
     } catch (error) {
