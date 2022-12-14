@@ -27,7 +27,7 @@ const Header = () => {
                 Mapa
               </NavLink>
               <div className="link-down">
-                <NavLink className="nav-link" to="/rooms">
+                <NavLink end className="nav-link" to="/rooms">
                   Espaços
                 </NavLink>
               </div>
