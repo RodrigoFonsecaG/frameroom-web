@@ -11,6 +11,13 @@ export const Content = styled.div`
     gap: 4rem;
     flex: 1;
 
+    .loading {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--light-blue);
+      font-weight: bold;
+    }
+
     .week-choose {
       display: flex;
       align-items: center;

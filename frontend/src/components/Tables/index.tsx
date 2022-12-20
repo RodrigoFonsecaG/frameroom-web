@@ -113,6 +113,8 @@ const Tables: React.FC<TableProps> = ({
       : endOfWeek(new Date(), { weekStartsOn: 1 })
   );
 
+  const [loading, setLoading] = useState(false);
+
   async function nextWeek() {
     if (hours.length > 0) {
       addToast({
@@ -678,6 +680,8 @@ const Tables: React.FC<TableProps> = ({
           <span>{`${formatDate(dayStart)} à ${formatDate(dayEnd)}`}</span>
           <MdOutlineArrowForward size={30} onClick={nextWeek} />
         </div>
+
+        {loading && <span className="loading">Carregando...</span>}
 
         <div className="table" style={{ width: '100%', height: 345 }}>
           <div className="schedule-time">

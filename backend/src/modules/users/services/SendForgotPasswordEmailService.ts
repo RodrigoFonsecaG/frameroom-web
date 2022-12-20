@@ -47,7 +47,7 @@ class SendForgotPasswordEmailService {
                 file: forgotPasswordTemplate,
                 variables: {
                     name: user.name,
-                    link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
+                    link: `https://frameroom-web.vercel.app/rooms/reset-password?token=${token}`,
                 },
             },
         });
