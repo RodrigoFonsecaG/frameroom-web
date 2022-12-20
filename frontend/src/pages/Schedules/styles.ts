@@ -23,6 +23,10 @@ export const Content = styled.div`
     font-family: 'Archivo', sans-serif;
     position: relative;
 
+    > p{
+      margin-top: 1.6rem;
+    }
+
     .room-header {
       display: flex;
       align-items: center;

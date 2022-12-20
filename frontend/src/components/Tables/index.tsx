@@ -441,13 +441,17 @@ const Tables: React.FC<TableProps> = ({
 
       // Removendo se o campo esta como 'reservado'
       Object.keys(data).forEach((key) => {
-        if (data[key] === 'RESERVADO') {
+        if (data[key] === 'RESERVADO' || data[key] === 'RECESSO') {
           delete data[key];
         }
       });
 
       Object.keys(data2).forEach((key) => {
-        if (data2[key] !== 'RESERVADO' && typeof data2[key] !== 'number') {
+        if (
+          data2[key] !== 'RESERVADO' &&
+          data2[key] !== 'RECESSO' &&
+          typeof data2[key] !== 'number'
+        ) {
           delete data2[key];
         }
       });
@@ -470,13 +474,17 @@ const Tables: React.FC<TableProps> = ({
 
       // Removendo se o campo esta como 'reservado'
       Object.keys(data).forEach((key) => {
-        if (data[key] === 'RESERVADO') {
+        if (data[key] === 'RESERVADO' || data[key] === 'RECESSO') {
           delete data[key];
         }
       });
 
       Object.keys(data2).forEach((key) => {
-        if (data2[key] !== 'RESERVADO' && typeof data2[key] !== 'number') {
+        if (
+          data2[key] !== 'RESERVADO' &&
+          data2[key] !== 'RECESSO' &&
+          typeof data2[key] !== 'number'
+        ) {
           delete data2[key];
         }
       });
@@ -499,13 +507,17 @@ const Tables: React.FC<TableProps> = ({
 
       // Removendo se o campo esta como 'reservado'
       Object.keys(data).forEach((key) => {
-        if (data[key] === 'RESERVADO') {
+        if (data[key] === 'RESERVADO' || data[key] === 'RECESSO') {
           delete data[key];
         }
       });
 
       Object.keys(data2).forEach((key) => {
-        if (data2[key] !== 'RESERVADO' && typeof data2[key] !== 'number') {
+        if (
+          data2[key] !== 'RESERVADO' &&
+          data2[key] !== 'RECESSO' &&
+          typeof data2[key] !== 'number'
+        ) {
           delete data2[key];
         }
       });
@@ -639,8 +651,8 @@ const Tables: React.FC<TableProps> = ({
     onUpdateSomeValues();
   }
 
-  console.log(dayStart)
-  console.log(startOfWeek(new Date(), {weekStartsOn: 1}));
+  console.log(dayStart);
+  console.log(startOfWeek(new Date(), { weekStartsOn: 1 }));
   console.log(isEqual(dayStart, startOfWeek(new Date(), { weekStartsOn: 1 })));
 
   return (
@@ -659,8 +671,10 @@ const Tables: React.FC<TableProps> = ({
         }}
       >
         <div className="week-choose">
-          {!isEqual(dayStart, startOfWeek(new Date(), { weekStartsOn: 1 })) && <MdOutlineArrowBack size={30} onClick={prevWeek} />}
-          
+          {!isEqual(dayStart, startOfWeek(new Date(), { weekStartsOn: 1 })) && (
+            <MdOutlineArrowBack size={30} onClick={prevWeek} />
+          )}
+
           <span>{`${formatDate(dayStart)} à ${formatDate(dayEnd)}`}</span>
           <MdOutlineArrowForward size={30} onClick={nextWeek} />
         </div>

@@ -18,6 +18,7 @@ import { FormHandles } from '@unform/core';
 import moment from 'moment';
 import { endOfWeek, startOfWeek } from 'date-fns';
 import { formatDate } from '../../utils/convertDates';
+import { convertIntervalTime } from '../../utils/convertDates';
 
 interface RoomProps {
   room_code?: string;
@@ -83,7 +84,7 @@ const RoomsMap = () => {
   );
 
   const [dayEnd, setDayEnd] = useState(() =>
-      endOfWeek(new Date(), { weekStartsOn: 1 })
+    endOfWeek(new Date(), { weekStartsOn: 1 })
   );
 
   useEffect(() => {
@@ -121,6 +122,8 @@ const RoomsMap = () => {
     getRooms();
   }, [fieldInterval]);
 
+  console.log(fieldInterval);
+
   return (
     <>
       <Header />
@@ -156,7 +159,13 @@ const RoomsMap = () => {
             </div>
           </Form>
 
-          <h2>Ocupação atual dos espaços:</h2>
+          <h2>
+            {`Ocupação atual dos espaços:`}
+            <br />
+            <span>{`${formatDate(new Date())} - ${convertIntervalTime(
+              Number(fieldInterval)
+            )}`}</span>
+          </h2>
 
           {/* {rooms && (
             <div className="cards">

@@ -4,6 +4,10 @@ export const Content = styled.div`
   > h2 {
     margin-bottom: 2rem;
     font-size: 3rem;
+
+    > span{
+      font-size: 2rem;
+    }
   }
   form {
     display: flex;

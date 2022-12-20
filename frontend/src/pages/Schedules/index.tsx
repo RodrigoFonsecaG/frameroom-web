@@ -1,26 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  MdOutlineArrowBack,
-  MdOutlineArrowForward,
-  MdOutlineHouse,
-  MdOutlinePin,
-  MdOutlineReduceCapacity,
-  MdOutlineStairs
-} from 'react-icons/md';
-import Button from '../../components/Button';
 import Header from '../../components/Header';
-import Select from '../../components/Select';
-import Textarea from '../../components/Textarea';
 import { Content, Divider } from './styles';
-import { Form } from '@unform/web';
-import ImageInput from '../../components/ImageInput';
-import Input from '../../components/Input';
 import api from '../../services/api';
-import { useAuth } from '../../context/AuthContext';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Tables from '../../components/Tables';
-import { startOfWeek, endOfWeek, addDays } from 'date-fns';
-import { formatDate } from '../../utils/convertDates';
 
 interface RoomProps {
   room_code?: string;
@@ -41,7 +24,6 @@ const Schedules = () => {
   if (state) {
     console.log(state);
   }
-
 
   async function getRoom() {
     const rooms = await api.get(`/rooms/${room_code}`);
@@ -70,6 +52,11 @@ const Schedules = () => {
                     Horários ({room.room_type} {room.room_number})
                   </h2>
                 </div>
+
+                <p>
+                  OBS: Horários não fixos devem ser escritos em caixa alta
+                  obrigatoriamente como: RESERVADO ou RECESSO
+                </p>
 
                 <Divider />
 
