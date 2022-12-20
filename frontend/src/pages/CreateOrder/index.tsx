@@ -198,7 +198,7 @@ const CreateOrder = (props) => {
                       type="date"
                     />
                   </div> */}
-
+                  <label>Selecione os horários *</label>
                   {schedules && (
                     <Tables
                       data={schedules}

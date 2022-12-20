@@ -127,7 +127,7 @@ const Order = () => {
       addToast({
         type: 'info',
         title: 'Horários adicionados na tabela!',
-        description: `Após conferir, clique em salvar horários para validar a reserva.`
+        description: `A operação de refletir os horários solicitados na tabela pode demorar alguns segundos, após conferir, clique em SALVAR HORÁRIOS para validar a reserva.`
       });
 
       navigate(`/schedules/${order.room_code}`, {
