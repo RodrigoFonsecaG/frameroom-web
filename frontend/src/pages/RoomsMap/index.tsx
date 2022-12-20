@@ -104,15 +104,17 @@ const RoomsMap = () => {
 
   async function getRooms() {
     try {
-      const rooms = await api.get('/rooms/map', {
-        params: {
-          interval: fieldInterval,
-          day: fieldDay,
-          week: `${formatDate(dayStart)} à ${formatDate(dayEnd)}`
-        }
-      });
+      if(fieldInterval){
+        const rooms = await api.get('/rooms/map', {
+          params: {
+            interval: fieldInterval,
+            day: fieldDay,
+            week: `${formatDate(dayStart)} à ${formatDate(dayEnd)}`
+          }
+        });
 
-      setRooms(rooms.data);
+        setRooms(rooms.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -162,9 +164,13 @@ const RoomsMap = () => {
           <h2>
             {`Ocupação atual dos espaços:`}
             <br />
-            <span>{`${formatDate(new Date())} - ${convertIntervalTime(
-              Number(fieldInterval)
-            )}`}</span>
+            {fieldInterval ? (
+              <span>{`${formatDate(new Date())} - ${convertIntervalTime(
+                Number(fieldInterval)
+              )}`}</span>
+            ) : (
+              <span>Sem ocupações de espaço no momento</span>
+            )}
           </h2>
 
           {/* {rooms && (

@@ -8,7 +8,6 @@ import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const Header = () => {
-  const mobile = useMedia('(max-width: 60rem)');
 
   const { user, signOut } = useAuth();
 
@@ -18,9 +17,7 @@ const Header = () => {
         <Link to="/rooms">
           <img src={unimontesFrameroomLogo} alt="" />
         </Link>
-        {mobile ? (
-          <FiMenu size={30} color={'#FAFAFC'} />
-        ) : (
+ 
           <>
             <nav>
               <NavLink className="nav-link" to="/rooms/map">
@@ -54,7 +51,7 @@ const Header = () => {
               </div>
             </div>
           </>
-        )}
+       
       </HeaderContent>
     </HeaderContainer>
   );

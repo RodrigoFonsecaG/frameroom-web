@@ -57,11 +57,11 @@ class SendOrderEmailService {
                     file: orderMailTemplate,
                     variables: {
                         name: order.name,
-                        link: `${process.env.APP_WEB_URL}/rooms/${order.room_code}`,
+                        link: `https://frameroom-web.vercel.app/rooms/${order.room_code}`,
                         room: `${order.room_type} ${order.room_number}`,
                         contact: order.contact ? order.contact : '',
                         week: order.date,
-                        intervals: order.intervals
+                        intervals: order.intervals,
                     },
                 },
             });

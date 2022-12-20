@@ -53,6 +53,12 @@ export const HeaderContent = styled.div`
     position: relative;
   }
 
+  @media (max-width: 830px) {
+    nav {
+      gap: 1.6rem;
+    }
+  }
+
   nav a.active,
   nav a:hover {
     font-weight: bold;
