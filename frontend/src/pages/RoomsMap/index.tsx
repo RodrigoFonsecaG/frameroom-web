@@ -167,7 +167,7 @@ const RoomsMap = () => {
           <h2>
             {`Ocupação atual dos espaços:`}
             <br />
-            {fieldInterval ? (
+            {fieldInterval || Number(fieldInterval) === 0 ? (
               <span>{`${formatDate(new Date())} - ${convertIntervalTime(
                 Number(fieldInterval)
               )}`}</span>
