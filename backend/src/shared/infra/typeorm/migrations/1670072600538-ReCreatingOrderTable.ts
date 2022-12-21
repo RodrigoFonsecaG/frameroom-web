@@ -68,3 +68,4 @@ export class ReCreatingOrderTable1670072600538 implements MigrationInterface {
     }
 
 }
+

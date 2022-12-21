@@ -129,12 +129,11 @@ export default class RoomsController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-
-
-        const interval = request.query["interval"]
+        const interval = request.query['interval'];
         const day = request.query['day'];
         const week = request.query['week'];
 
+        console.log(interval)
 
         try {
             const roomsRepository = getRepository(Room);
@@ -154,6 +153,8 @@ export default class RoomsController {
   ) t
   GROUP BY  t.room_code, t.interval
   ORDER BY t.room_code, t.interval`);
+
+
 
             return response.json(rooms);
         } catch (error) {

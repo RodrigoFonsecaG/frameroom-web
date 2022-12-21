@@ -55,3 +55,4 @@ export default class CreateUserTokens1669555744563
         await queryRunner.dropTable('user_tokens')
     }
 }
+

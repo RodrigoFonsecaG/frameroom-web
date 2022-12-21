@@ -104,7 +104,7 @@ const RoomsMap = () => {
 
   async function getRooms() {
     try {
-      if(fieldInterval){
+      if (fieldInterval || Number(fieldInterval) === 0) {
         const rooms = await api.get('/rooms/map', {
           params: {
             interval: fieldInterval,
@@ -113,6 +113,8 @@ const RoomsMap = () => {
           }
         });
 
+        console.log(rooms);
+
         setRooms(rooms.data);
       }
     } catch (error) {
@@ -120,11 +122,12 @@ const RoomsMap = () => {
     }
   }
 
+
   useEffect(() => {
     getRooms();
   }, [fieldInterval]);
 
-  console.log(fieldInterval);
+  console.log(rooms)
 
   return (
     <>
