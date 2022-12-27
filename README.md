@@ -36,11 +36,11 @@ Para visualizar no FIGMA, clique aqui:  [FIGMA](https://www.figma.com/file/9CUhW
 - Axios
 - Unform 
 - AG-Grid 
--datefns/moment 
--Chakra-UI 
--styled-components 
--React-icons 
--React-input-mask
+- datefns/moment 
+- Chakra-UI 
+- styled-components 
+- React-icons 
+- React-input-mask
 
 <br/>
 
@@ -53,14 +53,14 @@ Para visualizar no FIGMA, clique aqui:  [FIGMA](https://www.figma.com/file/9CUhW
 - TypeORM
 - Migrations
 - Autenticação JWT (jsonwebtoken )
--Typescript 
--Insomnia 
--UUID 
--bcryptjs 
--Cors 
--Multer 
--nodemailer 
--handlebars
+- Typescript 
+- Insomnia 
+- UUID 
+- bcryptjs 
+- Cors 
+- Multer 
+- nodemailer 
+- handlebars
 
 <br/>
 
