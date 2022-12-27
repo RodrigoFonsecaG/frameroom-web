@@ -27,37 +27,60 @@ Para visualizar no FIGMA, clique aqui:  [FIGMA](https://www.figma.com/file/9CUhW
 
 ## 🚀 Tecnologias e ferramentas utilizadas
 
-- **React**
-- **TypeScript**
-- **Styled-components**
-- **Yup**
-- **Axios**
+**Front end:**
+- React
+- Vite
+- TypeScript
+- Styled-components
+- Yup
+- Axios
+- Unform 
+- AG-Grid 
+-datefns/moment 
+-Chakra-UI 
+-styled-components 
+-React-icons 
+-React-input-mask
 
 <br/>
 
-- **Node**
-- **API REST**
-- **Express**
-- **PostgresSQL**
-- **Docker**
-- **TypeORM**
-- **Migrations**
-- **Autenticação JWT**
+**Back-end:**
+- Node
+- API REST
+- Express
+- PostgresSQL
+- Docker
+- TypeORM
+- Migrations
+- Autenticação JWT (jsonwebtoken )
+-Typescript 
+-Insomnia 
+-UUID 
+-bcryptjs 
+-Cors 
+-Multer 
+-nodemailer 
+-handlebars
 
 <br/>
 
-- **Teste automatizados: Jest**
+**Padrões de projeto:**
+- Eslint 
+- Prettier 
+- editorconfig
 
 <br/>
 
-## 🏛️ Arquitetura
+**Teste automatizados:**
+- Jest
 
-- **DDD(Domain Driven Design)**
-- **TDD(Test Driven Development)**
-- **Principios do SOLID**
+<br/>
 
+**Arquitetura:**
 
-- **Teste automatizados: Jest**
+- DDD(Domain Driven Design)
+- TDD(Test Driven Development)
+- Principios do SOLID
 
 <br/>
 
